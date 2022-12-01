@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
+// import ButtonOrange from "../../componets/layout/button";
 function Blog() {
   return (
     <DefaultLayout>
@@ -14,7 +15,7 @@ function Blog() {
               sx={{
                 marginTop: 10,
                 padding: "6px",
-                backgroundColor: "blue",
+                backgroundColor: "#fedcac",
                 display: "inline-block",
                 borderRadius: "14px",
               }}
@@ -34,15 +35,19 @@ function Blog() {
               テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
             </Paper>
             <Box textAlign="center">
-              <Button sx={{ marginTop: 6 }} variant="contained">
+              {/* <Button
+                sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
+                variant="contained"
+              >
                 一覧へ戻る
-              </Button>
+              </Button> */}
+              {/* <ButtonOrange /> */}
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
           <Grid item xs={2} sx={{ marginTop: 10 }}>
             {/* カテゴリグループ */}
-            <Typography sx={{ borderBottom: 1, borderColor: "yellow" }}>
+            <Typography sx={{ borderBottom: 2, borderColor: "#fedcac" }}>
               カテゴリ
             </Typography>
             <Typography>Food(12)</Typography>
@@ -51,7 +56,7 @@ function Blog() {
             {/* タググループ */}
 
             <Typography
-              sx={{ marginTop: 4, borderBottom: 1, borderColor: "yellow" }}
+              sx={{ marginTop: 4, borderBottom: 2, borderColor: "#fedcac" }}
             >
               Tag
             </Typography>
