@@ -12,7 +12,18 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import axios from "axios";
+const baseURL = "http://localhost:3000/test";
+
 function Top() {
+  const [post, setPost] = React.useState(null);
+  React.useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+
+  console.log(post);
   return (
     <DefaultLayout>
       <React.Fragment>
