@@ -13,10 +13,11 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import axios from "axios";
-const baseURL = "http://localhost:3000/test";
+import { PostAddOutlined } from "@mui/icons-material";
+const baseURL = "http://localhost:3000/test/";
 
 function Top() {
-  const [post, setPost] = React.useState(null);
+  const [post, setPost] = React.useState([]);
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setPost(response.data);
@@ -24,6 +25,8 @@ function Top() {
   }, []);
 
   console.log(post);
+  // console.log(post?.test[0].name);
+
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -36,7 +39,6 @@ function Top() {
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>2022</TimelineContent>
-            <p></p>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
@@ -70,6 +72,13 @@ function Top() {
             </Typography>
           </CardContent>
         </Card>
+        {Object.keys(post).map((data: any, index) => {
+          return (
+            <li key={index} value={data.id}>
+              {data.name}
+            </li>
+          );
+        })}
       </React.Fragment>
     </DefaultLayout>
   );
