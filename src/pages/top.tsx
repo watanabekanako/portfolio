@@ -17,8 +17,18 @@ import { PostAddOutlined } from "@mui/icons-material";
 const baseURL = "http://localhost:3000/test/";
 
 function Top() {
-  const [post, setPost] = React.useState([]);
+  // const [post, setPost] = React.useState([]);
+  const [post, setPost] = React.useState<
+    | {
+        test: { id: number; name: string }[];
+      }
+    | undefined
+  >();
   React.useEffect(() => {
+    // get
+    // axios.get(baseURL).then((response) => {
+    //   setPost(response.data);
+    // });
     axios.get(baseURL).then((response) => {
       setPost(response.data);
     });
@@ -26,11 +36,32 @@ function Top() {
 
   console.log(post);
   // console.log(post?.test[0].name);
+  const [nameText, setNameText] = React.useState<
+    | {
+        test: { id: number; name: string }[];
+      }
+    | undefined
+  >();
+  React;
+  const onChangeNameText = (event: any) => {
+    setNameText(event.target.value);
+  };
+
+  // 保存するボタン
+  const onClickCreate = () => {
+    axios({
+      method: "post",
+      url: "http://localhost:3000/test/",
+      data: {
+        name: nameText,
+      },
+    });
+  };
 
   return (
     <DefaultLayout>
       <React.Fragment>
-        <Typography variant="h2">Bnou</Typography>
+        <Typography variant="h2">Blog</Typography>
 
         <Timeline>
           <TimelineItem>
@@ -72,13 +103,29 @@ function Top() {
             </Typography>
           </CardContent>
         </Card>
-        {Object.keys(post).map((data: any, index) => {
+        {/* {Object.keys(post).map((data: any, index) => {
+          return (
+            <li key={index} value={data.id}>
+              {data.name}
+            </li>
+          );
+        })} */}
+        {post?.test?.map((data: any, index: any) => {
           return (
             <li key={index} value={data.id}>
               {data.name}
             </li>
           );
         })}
+        <div>
+          <input
+            type="text"
+            name="name"
+            value={nameText}
+            onChange={onChangeNameText}
+          />
+        </div>
+        <button onClick={() => onClickCreate()}>保存する</button>
       </React.Fragment>
     </DefaultLayout>
   );
