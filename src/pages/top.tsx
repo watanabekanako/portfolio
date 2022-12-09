@@ -46,7 +46,7 @@ function Top() {
     axios
       .post("http://localhost:3000/test/", { name: nameText })
       .then((response) => {
-        setNameText(nameText);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
