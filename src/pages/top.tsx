@@ -34,19 +34,13 @@ function Top() {
     });
   }, []);
 
-  console.log(post);
   // console.log(post?.test[0].name);
-  const [nameText, setNameText] = React.useState<
-    | {
-        test: { id: number; name: string }[];
-      }
-    | undefined
-  >();
-  React;
+  const [nameText, setNameText] = React.useState<string | undefined>();
+
   const onChangeNameText = (event: any) => {
     setNameText(event.target.value);
   };
-
+  console.log(nameText);
   // 保存するボタン
   const onClickCreate = () => {
     axios
@@ -58,7 +52,8 @@ function Top() {
         console.log(error);
       });
   };
-  console.log(nameText);
+  // 名前取得できている
+  // console.log(nameText);
   return (
     <DefaultLayout>
       <React.Fragment>
