@@ -49,15 +49,16 @@ function Top() {
 
   // 保存するボタン
   const onClickCreate = () => {
-    axios({
-      method: "post",
-      url: "http://localhost:3000/test/",
-      data: {
-        name: nameText,
-      },
-    });
+    axios
+      .post("baseURL", { name: nameText })
+      .then((response) => {
+        setNameText(nameText);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
+  console.log(nameText);
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -118,12 +119,7 @@ function Top() {
           );
         })}
         <div>
-          <input
-            type="text"
-            name="name"
-            value={nameText}
-            onChange={onChangeNameText}
-          />
+          <input value={nameText} onChange={onChangeNameText} />
         </div>
         <button onClick={() => onClickCreate()}>保存する</button>
       </React.Fragment>
