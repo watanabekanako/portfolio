@@ -50,7 +50,7 @@ function Top() {
   // 保存するボタン
   const onClickCreate = () => {
     axios
-      .post("baseURL", { name: nameText })
+      .post("http://localhost:3000/test/", { name: nameText })
       .then((response) => {
         setNameText(nameText);
       })
