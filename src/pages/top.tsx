@@ -54,6 +54,14 @@ function Top() {
   };
   // 名前取得できている
   // console.log(nameText);
+
+  // 削除するボタン
+  const onClickDelete = () => {
+    axios.delete("http://localhost:3000/test/${data.id}");
+  };
+
+  // 更新するボタン
+
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -109,7 +117,26 @@ function Top() {
         {post?.test?.map((data: any, index: any) => {
           return (
             <li key={index} value={data.id}>
+              {data.id}
               {data.name}
+              <button
+                onClick={() =>
+                  axios
+                    .delete("http:localhost:3000/test", {
+                      params: {
+                        id: data.id,
+                      },
+                    })
+                    .then(() => {
+                      console.log("削除ID", baseURL);
+                    })
+                    .catch((err) => {
+                      console.log("err,err");
+                    })
+                }
+              >
+                削除する
+              </button>
             </li>
           );
         })}
