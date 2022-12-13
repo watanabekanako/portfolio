@@ -13,7 +13,7 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import axios from "axios";
-import { PostAddOutlined } from "@mui/icons-material";
+import { DataArray, PostAddOutlined } from "@mui/icons-material";
 
 const baseURL = "http://localhost:3000/test/";
 
@@ -59,10 +59,6 @@ function Top() {
   // 名前取得できている
   // console.log(nameText);
 
-  // 更新するボタン
-  const onClickUpdate = () => {
-    axios.put("http://localhost:3000/test/${data.id}");
-  };
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -120,7 +116,7 @@ function Top() {
             <li key={index} value={data.id}>
               {data.id}
               {data.name}
-              <input type="text" value={data.name} />
+              <input type="text" value={data.name} onChange={nameText} />
 
               <button
                 onClick={() =>
@@ -128,6 +124,7 @@ function Top() {
                     .delete(`http://localhost:3000/test/${data.id}`, {
                       params: {
                         id: data.id,
+                        name: data.body,
                       },
                     })
                     .then(() => {
@@ -145,6 +142,7 @@ function Top() {
                   axios.put(`http://localhost:3000/test/${data.id}`, {
                     params: {
                       id: data.id,
+                      name: { nameText },
                     },
                   })
                 }
