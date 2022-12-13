@@ -116,7 +116,7 @@ function Top() {
             <li key={index} value={data.id}>
               {data.id}
               {data.name}
-              <input type="text" value={data.name} onChange={nameText} />
+              <input type="text" value={data.name} onChange={nameUpdateText} />
 
               <button
                 onClick={() =>
