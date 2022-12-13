@@ -18,7 +18,6 @@ import { DataArray, PostAddOutlined } from "@mui/icons-material";
 const baseURL = "http://localhost:3000/test/";
 
 function Top() {
-  // const [post, setPost] = React.useState([]);
   const [post, setPost] = React.useState<
     | {
         test: { id: number; name: string }[];
@@ -26,10 +25,6 @@ function Top() {
     | undefined
   >();
   React.useEffect(() => {
-    // get
-    // axios.get(baseURL).then((response) => {
-    //   setPost(response.data);
-    // });
     axios.get(baseURL).then((response) => {
       setPost(response.data);
     });
@@ -37,12 +32,13 @@ function Top() {
 
   // console.log(post?.test[0].name);
   const [nameText, setNameText] = React.useState<string | undefined>();
-  const [nameUpdateText, setUpdateNameText] = React.useState<
+
+  const [updateNameText, setUpdateNameText] = React.useState<
     string | undefined
   >(nameText);
-
+  // 更新するボタン
   const onChangeNameText = (event: any) => {
-    setNameText(event.target.value);
+    setUpdateNameText(event.target.value);
   };
   console.log(nameText);
   // 保存するボタン
@@ -56,9 +52,7 @@ function Top() {
         console.log(error);
       });
   };
-  // 名前取得できている
-  // console.log(nameText);
-
+  console.log(updateNameText);
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -116,7 +110,11 @@ function Top() {
             <li key={index} value={data.id}>
               {data.id}
               {data.name}
-              <input type="text" value={data.name} onChange={nameUpdateText} />
+              <input
+                type="text"
+                value={updateNameText}
+                onChange={onChangeNameText}
+              />
 
               <button
                 onClick={() =>
@@ -140,10 +138,8 @@ function Top() {
               <button
                 onClick={() =>
                   axios.put(`http://localhost:3000/test/${data.id}`, {
-                    params: {
-                      id: data.id,
-                      name: { nameText },
-                    },
+                    id: data.id,
+                    name: updateNameText,
                   })
                 }
               >
