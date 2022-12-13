@@ -14,6 +14,7 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import axios from "axios";
 import { PostAddOutlined } from "@mui/icons-material";
+
 const baseURL = "http://localhost:3000/test/";
 
 function Top() {
@@ -36,6 +37,9 @@ function Top() {
 
   // console.log(post?.test[0].name);
   const [nameText, setNameText] = React.useState<string | undefined>();
+  const [nameUpdateText, setUpdateNameText] = React.useState<
+    string | undefined
+  >(nameText);
 
   const onChangeNameText = (event: any) => {
     setNameText(event.target.value);
@@ -55,13 +59,10 @@ function Top() {
   // 名前取得できている
   // console.log(nameText);
 
-  // 削除するボタン
-  const onClickDelete = () => {
-    axios.delete("http://localhost:3000/test/${data.id}");
-  };
-
   // 更新するボタン
-
+  const onClickUpdate = () => {
+    axios.put("http://localhost:3000/test/${data.id}");
+  };
   return (
     <DefaultLayout>
       <React.Fragment>
@@ -119,10 +120,12 @@ function Top() {
             <li key={index} value={data.id}>
               {data.id}
               {data.name}
+              <input type="text" value={data.name} />
+
               <button
                 onClick={() =>
                   axios
-                    .delete("http:localhost:3000/test", {
+                    .delete(`http://localhost:3000/test/${data.id}`, {
                       params: {
                         id: data.id,
                       },
@@ -137,13 +140,20 @@ function Top() {
               >
                 削除する
               </button>
+              <button
+                onClick={() =>
+                  axios.put(`http://localhost:3000/test/${data.id}`, {
+                    params: {
+                      id: data.id,
+                    },
+                  })
+                }
+              >
+                更新する
+              </button>
             </li>
           );
         })}
-        <div>
-          <input value={nameText} onChange={onChangeNameText} />
-        </div>
-        <button onClick={() => onClickCreate()}>保存する</button>
       </React.Fragment>
     </DefaultLayout>
   );
