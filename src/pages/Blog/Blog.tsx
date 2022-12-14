@@ -6,11 +6,17 @@ import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import CategoryList from "../../componets/categoryList";
 // import ButtonOrange from "../../componets/layout/button";
 function Blog() {
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; title: string; description: string };
+        post: {
+          id: number;
+          title: string;
+          description: string;
+          createdAt: number;
+        };
       }
     | undefined
   >();
@@ -44,7 +50,7 @@ function Blog() {
               カテゴリ名
             </Typography>
             <Box textAlign="right">
-              <Typography component="p">2022/12/25</Typography>
+              <Typography component="p">{post?.post.createdAt}</Typography>
             </Box>
             <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
 
@@ -66,12 +72,7 @@ function Blog() {
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
           <Grid item xs={2} sx={{ marginTop: 10 }}>
             {/* カテゴリグループ */}
-            <Typography sx={{ borderBottom: 2, borderColor: "#fedcac" }}>
-              カテゴリ
-            </Typography>
-            <Typography>Food(12)</Typography>
-            <Typography>Travel(10)</Typography>
-            <Typography>Game(10)</Typography>
+            <CategoryList />
             {/* タググループ */}
 
             <Typography
