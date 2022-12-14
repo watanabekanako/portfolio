@@ -1,10 +1,31 @@
+import React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 // import ButtonOrange from "../../componets/layout/button";
 function Blog() {
+  const [post, setPost] = React.useState<
+    | {
+        post: { id: number; title: string; description: string };
+      }
+    | undefined
+  >();
+  React.useEffect(() => {
+    axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+
+  // idの取得
+  const { id } = useParams();
+  console.log(id);
+  //   その取得したIDをURLのに入れる→投稿データ取得できる
+  console.log(post?.post.title);
+
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -28,11 +49,9 @@ function Blog() {
             <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
 
             <Paper sx={{ marginTop: 6, padding: 2 }}>
-              テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+              <div>ユーザーID： {id}です </div>
+              {post?.post.title}
+              {post?.post.description}
             </Paper>
             <Box textAlign="center">
               {/* <Button
