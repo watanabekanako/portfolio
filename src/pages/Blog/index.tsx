@@ -10,12 +10,16 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import axios from "axios";
+import CategoryList from "../../componets/categoryList";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
+// const baseURL = "http://localhost:3000/posts";
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -44,6 +48,21 @@ function a11yProps(index: number) {
 }
 
 export default function BlogList() {
+  // ブログ記事一覧をエンドポイントからaxiosにて取得
+  const [post, setPost] = React.useState<
+    | {
+        post: { id: number; name: string }[];
+      }
+    | undefined
+  >();
+  // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
+  React.useEffect(() => {
+    axios.get("http://localhost:3000/posts").then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+  // console.log(post);
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -74,40 +93,46 @@ export default function BlogList() {
           Item Three
         </TabPanel>
       </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              image="/logo192.png"
-              height="300"
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography component="div">2022/10/25</Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                タイトル
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-              <Typography sx={{ backgroundColor: "pink" }} component="span">
-                カテゴリ
-              </Typography>
-              <Typography component="span">Tag</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      {post?.post?.map((data: any, index: any) => {
+        return (
+          <>
+            <li key={index} value={data.id}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component="img"
+                      image="/logo192.png"
+                      height="300"
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography component="div">{data.createdAt}</Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {data.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {data.description}
+                      </Typography>
+                      <Typography
+                        sx={{ backgroundColor: "pink" }}
+                        component="span"
+                      >
+                        {data.categoryId}
+                      </Typography>
+
+                      <Typography component="span">Tag</Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </li>
+          </>
+        );
+      })}
+
       <Grid item xs={2} sx={{ marginTop: 10 }}>
-        {/* カテゴリグループ */}
-        <Typography sx={{ borderBottom: 1, borderColor: "yellow" }}>
-          カテゴリ
-        </Typography>
-        <Typography>Food(12)</Typography>
-        <Typography>Travel(10)</Typography>
-        <Typography>Game(10)</Typography>
+        <CategoryList />
         {/* タググループ */}
 
         <Typography
