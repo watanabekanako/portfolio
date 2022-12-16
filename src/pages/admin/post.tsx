@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -7,30 +7,38 @@ import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
+import TextField from "@mui/material/TextField";
+import { PostAddOutlined } from "@mui/icons-material";
+function Post() {
+  // やりたいこと
+  // post にセットされているのは、既存のデータ。
+  // これを編集
+  // onchangeでセット(content)
 
-function Blog() {
   const [post, setPost] = React.useState<
     | {
         post: {
           id: number;
           title: string;
           description: string;
+          content: string;
           createdAt: number;
         };
       }
     | undefined
   >();
+
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
   }, []);
-
+  // console.log(post?.post.title);
+  const [titles, setTitles] = React.useState(post?.post.title);
   // idの取得
   const { id } = useParams();
-  console.log(id);
+
   //   その取得したIDをURLのに入れる→投稿データ取得できる
-  console.log(post?.post.title);
 
   return (
     <DefaultLayout>
@@ -50,15 +58,33 @@ function Blog() {
               カテゴリ名
             </Typography>
             <Box textAlign="right">
-              <Typography component="p">{post?.post.createdAt}</Typography>
+              {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
             </Box>
-            <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
+            {/* タイトル */}
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              margin="dense"
+              sx={{ width: 600 }}
+              // valueで現在の値を取得
+              value={post?.post.title}
+              onChange={(e: any) => {
+                setPost(e.target.value);
+              }}
+            />
 
-            <Paper sx={{ marginTop: 6, padding: 2 }}>
-              <div>ユーザーID： {id}です </div>
-              {post?.post.title}
-              {post?.post.description}
-            </Paper>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              margin="dense"
+              sx={{ width: 600 }}
+              // valueで現在の値を取得
+              value={titles}
+              onChange={(e) => {
+                setTitles(e.target.value);
+              }}
+            />
+
             <Box textAlign="center">
               {/* <Button
                 sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
@@ -66,7 +92,6 @@ function Blog() {
               >
                 一覧へ戻る
               </Button> */}
-              {/* <ButtonOrange /> */}
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
@@ -85,9 +110,10 @@ function Blog() {
             <Typography>Game(10)</Typography>
           </Grid>
         </Grid>
+        <Button>登録する</Button>
       </Box>
     </DefaultLayout>
   );
 }
 
-export default Blog;
+export default Post;
