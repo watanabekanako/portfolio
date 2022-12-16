@@ -34,7 +34,7 @@ function Post() {
     });
   }, []);
   // console.log(post?.post.title);
-  const [titles, setTitles] = React.useState(post?.post.title);
+  const [title, setTitle] = React.useState();
   // idの取得
   const { id } = useParams();
 
@@ -67,7 +67,7 @@ function Post() {
               margin="dense"
               sx={{ width: 600 }}
               // valueで現在の値を取得
-              value={post?.post.title}
+              value={JSON.stringify(post?.post.title)}
               onChange={(e: any) => {
                 setPost(e.target.value);
               }}
@@ -79,9 +79,9 @@ function Post() {
               margin="dense"
               sx={{ width: 600 }}
               // valueで現在の値を取得
-              value={titles}
-              onChange={(e) => {
-                setTitles(e.target.value);
+              value={title}
+              onChange={(e: any) => {
+                setTitle(e.target.value);
               }}
             />
 
