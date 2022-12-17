@@ -17,6 +17,7 @@ function Blog() {
           description: string;
           createdAt: number;
           category: { id: number; name: string };
+          tags: { id: number; name: string }[];
         };
       }
     | undefined
@@ -48,8 +49,26 @@ function Blog() {
                 borderRadius: "14px",
               }}
             >
+              {/* カテゴリの表示 */}
               {post?.post.category.name}
             </Typography>
+
+            {/*タグの表示 */}
+            {post?.post.tags.map((data) => (
+              <Typography
+                component="span"
+                sx={{
+                  marginTop: 10,
+                  padding: "6px",
+                  backgroundColor: "#fedcac",
+                  display: "inline-block",
+                  borderRadius: "14px",
+                }}
+              >
+                {data.name}
+              </Typography>
+            ))}
+
             <Box textAlign="right">
               <Typography component="p">{post?.post.createdAt}</Typography>
             </Box>
