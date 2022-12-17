@@ -1,6 +1,6 @@
 import "./App.css";
-import BlogList from "./pages/blog/index";
-import Blog from "./pages/blog/blog";
+import BlogList from "./pages/Blog/index";
+import Blog from "./pages/Blog/Blog";
 import Top from "./pages/top";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
