@@ -16,6 +16,7 @@ function Blog() {
           title: string;
           description: string;
           createdAt: number;
+          category: { id: number; name: string };
         };
       }
     | undefined
@@ -47,7 +48,7 @@ function Blog() {
                 borderRadius: "14px",
               }}
             >
-              カテゴリ名
+              {post?.post.category.name}
             </Typography>
             <Box textAlign="right">
               <Typography component="p">{post?.post.createdAt}</Typography>
