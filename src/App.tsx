@@ -19,7 +19,10 @@ const App = () => {
         {/* ブログ閲覧の動的ルーティング */}
         <Route path="/blog/:id" element={<Blog />}></Route>
         {/* ブログ投稿の動的ルーティング */}
-        <Route path="/admin/:id" element={<Post />}></Route>
+        <Route path="/admin/posts/edit/:id" element={<Post />}></Route>
+        {/* 新規追加 */}
+        {/* idがある時ない時で分岐させる　ページタイトルも */}
+        <Route path="/admin/posts/add" element={<Post />}></Route>
       </Routes>
     </BrowserRouter>
   );

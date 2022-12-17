@@ -28,10 +28,12 @@ function Post() {
   >();
   const [title, setTitle] = React.useState();
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
-      setPost(response.data);
-      setTitle(response.data?.post?.title);
-    });
+    if (id) {
+      axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
+        setPost(response.data);
+        setTitle(response.data?.post?.title);
+      });
+    }
   }, []);
   // console.log(post?.post.title);
 
@@ -40,9 +42,14 @@ function Post() {
 
   // 登録するボタン
   const handleSubmit = () => {
-    axios.post(`http://localhost:3000/posts/${id}`).then((response) => {
-      setTitle(title);
-    });
+    // idがあったらput
+    if (id) {
+      axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
+        setTitle(title);
+      });
+    } else {
+      // idがなかったらpost
+    }
   };
 
   //   その取得したIDをURLのに入れる→投稿データ取得できる
