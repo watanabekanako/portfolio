@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
-
+import { Link } from "react-router-dom";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -96,37 +96,42 @@ export default function BlogList() {
       {post?.post?.map((data: any, index: any) => {
         return (
           <>
-            <li key={index} value={data.id}>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component="img"
-                      image="/logo192.png"
-                      height="300"
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography component="div">{data.createdAt}</Typography>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {data.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {data.description}
-                      </Typography>
-                      <Typography
-                        sx={{ backgroundColor: "pink" }}
-                        component="span"
-                      >
-                        {data.categoryId}
-                      </Typography>
+            <Link to={`${data.id}`}>
+              <li key={index} value={data.id}>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component="img"
+                        image="/logo192.png"
+                        height="300"
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <link></link>
+                        <Typography component="div">
+                          {data.createdAt}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {data.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {data.description}
+                        </Typography>
+                        <Typography
+                          sx={{ backgroundColor: "pink" }}
+                          component="span"
+                        >
+                          {data.categoryId}
+                        </Typography>
 
-                      <Typography component="span">Tag</Typography>
-                    </CardContent>
-                  </Card>
+                        <Typography component="span">Tag</Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </li>
+              </li>
+            </Link>
           </>
         );
       })}

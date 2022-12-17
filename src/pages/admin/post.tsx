@@ -13,7 +13,6 @@ function Post() {
   // やりたいこと
   // post にセットされているのは、既存のデータ。
   // これを編集
-  // onchangeでセット(content)
 
   const [post, setPost] = React.useState<
     | {
@@ -27,16 +26,24 @@ function Post() {
       }
     | undefined
   >();
-
+  const [title, setTitle] = React.useState();
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
+      setTitle(response.data?.post?.title);
     });
   }, []);
   // console.log(post?.post.title);
-  const [title, setTitle] = React.useState();
+
   // idの取得
   const { id } = useParams();
+
+  // 登録するボタン
+  const handleSubmit = () => {
+    axios.post(`http://localhost:3000/posts/${id}`).then((response) => {
+      setTitle(title);
+    });
+  };
 
   //   その取得したIDをURLのに入れる→投稿データ取得できる
 
@@ -67,7 +74,7 @@ function Post() {
               margin="dense"
               sx={{ width: 600 }}
               // valueで現在の値を取得
-              value={JSON.stringify(post?.post.title)}
+              value={title}
               onChange={(e: any) => {
                 setPost(e.target.value);
               }}
@@ -110,7 +117,7 @@ function Post() {
             <Typography>Game(10)</Typography>
           </Grid>
         </Grid>
-        <Button>登録する</Button>
+        <Button onClick={handleSubmit}>登録する</Button>
       </Box>
     </DefaultLayout>
   );
