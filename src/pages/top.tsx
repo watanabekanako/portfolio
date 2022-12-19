@@ -57,14 +57,10 @@ function Top() {
   console.log(updateNameText);
   return (
     <DefaultLayout>
-      <Container sx={{marginTop: 2}}>
-        <Typography
-            component="h2"
-            variant="h4"
-        >
+      <Container sx={{ marginTop: 2 }}>
+        <Typography component="h2" variant="h4" sx={{ textAlign: "center" }}>
           About
         </Typography>
-
         <Timeline>
           <TimelineItem>
             <TimelineSeparator>
@@ -87,35 +83,36 @@ function Top() {
             <TimelineContent>Sleep</TimelineContent>
           </TimelineItem>
         </Timeline>
-        <Typography
-            component="h2"
-            variant="h4"
-        >
+        <Typography sx={{ textAlign: "center" }} component="h2" variant="h4">
           Blog
         </Typography>
         <Grid container spacing={2}>
           {[...Array(6)].map(() => (
-              <Grid item xs={4}>
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                      component="img"
-                      image="/logo192.png"
-                      height="300"
-                      alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      title
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with over
-                      6,000 species, ranging across all continents except Antarctica
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+            <Grid item xs={4}>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardMedia
+                  component="img"
+                  image="/logo192.png"
+                  height="300"
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    title
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Lizards are a widespread group of squamate reptiles, with
+                    over 6,000 species, ranging across all continents except
+                    Antarctica
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </Grid>
+        </Grid>{" "}
+        <Button variant="contained" sx={{ margin: 8 }}>
+          ブログ一覧はこちらから
+        </Button>
         {/* {Object.keys(post).map((data: any, index) => {
           return (
             <li key={index} value={data.id}>

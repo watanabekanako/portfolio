@@ -44,7 +44,6 @@ function DefaultLayout({ children }: { children: any }) {
       <AppBar position="static" sx={{ backgroundColor: "#c6dee8" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -60,7 +59,7 @@ function DefaultLayout({ children }: { children: any }) {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              kanako
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
