@@ -93,13 +93,11 @@ export default function BlogList() {
           Item Three
         </TabPanel>
       </Box>
+      <Grid container spacing={2}>
       {post?.post?.map((data: any, index: any) => {
         return (
-          <>
+          <Grid item xs={4} key={data.id}>
             <Link to={`${data.id}`}>
-              <li key={index} value={data.id}>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
                     <Card sx={{ maxWidth: 345 }}>
                       <CardMedia
                         component="img"
@@ -128,13 +126,11 @@ export default function BlogList() {
                         <Typography component="span">Tag</Typography>
                       </CardContent>
                     </Card>
-                  </Grid>
-                </Grid>
-              </li>
             </Link>
-          </>
+          </Grid>
         );
       })}
+      </Grid>
 
       <Grid item xs={2} sx={{ marginTop: 10 }}>
         <CategoryList />
