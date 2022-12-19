@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 const CategoryList = () => {
   const categoryURL = "http://localhost:3000/posts/categories";
@@ -24,12 +25,12 @@ const CategoryList = () => {
         {category?.categories?.map((data: any, index: any) => {
           return (
             <>
-              <li key={index} value={data.id}>
+              <Grid item xs={4} key={data.id}>
                 <Typography>
                   {data.name}
                   <span>({data._count.posts})</span>
                 </Typography>
-              </li>
+              </Grid>
             </>
           );
         })}
