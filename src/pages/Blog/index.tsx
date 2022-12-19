@@ -14,6 +14,7 @@ import axios from "axios";
 import CategoryList from "../../componets/categoryList";
 import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
+import moment from "moment";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -22,6 +23,7 @@ interface TabPanelProps {
 
 // const baseURL = "http://localhost:3000/posts";
 
+// ブログ一覧ページ
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -37,7 +39,7 @@ export default function BlogList() {
       }
     | undefined
   >();
-
+  console.log(post?.post[0]);
   const [value, setValue] = React.useState(0);
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
@@ -90,7 +92,11 @@ export default function BlogList() {
                   />
                   <CardContent>
                     <link></link>
-                    <Typography component="div">{data.createdAt}</Typography>
+                    <Typography component="div">
+                      <Typography variant="h4">
+                        {moment(data.createdAt).format("YYYY/MM/DD")}
+                      </Typography>
+                    </Typography>
                     <Typography gutterBottom variant="h5" component="div">
                       {data.title}
                     </Typography>
@@ -101,7 +107,7 @@ export default function BlogList() {
                       sx={{ backgroundColor: "pink" }}
                       component="span"
                     >
-                      {data?.category?.name}
+                      {data?.categoryId}
                     </Typography>
 
                     <Typography component="span">Tag</Typography>

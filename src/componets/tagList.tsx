@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 const TagList = () => {
   const tagURL = "http://localhost:3000/posts/tags";
   // カテゴリをエンドポイントからaxiosにて取得
@@ -21,12 +22,21 @@ const TagList = () => {
   return (
     <>
       <Typography sx={{ borderBottom: 1, borderColor: "yellow" }}>
-        タグ
+        #Tag
         {tag?.tags?.map((data: any, index: any) => {
           return (
             <>
               <Grid item xs={4} key={data.id}>
-                <Typography>{data.name}</Typography>
+                <Typography
+                  sx={{
+                    backgroundColor: "#eee",
+                    marginBottom: "10px",
+                    display: "inline-block",
+                  }}
+                >
+                  <LocalOfferIcon />
+                  {data.name}
+                </Typography>
               </Grid>
             </>
           );

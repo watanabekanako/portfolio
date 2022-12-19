@@ -7,7 +7,8 @@ import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
-
+import moment from "moment";
+import TagList from "../../componets/tagList";
 function Blog() {
   const [post, setPost] = React.useState<
     | {
@@ -70,7 +71,9 @@ function Blog() {
             ))}
 
             <Box textAlign="right">
-              <Typography component="p">{post?.post.createdAt}</Typography>
+              <Typography component="p">
+                {moment(post?.post.createdAt).format("YYYY/MM/DD")}
+              </Typography>
             </Box>
             <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
 
@@ -80,13 +83,13 @@ function Blog() {
               {post?.post.description}
             </Paper>
             <Box textAlign="center">
-              {/* <Button
+              <Button
                 sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
                 variant="contained"
               >
                 一覧へ戻る
-              </Button> */}
-              {/* <ButtonOrange /> */}
+              </Button>
+              {/* /* <ButtonOrange /> */}
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
@@ -94,15 +97,7 @@ function Blog() {
             {/* カテゴリグループ */}
             <CategoryList />
             {/* タググループ */}
-
-            <Typography
-              sx={{ marginTop: 4, borderBottom: 2, borderColor: "#fedcac" }}
-            >
-              Tag
-            </Typography>
-            <Typography>Food(12)</Typography>
-            <Typography>Travel(10)</Typography>
-            <Typography>Game(10)</Typography>
+            <TagList />
           </Grid>
         </Grid>
       </Box>
