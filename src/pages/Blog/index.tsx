@@ -15,6 +15,7 @@ import CategoryList from "../../componets/categoryList";
 import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -32,6 +33,14 @@ function a11yProps(index: number) {
 }
 
 export default function BlogList() {
+  const [option, setOption] = React.useState<
+    | {
+        option: { id: number; name: string; category: string }[];
+      }
+    | undefined
+  >();
+
+  console.log(option);
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -39,7 +48,7 @@ export default function BlogList() {
       }
     | undefined
   >();
-  console.log(post?.post[0]);
+  console.log(post?.post);
   const [value, setValue] = React.useState(0);
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
@@ -49,6 +58,15 @@ export default function BlogList() {
         setPost(response.data);
       });
   }, [value]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
+      setOption(response.data);
+    });
+  }, []);
+
+  // idの取得
+  const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
