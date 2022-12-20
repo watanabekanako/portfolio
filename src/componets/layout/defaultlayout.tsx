@@ -165,6 +165,7 @@ function DefaultLayout({ children }: { children: any }) {
       <Container maxWidth="lg" sx={{ marginBottom: "100" }}>
         {children}
       </Container>
+      <Box className={"footer"}>©watanabe</Box>
     </React.Fragment>
   );
 }
