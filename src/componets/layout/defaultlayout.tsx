@@ -13,7 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = [
+  { label: "Top", href: "/" },
+  { label: "About", href: "/" },
+  { label: "Works", href: "/" },
+  { label: "Blog", href: "/blog" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function DefaultLayout({ children }: { children: any }) {
@@ -92,8 +97,8 @@ function DefaultLayout({ children }: { children: any }) {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                  <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page.label}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -120,11 +125,12 @@ function DefaultLayout({ children }: { children: any }) {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
-                  key={page}
+                  key={page.label}
+                  href={page.href}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  {page}
+                  {page.label}
                 </Button>
               ))}
             </Box>
