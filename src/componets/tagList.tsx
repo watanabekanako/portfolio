@@ -21,7 +21,7 @@ const TagList = () => {
   console.log(tag);
   return (
     <>
-      <Typography sx={{ borderBottom: 1, borderColor: "yellow" }}>
+      <Typography sx={{ borderBottom: 1, borderColor: "#53a4d6" }}>
         #Tag
         {tag?.tags?.map((data: any, index: any) => {
           return (

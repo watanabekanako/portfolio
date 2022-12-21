@@ -16,13 +16,12 @@ import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
+import { padding } from "@mui/system";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
-
-// const baseURL = "http://localhost:3000/posts";
 
 // ブログ一覧ページ
 function a11yProps(index: number) {
@@ -33,18 +32,10 @@ function a11yProps(index: number) {
 }
 
 export default function BlogList() {
-  const [option, setOption] = React.useState<
-    | {
-        option: { id: number; name: string; category: string }[];
-      }
-    | undefined
-  >();
-
-  console.log(option);
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; name: string; category: string }[];
+        post: { id: number; name: string; category: string; tags: string[] }[];
       }
     | undefined
   >();
@@ -59,19 +50,22 @@ export default function BlogList() {
       });
   }, [value]);
 
-  React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
-      setOption(response.data);
-    });
-  }, []);
-
   // idの取得
   const { id } = useParams();
+  // const [tab, setTab] = React.useState(0);
+  // React.useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3000/posts?category=${tab}`)
+  //     .then((response) => {
+  //       setPost(response.data);
+  //     });
+  // }, [tab]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
+  // tabにて選択したカテゴリ名取れている
+  console.log("カテゴリの値", value);
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
@@ -86,16 +80,8 @@ export default function BlogList() {
             <Tab label="カテゴリ3" {...a11yProps(2)} value={"category3"} />
           </Tabs>
         </Box>
-        {/* <TabPanel value={value} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel> */}
       </Box>
+
       <Grid container spacing={2}>
         {post?.post?.map((data: any, index: any) => {
           return (
@@ -111,7 +97,7 @@ export default function BlogList() {
                   <CardContent>
                     <link></link>
                     <Typography component="div">
-                      <Typography variant="h4">
+                      <Typography variant="h6">
                         {moment(data.createdAt).format("YYYY/MM/DD")}
                       </Typography>
                     </Typography>
@@ -122,11 +108,12 @@ export default function BlogList() {
                       {data.description}
                     </Typography>
                     <Typography
-                      sx={{ backgroundColor: "pink" }}
+                      sx={{ backgroundColor: "#f2809e", paddingTop: "2" }}
                       component="span"
                     >
-                      {data?.categoryId}
+                      {data?.category?.name}
                     </Typography>
+                    {data?.tags?.name}
 
                     <Typography component="span">Tag</Typography>
                   </CardContent>
@@ -136,7 +123,6 @@ export default function BlogList() {
           );
         })}
       </Grid>
-
       <Grid item xs={2} sx={{ marginTop: 10 }}>
         <CategoryList />
         {/* タググループ */}

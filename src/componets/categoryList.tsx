@@ -20,15 +20,19 @@ const CategoryList = () => {
   console.log(category);
   return (
     <>
-      <Typography sx={{ borderBottom: 1, borderColor: "yellow" }}>
+      <Typography sx={{ borderBottom: 1, borderColor: "#53a4d6" }}>
         カテゴリ
         {category?.categories?.map((data: any, index: any) => {
           return (
             <>
               <Grid item xs={4} key={data.id}>
-                <Typography>
+                <Typography sx={{ marginBottom: 2 }}>
                   {data.name}
-                  <span>({data._count.posts})</span>
+                  <Typography
+                    sx={{ backgroundColor: "#fff", borderColor: "gray" }}
+                  >
+                    {data._count.posts}
+                  </Typography>
                 </Typography>
               </Grid>
             </>

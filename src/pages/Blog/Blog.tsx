@@ -45,9 +45,11 @@ function Blog() {
               sx={{
                 marginTop: 10,
                 padding: "6px",
-                backgroundColor: "#fedcac",
+                backgroundColor: "#f2809e",
                 display: "inline-block",
                 borderRadius: "14px",
+                color: "#fff",
+                marginRight: 2,
               }}
             >
               {/* カテゴリの表示 */}
@@ -61,7 +63,7 @@ function Blog() {
                 sx={{
                   marginTop: 10,
                   padding: "6px",
-                  backgroundColor: "#fedcac",
+                  backgroundColor: "#f2809e",
                   display: "inline-block",
                   borderRadius: "14px",
                 }}
@@ -84,7 +86,7 @@ function Blog() {
             </Paper>
             <Box textAlign="center">
               <Button
-                sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
+                sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
                 variant="contained"
               >
                 一覧へ戻る

@@ -1,6 +1,5 @@
 import DefaultLayout from "../componets/layout/defaultlayout";
 import React from "react";
-import { Paper } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -17,6 +16,7 @@ import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
+import Slider from "../componets/slider";
 const baseURL = "http://localhost:3000/test/";
 
 function Top() {
@@ -57,8 +57,13 @@ function Top() {
   console.log(updateNameText);
   return (
     <DefaultLayout>
+      <Slider />
       <Container sx={{ marginTop: 2 }}>
-        <Typography component="h2" variant="h4" sx={{ textAlign: "center" }}>
+        <Typography
+          component="h2"
+          variant="h4"
+          sx={{ textAlign: "center", margin: 4 }}
+        >
           About
         </Typography>
         <Timeline>
@@ -83,7 +88,77 @@ function Top() {
             <TimelineContent>Sleep</TimelineContent>
           </TimelineItem>
         </Timeline>
-        <Typography sx={{ textAlign: "center" }} component="h2" variant="h4">
+        <Typography
+          sx={{ textAlign: "center", marginBottom: 4 }}
+          component="h2"
+          variant="h4"
+        >
+          WORKS
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                image="/logo192.png"
+                height="300"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  ECサイト
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                image="/logo192.png"
+                height="300"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  妊婦向けサイト
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                image="/logo192.png"
+                height="300"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  ポートフォリオ
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+        <Typography
+          sx={{ textAlign: "center", marginBottom: 4 }}
+          component="h2"
+          variant="h4"
+        >
           Blog
         </Typography>
         <Grid container spacing={2}>

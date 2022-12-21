@@ -20,14 +20,14 @@ body {
   /* position: absolute; */
   bottom: 0;
   background-color: #e4af9b;
-  height: 80px;
+  height: 60px;
   right: 0;
   left: 0;
   text-align: center;
   vertical-align: center;
   justify-content: center;
   display: flex;
-  padding-top: 10px;
+  padding-top: 40px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
