@@ -58,6 +58,7 @@ export default function BlogList() {
   };
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", value);
+
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>

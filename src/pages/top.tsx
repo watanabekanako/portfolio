@@ -72,7 +72,22 @@ function Top() {
       });
   };
   console.log(updateNameText);
-
+  const postCount = 3;
+  const [count, setCount] = React.useState<
+    | {
+        post: { id: number; name: string; category: string; tags: string[] }[];
+      }
+    | undefined
+  >();
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:3000/posts?count=${postCount}`)
+      .then((response) => {
+        setCount(response.data);
+      });
+  }, []);
+  console.log("かうんと", post);
+  console.log("かうんと", count);
   return (
     <DefaultLayout>
       <Slider />
@@ -206,54 +221,53 @@ function Top() {
 
         {/* ブログの取り出し */}
         <Grid container spacing={2}>
-          {post?.post?.map((data: any, index: any) => {
+          {count?.post?.map((data: any, index: any) => {
             // console.log(data.id);
-            if (data.id < 4) {
-              return (
-                <Grid item xs={4} key={data.id}>
-                  <Link to={`/blog/${data.id}`}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component="img"
-                        image="/img1.jpg"
-                        height="300"
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <link></link>
-                        <Typography component="div">
-                          <Typography variant="h6">
-                            {moment(data.createdAt).format("YYYY/MM/DD")}
-                          </Typography>
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {data.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {data.description}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            padding: "6px",
-                            backgroundColor: "#f2809e",
-                            display: "inline-block",
-                            borderRadius: "16px",
-                            color: "#fff",
-                            marginRight: 2,
-                          }}
-                          component="span"
-                        >
-                          {data?.category?.name}
-                        </Typography>
-                        {data?.tags?.name}
 
-                        <Typography component="span">Tag</Typography>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </Grid>
-              );
-            }
+            return (
+              <Grid item xs={4} key={data.id}>
+                <Link to={`/blog/${data.id}`}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component="img"
+                      image="/img1.jpg"
+                      height="300"
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <link></link>
+                      <Typography component="div">
+                        <Typography variant="h6">
+                          {moment(data.createdAt).format("YYYY/MM/DD")}
+                        </Typography>
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {data.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {data.description}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          padding: "6px",
+                          backgroundColor: "#f2809e",
+                          display: "inline-block",
+                          borderRadius: "16px",
+                          color: "#fff",
+                          marginRight: 2,
+                        }}
+                        component="span"
+                      >
+                        {data?.category?.name}
+                      </Typography>
+                      {data?.tags?.name}
+
+                      <Typography component="span">Tag</Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            );
           })}
         </Grid>
 
