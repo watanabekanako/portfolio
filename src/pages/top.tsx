@@ -15,23 +15,39 @@ import axios from "axios";
 import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-
+import { Link } from "react-router-dom";
+import moment from "moment";
 import Slider from "../componets/slider";
 const baseURL = "http://localhost:3000/test/";
-
+const postURL = "http://localhost:3000/posts/";
 function Top() {
+  // const [post, setPost] = React.useState<
+  //   | {
+  //       test: { id: number; name: string }[];
+  //     }
+  //   | undefined
+  // >();
+  // React.useEffect(() => {
+  //   axios.get(baseURL).then((response) => {
+  //     setPost(response.data);
+  //   });
+  // }, []);
+
   const [post, setPost] = React.useState<
     | {
-        test: { id: number; name: string }[];
+        post: { id: number; name: string; category: string; tags: string[] }[];
       }
     | undefined
   >();
+  console.log(post?.post);
+
+  // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    axios.get(`http://localhost:3000/posts`).then((response) => {
       setPost(response.data);
     });
   }, []);
-
+  console.log(post);
   // console.log(post?.test[0].name);
   const [nameText, setNameText] = React.useState<string | undefined>();
 
@@ -55,6 +71,7 @@ function Top() {
       });
   };
   console.log(updateNameText);
+
   return (
     <DefaultLayout>
       <Slider />
@@ -162,7 +179,7 @@ function Top() {
           Blog
         </Typography>
         <Grid container spacing={2}>
-          {[...Array(6)].map(() => (
+          {[...Array(3)].map(() => (
             <Grid item xs={4}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardMedia
@@ -184,7 +201,53 @@ function Top() {
               </Card>
             </Grid>
           ))}
-        </Grid>{" "}
+        </Grid>
+
+        {/* ブログの取り出し */}
+        <Grid container spacing={2}>
+          {post?.post?.map((data: any, index: any) => {
+            // console.log(data.id);
+            if (data.id < 4) {
+              return (
+                <Grid item xs={4} key={data.id}>
+                  <Link to={`${data.id}`}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component="img"
+                        image="/logo192.png"
+                        height="300"
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <link></link>
+                        <Typography component="div">
+                          <Typography variant="h6">
+                            {moment(data.createdAt).format("YYYY/MM/DD")}
+                          </Typography>
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {data.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {data.description}
+                        </Typography>
+                        <Typography
+                          sx={{ backgroundColor: "#f2809e", paddingTop: "2" }}
+                          component="span"
+                        >
+                          {data?.category?.name}
+                        </Typography>
+                        {data?.tags?.name}
+
+                        <Typography component="span">Tag</Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              );
+            }
+          })}
+        </Grid>
         <Button variant="contained" sx={{ margin: 8 }}>
           ブログ一覧はこちらから
         </Button>
@@ -195,7 +258,7 @@ function Top() {
             </li>
           );
         })} */}
-        {post?.test?.map((data: any, index: any) => {
+        {/* {post?.test?.map((data: any, index: any) => {
           return (
             <li key={index} value={data.id}>
               {data.id}
@@ -237,7 +300,7 @@ function Top() {
               </button>
             </li>
           );
-        })}
+        })} */}
       </Container>
     </DefaultLayout>
   );
