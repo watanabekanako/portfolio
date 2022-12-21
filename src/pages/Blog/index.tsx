@@ -40,7 +40,7 @@ export default function BlogList() {
     | undefined
   >();
   console.log(post?.post);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("");
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
     axios
@@ -52,16 +52,8 @@ export default function BlogList() {
 
   // idの取得
   const { id } = useParams();
-  // const [tab, setTab] = React.useState(0);
-  // React.useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:3000/posts?category=${tab}`)
-  //     .then((response) => {
-  //       setPost(response.data);
-  //     });
-  // }, [tab]);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
   // tabにて選択したカテゴリ名取れている
@@ -69,15 +61,16 @@ export default function BlogList() {
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 6 }}>
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="カテゴリ1" {...a11yProps(0)} value={"category1"} />
-            <Tab label="カテゴリ2" {...a11yProps(1)} value={"category2"} />
-            <Tab label="カテゴリ3" {...a11yProps(2)} value={"category3"} />
+            <Tab label="All" {...a11yProps(0)} value={""} />
+            <Tab label="カテゴリ1" {...a11yProps(1)} value={"1"} />
+            <Tab label="カテゴリ2" {...a11yProps(2)} value={"2"} />
+            <Tab label="カテゴリ3" {...a11yProps(3)} value={"3"} />
           </Tabs>
         </Box>
       </Box>
