@@ -21,27 +21,33 @@ const TagList = () => {
   console.log(tag);
   return (
     <>
-      <Typography sx={{ borderBottom: 1, borderColor: "#53a4d6" }}>
+      <Typography
+        sx={{ borderBottom: 1, borderColor: "#f2809e", marginBottom: 2 }}
+      >
         #Tag
-        {tag?.tags?.map((data: any, index: any) => {
-          return (
-            <>
-              <Grid item xs={4} key={data.id}>
-                <Typography
-                  sx={{
-                    backgroundColor: "#eee",
-                    marginBottom: "10px",
-                    display: "inline-block",
-                  }}
-                >
-                  <LocalOfferIcon />
-                  {data.name}
-                </Typography>
-              </Grid>
-            </>
-          );
-        })}
       </Typography>
+      {tag?.tags?.map((data: any, index: any) => {
+        return (
+          <>
+            <Grid item xs={4} key={data.id} component="span">
+              <Typography
+                component="span"
+                sx={{
+                  backgroundColor: "#eee",
+                  borderRadius: 1,
+                  marginBottom: "10px",
+                  marginRight: 2,
+                  padding: 1,
+                  display: "inline-block",
+                }}
+              >
+                <LocalOfferIcon sx={{ color: "pink" }} />
+                {data.name}
+              </Typography>
+            </Grid>
+          </>
+        );
+      })}
     </>
   );
 };

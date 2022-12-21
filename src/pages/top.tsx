@@ -16,6 +16,7 @@ import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
+import { Box } from "@mui/material";
 import moment from "moment";
 import Slider from "../componets/slider";
 const baseURL = "http://localhost:3000/test/";
@@ -178,7 +179,7 @@ function Top() {
         >
           Blog
         </Typography>
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={2}>
           {[...Array(3)].map(() => (
             <Grid item xs={4}>
               <Card sx={{ maxWidth: 345 }}>
@@ -201,7 +202,7 @@ function Top() {
               </Card>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
 
         {/* ブログの取り出し */}
         <Grid container spacing={2}>
@@ -210,11 +211,11 @@ function Top() {
             if (data.id < 4) {
               return (
                 <Grid item xs={4} key={data.id}>
-                  <Link to={`${data.id}`}>
+                  <Link to={`/blog/${data.id}`}>
                     <Card sx={{ maxWidth: 345 }}>
                       <CardMedia
                         component="img"
-                        image="/logo192.png"
+                        image="/img1.jpg"
                         height="300"
                         alt="green iguana"
                       />
@@ -232,7 +233,14 @@ function Top() {
                           {data.description}
                         </Typography>
                         <Typography
-                          sx={{ backgroundColor: "#f2809e", paddingTop: "2" }}
+                          sx={{
+                            padding: "6px",
+                            backgroundColor: "#f2809e",
+                            display: "inline-block",
+                            borderRadius: "16px",
+                            color: "#fff",
+                            marginRight: 2,
+                          }}
                           component="span"
                         >
                           {data?.category?.name}
@@ -248,9 +256,7 @@ function Top() {
             }
           })}
         </Grid>
-        <Button variant="contained" sx={{ margin: 8 }}>
-          ブログ一覧はこちらから
-        </Button>
+
         {/* {Object.keys(post).map((data: any, index) => {
           return (
             <li key={index} value={data.id}>
@@ -302,6 +308,13 @@ function Top() {
           );
         })} */}
       </Container>
+      <Box textAlign="center">
+        <Link to={`/blog`}>
+          <Button variant="contained" sx={{ margin: 8 }}>
+            ブログ一覧はこちらから
+          </Button>
+        </Link>
+      </Box>
     </DefaultLayout>
   );
 }

@@ -19,7 +19,7 @@ body {
 .footer {
   /* position: absolute; */
   bottom: 0;
-  background-color: #e4af9b;
+  background-color: #c6dee8;
   height: 60px;
   right: 0;
   left: 0;
@@ -28,6 +28,7 @@ body {
   justify-content: center;
   display: flex;
   padding-top: 40px;
+  color: #fff;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

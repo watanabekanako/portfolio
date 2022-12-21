@@ -9,6 +9,7 @@ import axios from "axios";
 import CategoryList from "../../componets/categoryList";
 import moment from "moment";
 import TagList from "../../componets/tagList";
+import { Link } from "react-router-dom";
 function Blog() {
   const [post, setPost] = React.useState<
     | {
@@ -47,7 +48,7 @@ function Blog() {
                 padding: "6px",
                 backgroundColor: "#f2809e",
                 display: "inline-block",
-                borderRadius: "14px",
+                borderRadius: "16px",
                 color: "#fff",
                 marginRight: 2,
               }}
@@ -74,7 +75,7 @@ function Blog() {
 
             <Box textAlign="right">
               <Typography component="p">
-                {moment(post?.post.createdAt).format("YYYY/MM/DD")}
+                {moment(post?.post.createdAt).format("YYYY年MM月DD日")}
               </Typography>
             </Box>
             <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
@@ -85,12 +86,14 @@ function Blog() {
               {post?.post.description}
             </Paper>
             <Box textAlign="center">
-              <Button
-                sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
-                variant="contained"
-              >
-                一覧へ戻る
-              </Button>
+              <Link to={`/blog`}>
+                <Button
+                  sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
+                  variant="contained"
+                >
+                  一覧へ戻る
+                </Button>
+              </Link>
               {/* /* <ButtonOrange /> */}
             </Box>
           </Grid>
