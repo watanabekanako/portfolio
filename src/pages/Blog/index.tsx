@@ -16,7 +16,7 @@ import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
-import { padding } from "@mui/system";
+import Pagination from "@mui/material/Pagination";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -61,16 +61,55 @@ export default function BlogList() {
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 6 }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            marginBottom: 6,
+            marginTop: 6,
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="All" {...a11yProps(0)} value={""} />
-            <Tab label="カテゴリ1" {...a11yProps(1)} value={"1"} />
-            <Tab label="カテゴリ2" {...a11yProps(2)} value={"2"} />
-            <Tab label="カテゴリ3" {...a11yProps(3)} value={"3"} />
+            <Tab
+              label="All"
+              {...a11yProps(0)}
+              value={""}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ1"
+              {...a11yProps(1)}
+              value={"1"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ2"
+              {...a11yProps(2)}
+              value={"2"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ3"
+              {...a11yProps(3)}
+              value={"3"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
           </Tabs>
         </Box>
       </Box>
@@ -83,17 +122,11 @@ export default function BlogList() {
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
                     component="img"
-                    image="/logo192.png"
+                    image="/img1.jpg"
                     height="300"
                     alt="green iguana"
                   />
                   <CardContent>
-                    <link></link>
-                    <Typography component="div">
-                      <Typography variant="h6">
-                        {moment(data.createdAt).format("YYYY/MM/DD")}
-                      </Typography>
-                    </Typography>
                     <Typography gutterBottom variant="h5" component="div">
                       {data.title}
                     </Typography>
@@ -101,14 +134,33 @@ export default function BlogList() {
                       {data.description}
                     </Typography>
                     <Typography
-                      sx={{ backgroundColor: "#f2809e", paddingTop: "2" }}
+                      sx={{
+                        padding: "6px",
+                        backgroundColor: "#f2809e",
+                        display: "inline-block",
+                        borderRadius: "16px",
+                        color: "#fff",
+                        marginRight: 2,
+                      }}
                       component="span"
                     >
                       {data?.category?.name}
                     </Typography>
-                    {data?.tags?.name}
 
-                    <Typography component="span">Tag</Typography>
+                    <Typography component="span">
+                      {data.tags.map((tag: any, index: any) => {
+                        return tag.name;
+                      })}
+                    </Typography>
+
+                    <Typography component="div">
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "#888", textAlign: "right" }}
+                      >
+                        {moment(data.createdAt).format("YYYY年MM月DD日")}
+                      </Typography>
+                    </Typography>
                   </CardContent>
                 </Card>
               </Link>
@@ -116,10 +168,15 @@ export default function BlogList() {
           );
         })}
       </Grid>
-      <Grid item xs={2} sx={{ marginTop: 10 }}>
-        <CategoryList />
-        {/* タググループ */}
-        <TagList />
+      {/* ページング機能 */}
+      <Pagination count={10} />
+      <Grid container spacing={2}>
+        <Grid item xs={4} sx={{ marginTop: 10 }}>
+          <CategoryList />
+
+          {/* タググループ */}
+          <TagList />
+        </Grid>
       </Grid>
     </DefaultLayout>
   );
