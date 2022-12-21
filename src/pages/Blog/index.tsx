@@ -24,13 +24,13 @@ interface TabPanelProps {
 }
 
 // ブログ一覧ページ
+// カテゴリタブ
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
 export default function BlogList() {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
