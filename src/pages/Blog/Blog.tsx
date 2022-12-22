@@ -24,12 +24,29 @@ function Blog() {
       }
     | undefined
   >();
+  const [category, setCategory] = React.useState<
+    | {
+        post: { id: number; name: string; category: string; tags: string[] }[];
+      }
+    | undefined
+  >();
+
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
   }, []);
 
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
+      .then((response) => {
+        setCategory(response.data);
+      });
+  }, []);
+
+  console.log("かてごり", category);
+  console.log("id", post?.post?.category.id);
   // idの取得
   const { id } = useParams();
   console.log(id);
@@ -105,6 +122,9 @@ function Blog() {
             <TagList />
           </Grid>
         </Grid>
+        <Typography>おすすめの記事</Typography>
+
+        {/* http://localhost:3000/posts?category=1 のうなエンドポイントにて取得　idはカテゴリidから取得 */}
       </Box>
     </DefaultLayout>
   );
