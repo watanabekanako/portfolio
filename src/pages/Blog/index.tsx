@@ -17,11 +17,11 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+// interface TabPanelProps {
+//   children?: React.ReactNode;
+//   index: number;
+//   value: number;
+// }
 
 // ブログ一覧ページ
 // カテゴリタブ
@@ -39,7 +39,7 @@ export default function BlogList() {
       }
     | undefined
   >();
-  console.log(post?.post);
+  console.log("postの値", post?.post);
   const [value, setValue] = React.useState("");
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
