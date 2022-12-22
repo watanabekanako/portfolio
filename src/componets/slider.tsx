@@ -1,17 +1,20 @@
-import { Navigation, Pagination } from "swiper"; // モジュールをインポート
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react"; //カルーセル用のタグをインポート
+import SwiperCore, { Pagination, Autoplay, EffectFade } from "swiper"; //使いたい機能をインポート
 
-import "swiper/css";
-import "swiper/css/navigation"; // スタイルをインポート
-import "swiper/css/pagination"; // スタイルをインポート
-
+const images = [
+  "http://placehold.jp/700x400.png?text=1",
+  "http://placehold.jp/700x400.png?text=1",
+  "http://placehold.jp/700x400.png?text=1",
+];
 const Slider = () => {
   return (
     <Swiper
-      //　propsとして渡す
-      modules={[Navigation, Pagination]}
-      navigation
-      pagination={{ clickable: true }}
+      slidesPerView={1}
+      pagination={{
+        clickable: true,
+        // bulletClass: `swiper-pagination-bullet ${s.custom_bullet}`, //非アクティブなアイコンのクラスを指定
+        // bulletActiveClass: `swiper-pagination-bullet-active ${s.custom_bullet_active}`, //アクティブなアイコンのクラスを指定
+      }}
       autoplay={{ delay: 1000, disableOnInteraction: true }}
       speed={2000}
       effect="fade"
