@@ -10,6 +10,9 @@ import CategoryList from "../../componets/categoryList";
 import moment from "moment";
 import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Card from "@mui/material/Card";
 function Blog() {
   const [post, setPost] = React.useState<
     | {
@@ -26,7 +29,14 @@ function Blog() {
   >();
   const [category, setCategory] = React.useState<
     | {
-        post: { id: number; name: string; category: string; tags: string[] }[];
+        post: {
+          id: number;
+          title: string;
+          description: string;
+          createdAt: number;
+          category: { id: number; name: string };
+          tags: { id: number; name: string }[];
+        };
       }
     | undefined
   >();
@@ -37,15 +47,23 @@ function Blog() {
     });
   }, []);
 
+  // React.useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
+  //     .then((response) => {
+  //       setCategory(response.data);
+  //     });
+  // }, []);
   React.useEffect(() => {
-    axios
-      .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
-      .then((response) => {
-        setCategory(response.data);
-      });
-  }, []);
-
-  console.log("かてごり", category);
+    if (post?.post?.category.id) {
+      axios
+        .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
+        .then((response) => {
+          setCategory(response.data);
+        });
+    }
+  }, [post]);
+  console.log("かてごり", category?.post);
   console.log("id", post?.post?.category.id);
   // idの取得
   const { id } = useParams();
@@ -126,6 +144,55 @@ function Blog() {
 
         {/* http://localhost:3000/posts?category=1 のうなエンドポイントにて取得　idはカテゴリidから取得 */}
       </Box>
+      {/* {category?.post?.map((data: any, index: any) => {
+        return data;
+      })} */}
+      {category?.post?.map((data: any, index: any) => (
+        <Card sx={{ maxWidth: 345 }}>
+          <CardMedia
+            component="img"
+            image="/img1.jpg"
+            height="300"
+            alt="green iguana"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {data.title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {data.description}
+            </Typography>
+            <Typography
+              sx={{
+                padding: "6px",
+                backgroundColor: "#f2809e",
+                display: "inline-block",
+                borderRadius: "16px",
+                color: "#fff",
+                marginRight: 2,
+              }}
+              component="span"
+            >
+              {data?.category?.name}
+            </Typography>
+
+            <Typography component="span">
+              {data.tags.map((tag: any, index: any) => {
+                return tag.name;
+              })}
+            </Typography>
+
+            <Typography component="div">
+              <Typography
+                variant="h6"
+                sx={{ color: "#888", textAlign: "right" }}
+              >
+                {moment(data.createdAt).format("YYYY年MM月DD日")}
+              </Typography>
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
     </DefaultLayout>
   );
 }
