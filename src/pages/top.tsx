@@ -91,36 +91,32 @@ function Top() {
   return (
     <DefaultLayout>
       <Slider />
+
       <Container sx={{ marginTop: 2 }}>
-        <Typography
-          component="h2"
-          variant="h4"
-          sx={{ textAlign: "center", margin: 4 }}
-        >
-          About
-        </Typography>
-        <Timeline>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>2022</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>Code</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-            </TimelineSeparator>
-            <TimelineContent>Sleep</TimelineContent>
-          </TimelineItem>
-        </Timeline>
+        <Box className="red">
+          <Typography
+            component="h2"
+            variant="h4"
+            sx={{ textAlign: "center", margin: 4 }}
+          >
+            About
+          </Typography>
+          <Grid container spacing={10}>
+            <Grid item xs={6}>
+              <CardMedia
+                component="img"
+                image="/img1.jpg"
+                height="300"
+                alt="green iguana"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            </Grid>
+          </Grid>
+        </Box>
         <Typography
           sx={{ textAlign: "center", marginBottom: 4 }}
           component="h2"
