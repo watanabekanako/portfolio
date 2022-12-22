@@ -46,57 +46,62 @@ const Category = () => {
   }, []);
   return (
     <DefaultLayout>
+      <Typography sx={{ textAlign: "center" }}>Category</Typography>
+
       <Grid container spacing={2} sx={{ marginTop: 8, marginBottom: 4 }}>
         {post?.post?.map((data: any, index: any) => {
           return (
-            <Grid item xs={4} key={data.id}>
-              <Link to={`/blog/${data.id}`}>
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                    component="img"
-                    image="/img1.jpg"
-                    height="300"
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {data.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {data.description}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        padding: "6px",
-                        backgroundColor: "#f2809e",
-                        display: "inline-block",
-                        borderRadius: "16px",
-                        color: "#fff",
-                        marginRight: 2,
-                      }}
-                      component="span"
-                    >
-                      {data?.category?.name}
-                    </Typography>
-
-                    <Typography component="span">
-                      {data.tags.map((tag: any, index: any) => {
-                        return tag.name;
-                      })}
-                    </Typography>
-
-                    <Typography component="div">
-                      <Typography
-                        variant="h6"
-                        sx={{ color: "#888", textAlign: "right" }}
-                      >
-                        {moment(data.createdAt).format("YYYY年MM月DD日")}
+            <>
+              <Typography>{data?.category?.name}</Typography>
+              <Grid item xs={4} key={data.id}>
+                <Link to={`/blog/${data.id}`}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component="img"
+                      image="/img1.jpg"
+                      height="300"
+                      alt=""
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {data.title}
                       </Typography>
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
+                      <Typography variant="body2" color="text.secondary">
+                        {data.description}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          padding: "6px",
+                          backgroundColor: "#f2809e",
+                          display: "inline-block",
+                          borderRadius: "16px",
+                          color: "#fff",
+                          marginRight: 2,
+                        }}
+                        component="span"
+                      >
+                        {data?.category?.name}
+                      </Typography>
+
+                      <Typography component="span">
+                        {data.tags.map((tag: any, index: any) => {
+                          return tag.name;
+                        })}
+                      </Typography>
+
+                      <Typography component="div">
+                        <Typography
+                          variant="h6"
+                          sx={{ color: "#888", textAlign: "right" }}
+                        >
+                          {moment(data.createdAt).format("YYYY年MM月DD日")}
+                        </Typography>
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            </>
           );
         })}
       </Grid>
