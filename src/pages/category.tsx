@@ -60,7 +60,7 @@ const Category = () => {
                       component="img"
                       image="/img1.jpg"
                       height="300"
-                      alt=""
+                      alt="green iguana"
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
