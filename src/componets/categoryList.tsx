@@ -19,6 +19,8 @@ const CategoryList = () => {
   }, []);
 
   console.log(category);
+
+  // http://localhost:3001/blog/category/1 のようにidを動的にしてリンクさせる
   return (
     <>
       <Typography
@@ -30,23 +32,25 @@ const CategoryList = () => {
         return (
           <>
             <Grid item xs={4} key={data.id}>
-              <Typography sx={{ marginBottom: 2 }}>
-                {data.name}
-                <Typography
-                  component="span"
-                  sx={{
-                    backgroundColor: "#fff",
-                    border: 1,
-                    padding: 1,
-                    color: "#888",
-                    margin: 2,
-                    borderColor: "#eee",
-                    borderRadius: 1,
-                  }}
-                >
-                  {data._count.posts}
+              <Link to={`/blog/category/${data.id}`}>
+                <Typography sx={{ marginBottom: 2 }}>
+                  {data.name}
+                  <Typography
+                    component="span"
+                    sx={{
+                      backgroundColor: "#fff",
+                      border: 1,
+                      padding: 1,
+                      color: "#888",
+                      margin: 2,
+                      borderColor: "#eee",
+                      borderRadius: 1,
+                    }}
+                  >
+                    {data._count.posts}
+                  </Typography>
                 </Typography>
-              </Typography>
+              </Link>
             </Grid>
           </>
         );
