@@ -36,7 +36,7 @@ function Blog() {
           createdAt: number;
           category: { id: number; name: string };
           tags: { id: number; name: string }[];
-        };
+        }[];
       }
     | undefined
   >();
@@ -46,7 +46,7 @@ function Blog() {
       setPost(response.data);
     });
   }, []);
-
+  console.log("ぽすと", post?.post);
   // React.useEffect(() => {
   //   axios
   //     .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
@@ -147,52 +147,56 @@ function Blog() {
       {/* {category?.post?.map((data: any, index: any) => {
         return data;
       })} */}
-      {category?.post?.map((data: any, index: any) => (
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            component="img"
-            image="/img1.jpg"
-            height="300"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {data.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {data.description}
-            </Typography>
-            <Typography
-              sx={{
-                padding: "6px",
-                backgroundColor: "#f2809e",
-                display: "inline-block",
-                borderRadius: "16px",
-                color: "#fff",
-                marginRight: 2,
-              }}
-              component="span"
-            >
-              {data?.category?.name}
-            </Typography>
+      <Grid container spacing={2}>
+        {category?.post?.map((data: any, index: any) => (
+          <Grid item xs={4} key={data.id}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                image="/img1.jpg"
+                height="300"
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {data.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {data.description}
+                </Typography>
+                <Typography
+                  sx={{
+                    padding: "6px",
+                    backgroundColor: "#f2809e",
+                    display: "inline-block",
+                    borderRadius: "16px",
+                    color: "#fff",
+                    marginRight: 2,
+                  }}
+                  component="span"
+                >
+                  {data?.category?.name}
+                </Typography>
 
-            <Typography component="span">
-              {data.tags.map((tag: any, index: any) => {
-                return tag.name;
-              })}
-            </Typography>
+                <Typography component="span">
+                  {data.tags.map((tag: any, index: any) => {
+                    return tag.name;
+                  })}
+                </Typography>
 
-            <Typography component="div">
-              <Typography
-                variant="h6"
-                sx={{ color: "#888", textAlign: "right" }}
-              >
-                {moment(data.createdAt).format("YYYY年MM月DD日")}
-              </Typography>
-            </Typography>
-          </CardContent>
-        </Card>
-      ))}
+                <Typography component="div">
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "#888", textAlign: "right" }}
+                  >
+                    {moment(data.createdAt).format("YYYY年MM月DD日")}
+                  </Typography>
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </DefaultLayout>
   );
 }
