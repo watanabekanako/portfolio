@@ -98,7 +98,7 @@ function Top() {
           <Typography
             component="h2"
             variant="h4"
-            sx={{ textAlign: "center", margin: 10 }}
+            sx={{ textAlign: "center", my: 10 }}
             id="about"
           >
             About
@@ -120,7 +120,7 @@ function Top() {
           </Grid>
         </Box>
         <Typography
-          sx={{ textAlign: "center", marginBottom: 10 }}
+          sx={{ textAlign: "center", my: 10 }}
           component="h2"
           variant="h4"
           id="work"
@@ -187,7 +187,7 @@ function Top() {
           </Grid>
         </Grid>
         <Typography
-          sx={{ textAlign: "center", marginBottom: 10 }}
+          sx={{ textAlign: "center", my: 10 }}
           component="h2"
           variant="h4"
         >
@@ -259,9 +259,9 @@ function Top() {
                       >
                         {data?.category?.name}
                       </Typography>
-                      {data?.tags?.name}
-
-                      <Typography component="span">Tag</Typography>
+                      {data?.tags?.map((tag: any, index: any) => {
+                        return tag.name;
+                      })}
                     </CardContent>
                   </Card>
                 </Link>
