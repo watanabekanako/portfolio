@@ -12,138 +12,172 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
+import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import moment from "moment";
+import { useParams } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
+// interface TabPanelProps {
+//   children?: React.ReactNode;
+//   index: number;
+//   value: number;
+// }
 
-// const baseURL = "http://localhost:3000/posts";
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
+// ブログ一覧ページ
+// カテゴリタブ
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
 export default function BlogList() {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; name: string }[];
+        post: { id: number; name: string; category: string; tags: string[] }[];
       }
     | undefined
   >();
+  console.log("postの値", post?.post);
+  const [value, setValue] = React.useState("");
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
-    axios.get("http://localhost:3000/posts").then((response) => {
-      setPost(response.data);
-    });
-  }, []);
-  // console.log(post);
+    axios
+      .get(`http://localhost:3000/posts?category=${value}`)
+      .then((response) => {
+        setPost(response.data);
+      });
+  }, [value]);
 
-  const [value, setValue] = React.useState(0);
+  // idの取得
+  const { id } = useParams();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  // tabにて選択したカテゴリ名取れている
+  console.log("カテゴリの値", value);
 
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            marginBottom: 6,
+            marginTop: 6,
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
+            <Tab
+              label="All"
+              {...a11yProps(0)}
+              value={""}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ1"
+              {...a11yProps(1)}
+              value={"1"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ2"
+              {...a11yProps(2)}
+              value={"2"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
+            <Tab
+              label="カテゴリ3"
+              {...a11yProps(3)}
+              value={"3"}
+              sx={{
+                backgroundColor: "rgba(189, 189, 189, 0.17)",
+                marginRight: 2,
+              }}
+            />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
       </Box>
+
       <Grid container spacing={2}>
-      {post?.post?.map((data: any, index: any) => {
-        return (
-          <Grid item xs={4} key={data.id}>
-            <Link to={`${data.id}`}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component="img"
-                        image="/logo192.png"
-                        height="300"
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <link></link>
-                        <Typography component="div">
-                          {data.createdAt}
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {data.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {data.description}
-                        </Typography>
-                        <Typography
-                          sx={{ backgroundColor: "pink" }}
-                          component="span"
-                        >
-                          {data.categoryId}
-                        </Typography>
+        {post?.post?.map((data: any, index: any) => {
+          return (
+            <Grid item xs={4} key={data.id}>
+              <Link to={`${data.id}`}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardMedia
+                    component="img"
+                    image="/img1.jpg"
+                    height="300"
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {data.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {data.description}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        padding: "6px",
+                        backgroundColor: "#f2809e",
+                        display: "inline-block",
+                        borderRadius: "16px",
+                        color: "#fff",
+                        marginRight: 2,
+                      }}
+                      component="span"
+                    >
+                      {data?.category?.name}
+                    </Typography>
 
-                        <Typography component="span">Tag</Typography>
-                      </CardContent>
-                    </Card>
-            </Link>
-          </Grid>
-        );
-      })}
+                    <Typography component="span">
+                      {data.tags.map((tag: any, index: any) => {
+                        return tag.name;
+                      })}
+                    </Typography>
+
+                    <Typography component="div">
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "#888", textAlign: "right" }}
+                      >
+                        {moment(data.createdAt).format("YYYY年MM月DD日")}
+                      </Typography>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            </Grid>
+          );
+        })}
       </Grid>
+      {/* ページング機能 */}
+      <Pagination count={10} />
+      <Grid container spacing={2}>
+        <Grid item xs={4} sx={{ marginTop: 10 }}>
+          <CategoryList />
 
-      <Grid item xs={2} sx={{ marginTop: 10 }}>
-        <CategoryList />
-        {/* タググループ */}
-
-        <Typography
-          sx={{ marginTop: 4, borderBottom: 1, borderColor: "yellow" }}
-        >
-          Tag
-        </Typography>
-        <Typography>Food(12)</Typography>
-        <Typography>Travel(10)</Typography>
-        <Typography>Game(10)</Typography>
+          {/* タググループ */}
+          <TagList />
+        </Grid>
       </Grid>
     </DefaultLayout>
   );

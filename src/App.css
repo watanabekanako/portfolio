@@ -10,7 +10,26 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
-
+/* .container {
+  position: relative;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  min-height: 100vh;
+} */
+.footer {
+  /* position: absolute; */
+  bottom: 0;
+  background-color: #c6dee8;
+  height: 60px;
+  right: 0;
+  left: 0;
+  text-align: center;
+  vertical-align: center;
+  justify-content: center;
+  display: flex;
+  padding-top: 40px;
+  color: #fff;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

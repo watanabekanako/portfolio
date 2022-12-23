@@ -13,7 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = [
+  { label: "Top", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Works", href: "/#work" },
+  { label: "Blog", href: "/blog" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function DefaultLayout({ children }: { children: any }) {
@@ -44,7 +49,6 @@ function DefaultLayout({ children }: { children: any }) {
       <AppBar position="static" sx={{ backgroundColor: "#c6dee8" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -60,7 +64,7 @@ function DefaultLayout({ children }: { children: any }) {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              kanako
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -93,8 +97,8 @@ function DefaultLayout({ children }: { children: any }) {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                  <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page.label}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -121,11 +125,12 @@ function DefaultLayout({ children }: { children: any }) {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
-                  key={page}
+                  key={page.label}
+                  href={page.href}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  {page}
+                  {page.label}
                 </Button>
               ))}
             </Box>
@@ -166,6 +171,7 @@ function DefaultLayout({ children }: { children: any }) {
       <Container maxWidth="lg" sx={{ marginBottom: "100" }}>
         {children}
       </Container>
+      <Box className={"footer"}>©watanabe</Box>
     </React.Fragment>
   );
 }
