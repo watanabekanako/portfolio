@@ -1,37 +1,38 @@
-import { Swiper, SwiperSlide } from "swiper/react"; //カルーセル用のタグをインポート
-import SwiperCore, { Pagination, Autoplay, EffectFade } from "swiper"; //使いたい機能をインポート
-
-const images = [
-  "http://placehold.jp/700x400.png?text=1",
-  "http://placehold.jp/700x400.png?text=1",
-  "http://placehold.jp/700x400.png?text=1",
-];
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+<img src="http://placehold.jp/700x400.png?text=1" alt="" />;
+import { Autoplay, Swiper as RealSwiper } from "swiper";
+RealSwiper.use([Autoplay]);
 const Slider = () => {
   return (
     <Swiper
+      // install Swiper modules
+      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      spaceBetween={50}
       slidesPerView={1}
-      pagination={{
-        clickable: true,
-        // bulletClass: `swiper-pagination-bullet ${s.custom_bullet}`, //非アクティブなアイコンのクラスを指定
-        // bulletActiveClass: `swiper-pagination-bullet-active ${s.custom_bullet_active}`, //アクティブなアイコンのクラスを指定
-      }}
-      autoplay={{ delay: 1000, disableOnInteraction: true }}
-      speed={2000}
-      effect="fade"
-      fadeEffect={{ crossFade: true }}
       loop={true}
+      // navigation
+      pagination={{ clickable: true }}
+      // scrollbar={{ draggable: true }}
+      onSwiper={(swiper) => console.log(swiper)}
+      onSlideChange={() => console.log("slide change")}
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
     >
+      <SwiperSlide>
+        <img src="./img1.jpg" alt="" />
+      </SwiperSlide>
       <SwiperSlide>
         <img src="http://placehold.jp/700x400.png?text=1" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="http://placehold.jp/700x400.png?text=2" alt="" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src="http://placehold.jp/700x400.png?text=3" alt="" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src="http://placehold.jp/700x400.png?text=4" alt="" />
+        <img src="http://placehold.jp/700x400.png?text=1" alt="" />
       </SwiperSlide>
     </Swiper>
   );
