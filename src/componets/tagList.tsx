@@ -39,6 +39,7 @@ const TagList = () => {
                   marginRight: 2,
                   padding: 1,
                   display: "inline-block",
+                  verticalAlign: "center",
                 }}
               >
                 <LocalOfferIcon sx={{ color: "pink" }} />

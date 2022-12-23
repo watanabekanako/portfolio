@@ -17,6 +17,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
+
 import moment from "moment";
 import Slider from "../componets/slider";
 const baseURL = "http://localhost:3000/test/";
@@ -97,7 +98,8 @@ function Top() {
           <Typography
             component="h2"
             variant="h4"
-            sx={{ textAlign: "center", margin: 4 }}
+            sx={{ textAlign: "center", margin: 10 }}
+            id="about"
           >
             About
           </Typography>
@@ -118,9 +120,10 @@ function Top() {
           </Grid>
         </Box>
         <Typography
-          sx={{ textAlign: "center", marginBottom: 4 }}
+          sx={{ textAlign: "center", marginBottom: 10 }}
           component="h2"
           variant="h4"
+          id="work"
         >
           WORKS
         </Typography>
@@ -184,7 +187,7 @@ function Top() {
           </Grid>
         </Grid>
         <Typography
-          sx={{ textAlign: "center", marginBottom: 4 }}
+          sx={{ textAlign: "center", marginBottom: 10 }}
           component="h2"
           variant="h4"
         >
