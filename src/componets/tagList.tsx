@@ -3,6 +3,7 @@ import axios from "axios";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import Box from "@mui/material/Box";
 const TagList = () => {
   const tagURL = "http://localhost:3000/posts/tags";
   // カテゴリをエンドポイントからaxiosにて取得
@@ -29,23 +30,21 @@ const TagList = () => {
       {tag?.tags?.map((data: any, index: any) => {
         return (
           <>
-            <Grid item xs={4} key={data.id} component="span">
-              <Typography
-                component="span"
-                sx={{
-                  backgroundColor: "#eee",
-                  borderRadius: 1,
-                  marginBottom: "10px",
-                  marginRight: 2,
-                  padding: 1,
-                  display: "inline-block",
-                  verticalAlign: "center",
-                }}
-              >
-                <LocalOfferIcon sx={{ color: "pink" }} />
-                {data.name}
-              </Typography>
-            </Grid>
+            <Box
+              key={data.id}
+              sx={{
+                display: "inline-flex",
+                justifyContent: "center",
+                backgroundColor: "#eee",
+                borderRadius: 1,
+                marginBottom: "10px",
+                marginRight: 2,
+                padding: 1,
+              }}
+            >
+              <LocalOfferIcon sx={{ color: "pink" }} />
+              <Typography>{data.name}</Typography>
+            </Box>
           </>
         );
       })}
