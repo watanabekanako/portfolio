@@ -10,7 +10,7 @@ const TagList = () => {
   // カテゴリをエンドポイントからaxiosにて取得
   const [tag, setTag] = React.useState<
     | {
-        tags: { id: number; name: string }[];
+        tags: { id: number; name: string; _count: any }[];
       }
     | undefined
   >();

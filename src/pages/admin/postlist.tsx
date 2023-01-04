@@ -14,6 +14,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import { mutate } from "swr";
 const PostList = () => {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
@@ -28,7 +30,11 @@ const PostList = () => {
       setPost(response.data);
     });
   }, []);
-
+  React.useEffect(() => {
+    axios.delete("http://localhost:3000/posts").then((response) => {
+      setPost(response.data);
+    });
+  }, []);
   const [value, setValue] = React.useState(0);
 
   return (
@@ -68,7 +74,9 @@ const PostList = () => {
                 <TableCell align="right"> {data.author}</TableCell>
                 <TableCell align="right"> {data.categoryId}</TableCell>
                 <TableCell align="right"> {data.categoryId}</TableCell>
-                <TableCell align="right"> {data.createdAt}</TableCell>
+                <TableCell align="right">
+                  {moment(data.createdAt).format("YYYY年MM月DD日")}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

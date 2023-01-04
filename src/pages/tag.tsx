@@ -40,7 +40,7 @@ const Tag = () => {
   console.log(id);
 
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?category=${id}`).then((response) => {
+    axios.get(`http://localhost:3000/posts?tags=${id}`).then((response) => {
       setPost(response.data);
     });
   }, []);
