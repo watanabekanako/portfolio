@@ -39,7 +39,9 @@ export default function BlogList() {
       }
     | undefined
   >();
-  console.log("postの値", post?.post);
+  // post?.post?.lengthで記事の数を出力
+  console.log("postの長さ", post?.post?.length);
+
   const [value, setValue] = React.useState("");
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
@@ -59,6 +61,21 @@ export default function BlogList() {
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", value);
 
+  // ページング機能
+
+  const [page, setPage] = React.useState<
+    | {
+        totalCount: number;
+        pages: number;
+      }
+    | undefined
+  >();
+  React.useEffect(() => {
+    axios.get(`http://localhost:3000/posts?pages`).then((response) => {
+      setPage(response.data);
+    });
+  }, []);
+  console.log("pages", page?.pages);
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
@@ -170,7 +187,15 @@ export default function BlogList() {
         })}
       </Grid>
       {/* ページング機能 */}
-      <Pagination count={10} />
+      <Pagination
+        // 総ページ数
+        count={page?.pages}
+        showFirstButton={true}
+        // onChange={(e, page) => setPage(page)}
+        // 現在のページ番号
+        page={page?.totalCount}
+        siblingCount={page?.totalCount}
+      />
       <Grid container spacing={2}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
           <CategoryList />

@@ -26,7 +26,7 @@ const Slider = () => {
       }}
     >
       <SwiperSlide>
-        <img src="./img1.jpg" alt="" />
+        <img src="./slide_1.jpg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
         <img src="http://placehold.jp/700x400.png?text=1" alt="" />
