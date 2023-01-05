@@ -36,18 +36,20 @@ export default function BlogList() {
   const [post, setPost] = React.useState<
     | {
         post: { id: number; name: string; category: string; tags: string[] }[];
+        totalCount: number;
+        pages: number;
       }
     | undefined
   >();
   // post?.post?.lengthで記事の数を出力
-  console.log("postの長さ", post?.post?.length);
+  console.log("post.pages", post?.pages);
 
   const [value, setValue] = React.useState("");
-  // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
+  console.log("value", value);
   React.useEffect(() => {
     axios
       // 下記URLのvalueにカテゴリidが入る
-      .get(`http://localhost:3000/posts?category=${value}`)
+      .get(`http://localhost:3000/posts?page=1&perPage=10&category=${value}`)
       .then((response) => {
         setPost(response.data);
       });
@@ -62,23 +64,11 @@ export default function BlogList() {
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", value);
 
-  // ページング機能
-
-  const [page, setPage] = React.useState<
-    | {
-        totalCount: number;
-        pages: number;
-      }
-    | undefined
-  >();
-  React.useEffect(() => {
-    axios
-      .get(`http://localhost:3000/posts?pages=perPage&category=${value}`)
-      .then((response) => {
-        setPage(response.data);
-      });
-  }, []);
-  console.log("pages", page?.pages);
+  const [paginate, setPaginate] = React.useState(1);
+  const pageChange = (event: any, value: any) => {
+    setPaginate(value);
+  };
+  console.log("paginate", paginate);
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
@@ -192,11 +182,11 @@ export default function BlogList() {
       {/* ページング機能 */}
       <Pagination
         // 総ページ数
-        count={page?.pages}
-        // onChange={(e, page) => setPage(page)}
+        count={post?.pages}
         // 現在のページ番号
-        page={page?.totalCount}
+        page={post?.totalCount}
         // siblingCount={page?.totalCount}
+        onChange={pageChange}
       />
       <Grid container spacing={2}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
