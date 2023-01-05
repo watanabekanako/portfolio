@@ -81,11 +81,9 @@ function Top() {
     | undefined
   >();
   React.useEffect(() => {
-    axios
-      .get(`http://localhost:3000/posts?count=${postCount}`)
-      .then((response) => {
-        setCount(response.data);
-      });
+    axios.get(`http://localhost:3000/posts?perPage=3`).then((response) => {
+      setCount(response.data);
+    });
   }, []);
   console.log("かうんと", post);
   console.log("かうんと", count);
