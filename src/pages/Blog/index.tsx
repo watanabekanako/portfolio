@@ -46,12 +46,13 @@ export default function BlogList() {
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
     axios
+      // 下記URLのvalueにカテゴリidが入る
       .get(`http://localhost:3000/posts?category=${value}`)
       .then((response) => {
         setPost(response.data);
       });
   }, [value]);
-
+  console.log("value", value);
   // idの取得
   const { id } = useParams();
 
@@ -71,9 +72,11 @@ export default function BlogList() {
     | undefined
   >();
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?pages`).then((response) => {
-      setPage(response.data);
-    });
+    axios
+      .get(`http://localhost:3000/posts?pages=perPage&category=${value}`)
+      .then((response) => {
+        setPage(response.data);
+      });
   }, []);
   console.log("pages", page?.pages);
   return (
@@ -190,11 +193,10 @@ export default function BlogList() {
       <Pagination
         // 総ページ数
         count={page?.pages}
-        showFirstButton={true}
         // onChange={(e, page) => setPage(page)}
         // 現在のページ番号
         page={page?.totalCount}
-        siblingCount={page?.totalCount}
+        // siblingCount={page?.totalCount}
       />
       <Grid container spacing={2}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
