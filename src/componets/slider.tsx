@@ -4,7 +4,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-<img src="http://placehold.jp/700x400.png?text=1" alt="" />;
 import { Autoplay, Swiper as RealSwiper } from "swiper";
 RealSwiper.use([Autoplay]);
 const Slider = () => {
@@ -29,10 +28,10 @@ const Slider = () => {
         <img src="./slide_1.jpg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="http://placehold.jp/700x400.png?text=1" alt="" />
+        <img src="./slide_2.jpg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="http://placehold.jp/700x400.png?text=1" alt="" />
+        <img src="./slide_3.jpg" alt="" />
       </SwiperSlide>
     </Swiper>
   );
