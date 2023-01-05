@@ -45,7 +45,11 @@ export default function BlogList() {
   console.log("post.pages", post?.pages);
 
   const [value, setValue] = React.useState("");
-  console.log("value", value);
+
+  const [paginate, setPaginate] = React.useState(1);
+  const pageChange = (event: any, value: any) => {
+    setPaginate(value);
+  };
   React.useEffect(() => {
     axios
       // 下記URLのvalueにカテゴリidが入る
@@ -55,7 +59,7 @@ export default function BlogList() {
       .then((response) => {
         setPost(response.data);
       });
-  }, [value]);
+  }, [value, paginate]);
   console.log("value", value);
   // idの取得
   const { id } = useParams();
@@ -66,11 +70,6 @@ export default function BlogList() {
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", value);
 
-  const [paginate, setPaginate] = React.useState(1);
-  const pageChange = (event: any, value: any) => {
-    setPaginate(value);
-  };
-  console.log("paginate", paginate);
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
