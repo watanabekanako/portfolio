@@ -49,7 +49,9 @@ export default function BlogList() {
   React.useEffect(() => {
     axios
       // 下記URLのvalueにカテゴリidが入る
-      .get(`http://localhost:3000/posts?page=1&perPage=10&category=${value}`)
+      .get(
+        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
+      )
       .then((response) => {
         setPost(response.data);
       });
