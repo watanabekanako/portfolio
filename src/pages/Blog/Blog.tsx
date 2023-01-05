@@ -57,7 +57,9 @@ function Blog() {
   React.useEffect(() => {
     if (post?.post?.category.id) {
       axios
-        .get(`http://localhost:3000/posts?category=${post?.post?.category.id}`)
+        .get(
+          `http://localhost:3000/posts?category=${post?.post?.category.id}&&perPage=3`
+        )
         .then((response) => {
           setCategory(response.data);
         });
@@ -142,11 +144,9 @@ function Blog() {
         </Grid>
         <Typography>おすすめの記事</Typography>
 
-        {/* http://localhost:3000/posts?category=1 のうなエンドポイントにて取得　idはカテゴリidから取得 */}
+        {/* http://localhost:3000/posts?category=1 のようなエンドポイントにて取得　idはカテゴリidから取得 */}
       </Box>
-      {/* {category?.post?.map((data: any, index: any) => {
-        return data;
-      })} */}
+
       <Grid container spacing={2}>
         {category?.post?.map((data: any, index: any) => (
           <Grid item xs={4} key={data.id}>
