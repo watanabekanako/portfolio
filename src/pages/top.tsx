@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
@@ -321,7 +320,10 @@ function Top() {
       </Container>
       <Box textAlign="center">
         <Link to={`/blog`}>
-          <Button variant="contained" sx={{ margin: 8 }}>
+          <Button
+            sx={{ margin: 6, backgroundColor: "#53a4d6" }}
+            variant="contained"
+          >
             ブログ一覧はこちらから
           </Button>
         </Link>

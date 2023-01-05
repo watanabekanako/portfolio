@@ -21,6 +21,7 @@ function Blog() {
           title: string;
           description: string;
           createdAt: number;
+          content: string;
           category: { id: number; name: string };
           tags: { id: number; name: string }[];
         };
@@ -32,6 +33,7 @@ function Blog() {
         post: {
           id: number;
           title: string;
+          content: string;
           description: string;
           createdAt: number;
           category: { id: number; name: string };
@@ -69,7 +71,7 @@ function Blog() {
   console.log("id", post?.post?.category.id);
   // idの取得
   const { id } = useParams();
-  console.log(id);
+  console.log("id", id);
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   console.log(post?.post.title);
 
@@ -115,12 +117,11 @@ function Blog() {
                 {moment(post?.post.createdAt).format("YYYY年MM月DD日")}
               </Typography>
             </Box>
-            <Paper sx={{ marginTop: 1, padding: 2 }}>タイトル</Paper>
+            <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.post.title}</Paper>
 
             <Paper sx={{ marginTop: 6, padding: 2 }}>
               <div>ユーザーID： {id}です </div>
-              {post?.post.title}
-              {post?.post.description}
+              {post?.post.content}
             </Paper>
             <Box textAlign="center">
               <Link to={`/blog`}>
@@ -133,6 +134,59 @@ function Blog() {
               </Link>
               {/* /* <ButtonOrange /> */}
             </Box>
+            <Typography>おすすめの記事</Typography>
+            <Grid container spacing={2} sx={{ my: 8 }}>
+              {category?.post?.map((data: any, index: any) => (
+                <Grid item xs={4} key={data.id}>
+                  <Link to={`/blog/${data.id}`}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component="img"
+                        image="/img1.jpg"
+                        height="300"
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {data.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {data.description}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            padding: "6px",
+                            backgroundColor: "#f2809e",
+                            display: "inline-block",
+                            borderRadius: "16px",
+                            color: "#fff",
+                            marginRight: 2,
+                          }}
+                          component="span"
+                        >
+                          {data?.category?.name}
+                        </Typography>
+
+                        <Typography component="span">
+                          {data.tags.map((tag: any, index: any) => {
+                            return tag.name;
+                          })}
+                        </Typography>
+
+                        <Typography component="div">
+                          <Typography
+                            variant="h6"
+                            sx={{ color: "#888", textAlign: "right" }}
+                          >
+                            {moment(data.createdAt).format("YYYY年MM月DD日")}
+                          </Typography>
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
           <Grid item xs={2} sx={{ marginTop: 10 }}>
@@ -142,61 +196,9 @@ function Blog() {
             <TagList />
           </Grid>
         </Grid>
-        <Typography>おすすめの記事</Typography>
 
         {/* http://localhost:3000/posts?category=1 のようなエンドポイントにて取得　idはカテゴリidから取得 */}
       </Box>
-
-      <Grid container spacing={2}>
-        {category?.post?.map((data: any, index: any) => (
-          <Grid item xs={4} key={data.id}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardMedia
-                component="img"
-                image="/img1.jpg"
-                height="300"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {data.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {data.description}
-                </Typography>
-                <Typography
-                  sx={{
-                    padding: "6px",
-                    backgroundColor: "#f2809e",
-                    display: "inline-block",
-                    borderRadius: "16px",
-                    color: "#fff",
-                    marginRight: 2,
-                  }}
-                  component="span"
-                >
-                  {data?.category?.name}
-                </Typography>
-
-                <Typography component="span">
-                  {data.tags.map((tag: any, index: any) => {
-                    return tag.name;
-                  })}
-                </Typography>
-
-                <Typography component="div">
-                  <Typography
-                    variant="h6"
-                    sx={{ color: "#888", textAlign: "right" }}
-                  >
-                    {moment(data.createdAt).format("YYYY年MM月DD日")}
-                  </Typography>
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </DefaultLayout>
   );
 }

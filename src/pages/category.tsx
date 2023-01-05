@@ -29,6 +29,7 @@ const Category = () => {
     description?: string;
     createdAt: number;
     category: Category;
+
     tags?: Tag[];
   };
 
@@ -46,13 +47,17 @@ const Category = () => {
   }, []);
   return (
     <DefaultLayout>
-      <Typography sx={{ textAlign: "center" }}>Category</Typography>
-
+      Category
+      {post?.post?.map((v: any, index: any) => {
+        <Grid item xs={4} key={v.id}>
+          <p>{v.title}</p>
+        </Grid>;
+      })}
       <Grid container spacing={2} sx={{ marginTop: 8, marginBottom: 4 }}>
         {post?.post?.map((data: any, index: any) => {
           return (
             <>
-              <Typography>{data?.category?.name}</Typography>
+              {/* <Typography>{data?.category?.name}</Typography> */}
               <Grid item xs={4} key={data.id}>
                 <Link to={`/blog/${data.id}`}>
                   <Card sx={{ maxWidth: 345 }}>
