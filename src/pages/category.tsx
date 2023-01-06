@@ -41,9 +41,11 @@ const Category = () => {
   console.log(id);
 
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?category=${id}`).then((response) => {
-      setPost(response.data);
-    });
+    axios
+      .get(`http://localhost:3000/posts?&perPage=10&category=${id}`)
+      .then((response) => {
+        setPost(response.data);
+      });
   }, []);
   return (
     <DefaultLayout>

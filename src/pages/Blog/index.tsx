@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 // interface TabPanelProps {
 //   children?: React.ReactNode;
 //   index: number;
@@ -181,14 +182,14 @@ export default function BlogList() {
         })}
       </Grid>
       {/* ページング機能 */}
-      <Pagination
-        // 総ページ数
-        count={post?.pages}
-        // 現在のページ番号
-        page={post?.totalCount}
-        // siblingCount={page?.totalCount}
-        onChange={pageChange}
-      />
+      <Stack spacing={2}>
+        <Pagination
+          // 総ページ数
+          count={post?.pages}
+          // page={post?.totalCount}
+          onChange={pageChange}
+        />
+      </Stack>
       <Grid container spacing={2}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
           <CategoryList />
