@@ -8,6 +8,7 @@ import PostList from "./pages/admin/postlist";
 import Post from "./pages/admin/post";
 import Category from "./pages/category";
 import Tag from "./pages/tag";
+import PostCreate from "./pages/admin/postCreate";
 // 動的ルーティング
 
 const App = () => {
@@ -27,7 +28,7 @@ const App = () => {
         <Route path="/admin/posts/edit/:id" element={<Post />}></Route>
         {/* 新規追加 */}
         {/* idがある時ない時で分岐させる　ページタイトルも */}
-        <Route path="/admin/posts/add" element={<Post />}></Route>
+        <Route path="/admin/posts/add" element={<PostCreate />}></Route>
       </Routes>
     </BrowserRouter>
   );

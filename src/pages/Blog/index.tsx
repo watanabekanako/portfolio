@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 // interface TabPanelProps {
 //   children?: React.ReactNode;
 //   index: number;
@@ -36,22 +37,31 @@ export default function BlogList() {
   const [post, setPost] = React.useState<
     | {
         post: { id: number; name: string; category: string; tags: string[] }[];
+        totalCount: number;
+        pages: number;
       }
     | undefined
   >();
   // post?.post?.lengthで記事の数を出力
-  console.log("postの長さ", post?.post?.length);
+  console.log("post.pages", post?.pages);
 
   const [value, setValue] = React.useState("");
-  // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
+
+  const [paginate, setPaginate] = React.useState(1);
+  const pageChange = (event: any, value: any) => {
+    setPaginate(value);
+  };
   React.useEffect(() => {
     axios
-      .get(`http://localhost:3000/posts?category=${value}`)
+      // 下記URLのvalueにカテゴリidが入る
+      .get(
+        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
+      )
       .then((response) => {
         setPost(response.data);
       });
-  }, [value]);
-
+  }, [value, paginate]);
+  console.log("value", value);
   // idの取得
   const { id } = useParams();
 
@@ -61,21 +71,6 @@ export default function BlogList() {
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", value);
 
-  // ページング機能
-
-  const [page, setPage] = React.useState<
-    | {
-        totalCount: number;
-        pages: number;
-      }
-    | undefined
-  >();
-  React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?pages`).then((response) => {
-      setPage(response.data);
-    });
-  }, []);
-  console.log("pages", page?.pages);
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
@@ -187,15 +182,14 @@ export default function BlogList() {
         })}
       </Grid>
       {/* ページング機能 */}
-      <Pagination
-        // 総ページ数
-        count={page?.pages}
-        showFirstButton={true}
-        // onChange={(e, page) => setPage(page)}
-        // 現在のページ番号
-        page={page?.totalCount}
-        siblingCount={page?.totalCount}
-      />
+      <Stack spacing={2}>
+        <Pagination
+          // 総ページ数
+          count={post?.pages}
+          // page={post?.totalCount}
+          onChange={pageChange}
+        />
+      </Stack>
       <Grid container spacing={2}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
           <CategoryList />

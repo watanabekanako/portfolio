@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
@@ -81,11 +80,9 @@ function Top() {
     | undefined
   >();
   React.useEffect(() => {
-    axios
-      .get(`http://localhost:3000/posts?count=${postCount}`)
-      .then((response) => {
-        setCount(response.data);
-      });
+    axios.get(`http://localhost:3000/posts?perPage=3`).then((response) => {
+      setCount(response.data);
+    });
   }, []);
   console.log("かうんと", post);
   console.log("かうんと", count);
@@ -231,7 +228,7 @@ function Top() {
                       component="img"
                       image="/img1.jpg"
                       height="300"
-                      alt="green iguana"
+                      alt=""
                     />
                     <CardContent>
                       <link></link>
@@ -243,6 +240,7 @@ function Top() {
                       <Typography gutterBottom variant="h5" component="div">
                         {data.title}
                       </Typography>
+                      <Typography>{data.thumbnailUrl} </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {data.description}
                       </Typography>
@@ -323,7 +321,10 @@ function Top() {
       </Container>
       <Box textAlign="center">
         <Link to={`/blog`}>
-          <Button variant="contained" sx={{ margin: 8 }}>
+          <Button
+            sx={{ margin: 6, backgroundColor: "#53a4d6" }}
+            variant="contained"
+          >
             ブログ一覧はこちらから
           </Button>
         </Link>
