@@ -46,7 +46,7 @@ const Category = () => {
       .then((response) => {
         setPost(response.data);
       });
-  }, []);
+  }, [id]);
   return (
     <DefaultLayout>
       Category

@@ -17,7 +17,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
 
-function Post() {
+function PostCreate() {
   // やりたいこと
   // post にセットされているのは、既存のデータ。
   // これを編集
@@ -33,30 +33,12 @@ function Post() {
       }
     | undefined
   >();
-  const [title, setTitle] = React.useState();
-  React.useEffect(() => {
-    if (id) {
-      axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
-        setPost(response.data);
-        setTitle(response.data?.post?.title);
-      });
-    }
-  }, []);
-  // console.log(post?.post.title);
-
-  // idの取得
-  const { id } = useParams();
-
+  console.log("ポスト", post);
   // 登録するボタン
   const handleSubmit = () => {
-    // idがあったらput
-    if (id) {
-      axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
-        setTitle(title);
-      });
-    } else {
-      // idがなかったらpost
-    }
+    axios.post(`http://localhost:3000/posts`).then((response) => {
+      setPost(response.data);
+    });
   };
 
   //   その取得したIDをURLのに入れる→投稿データ取得できる
@@ -76,7 +58,7 @@ function Post() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     alert("チェック状態が変更されました");
   };
-  console.log("kategori", category?.categories);
+  console.log("post", post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -103,12 +85,12 @@ function Post() {
               margin="dense"
               sx={{ width: 600 }}
               // valueで現在の値を取得
-              value={title}
+              value={post}
               onChange={(e: any) => {
                 setPost(e.target.value);
               }}
             />
-
+            {/* 
             <TextField
               id="outlined-basic"
               variant="outlined"
@@ -119,7 +101,7 @@ function Post() {
               onChange={(e: any) => {
                 setTitle(e.target.value);
               }}
-            />
+            /> */}
 
             <Box textAlign="center">
               {/* <Button
@@ -188,4 +170,5 @@ function Post() {
   );
 }
 
-export default Post;
+export default PostCreate;
+// http://localhost:3000/posts

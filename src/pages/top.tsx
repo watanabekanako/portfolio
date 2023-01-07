@@ -228,7 +228,7 @@ function Top() {
                       component="img"
                       image="/img1.jpg"
                       height="300"
-                      alt="green iguana"
+                      alt=""
                     />
                     <CardContent>
                       <link></link>
@@ -240,6 +240,7 @@ function Top() {
                       <Typography gutterBottom variant="h5" component="div">
                         {data.title}
                       </Typography>
+                      <Typography>{data.thumbnailUrl} </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {data.description}
                       </Typography>
