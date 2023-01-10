@@ -44,7 +44,6 @@ function Post() {
     }
   }, []);
 
-  console.log("ぽすと", { ...post });
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   const categoryURL = "http://localhost:3000/posts/categories";
   // カテゴリをエンドポイントからaxiosにて取得
@@ -66,12 +65,13 @@ function Post() {
   };
   // 登録するボタン
   const handleSubmit = () => {
-    console.log("ddddd");
-    axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
-      setPost({ ...post });
-    });
-    console.log("ddddd");
+    axios
+      .put(`http://localhost:3000/posts/${id}`, { ...post })
+      .then((response) => {
+        alert("更新しました");
+      });
   };
+  console.log(post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -104,12 +104,12 @@ function Post() {
                 setPost({ ...post, title: e.target.value });
               }}
             />
-            <Typography>内容</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
+              // valueで現在の値を取得
               value={post?.content}
               onChange={(e: any) => {
                 setPost({ ...post, content: e.target.value });
@@ -117,12 +117,12 @@ function Post() {
             />
 
             <Box textAlign="center">
-              {/* <Button
+              <Button
                 sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
                 variant="contained"
               >
                 一覧へ戻る
-              </Button> */}
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
