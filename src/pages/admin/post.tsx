@@ -44,15 +44,6 @@ function Post() {
     }
   }, []);
 
-  // 登録するボタン
-  const handleSubmit = () => {
-    // idがあったらput
-    if (id) {
-      axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
-        setPost({ ...post });
-      });
-    }
-  };
   console.log("ぽすと", { ...post });
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   const categoryURL = "http://localhost:3000/posts/categories";
@@ -73,7 +64,14 @@ function Post() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
-
+  // 登録するボタン
+  const handleSubmit = () => {
+    console.log("ddddd");
+    axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
+      setPost({ ...post });
+    });
+    console.log("ddddd");
+  };
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -163,7 +161,7 @@ function Post() {
             {/* カテゴリグループ */}
           </Grid>
         </Grid>
-        <Button onClick={() => handleSubmit}>更新する</Button>
+        <Button onClick={handleSubmit}>更新する</Button>
       </Box>
     </DefaultLayout>
   );
