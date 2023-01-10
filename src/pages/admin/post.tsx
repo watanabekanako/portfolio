@@ -18,47 +18,42 @@ import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
 
 function Post() {
+  // idの取得
+  const { id } = useParams();
   // やりたいこと
   // post にセットされているのは、既存のデータ。
   // これを編集
+
   const [post, setPost] = React.useState<
     | {
-        post: {
-          id: number;
-          title: string;
-          description: string;
-          content: string;
-          createdAt: number;
-        };
+        id?: number;
+        title?: string;
+        description?: string;
+        content?: string;
+        createdAt?: number;
+        categoryId?: number;
       }
     | undefined
   >();
-  const [title, setTitle] = React.useState();
+  // const [title, setTitle] = React.useState();
   React.useEffect(() => {
     if (id) {
       axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
-        setPost(response.data);
-        setTitle(response.data?.post?.title);
+        setPost(response.data?.post);
       });
     }
   }, []);
-  // console.log(post?.post.title);
-
-  // idの取得
-  const { id } = useParams();
 
   // 登録するボタン
   const handleSubmit = () => {
     // idがあったらput
     if (id) {
       axios.put(`http://localhost:3000/posts/${id}`).then((response) => {
-        setTitle(title);
+        setPost({ ...post });
       });
-    } else {
-      // idがなかったらpost
     }
   };
-
+  console.log("ぽすと", { ...post });
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   const categoryURL = "http://localhost:3000/posts/categories";
   // カテゴリをエンドポイントからaxiosにて取得
@@ -74,9 +69,11 @@ function Post() {
     });
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    alert("チェック状態が変更されました");
+    if (event.target.value) {
+      setPost({ ...post, categoryId: Number(event.target.value) });
+    }
   };
-  console.log("kategori", category?.categories);
+
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -97,27 +94,27 @@ function Post() {
             <Box textAlign="right">
               {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
             </Box>
+            <Typography>タイトル</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
               // valueで現在の値を取得
-              value={title}
+              value={post?.title}
               onChange={(e: any) => {
-                setPost(e.target.value);
+                setPost({ ...post, title: e.target.value });
               }}
             />
-
+            <Typography>内容</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
-              // valueで現在の値を取得
-              value={title}
+              value={post?.content}
               onChange={(e: any) => {
-                setTitle(e.target.value);
+                setPost({ ...post, content: e.target.value });
               }}
             />
 
@@ -141,11 +138,15 @@ function Post() {
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue="female"
                       name="radio-buttons-group"
+                      value={post?.categoryId}
+                      onChange={handleChange}
                     >
                       <FormControlLabel
-                        value={data.name}
+                        value={data.id}
                         label={data.name}
-                        control={<Radio onChange={handleChange} />}
+                        control={
+                          <Radio checked={data.id === post?.categoryId} />
+                        }
                       />
                     </RadioGroup>
                   </>
@@ -156,33 +157,13 @@ function Post() {
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="female"
                 name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
+              ></RadioGroup>
             </FormControl>
             <App />
             {/* カテゴリグループ */}
-            <CategoryList />
-            {/* タググループ */}
-
-            <TagList />
           </Grid>
         </Grid>
-        <Button onClick={handleSubmit}>登録する</Button>
+        <Button onClick={() => handleSubmit}>更新する</Button>
       </Box>
     </DefaultLayout>
   );
