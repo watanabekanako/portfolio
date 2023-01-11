@@ -64,10 +64,7 @@ const PostList = () => {
             {post?.post?.map((data: any, index: any) => (
               <TableRow>
                 <TableCell align="left">
-                  <Link to={`/admin/posts/edit/${data.id}`}>
-                    {data.title}
-                    {data.id}
-                  </Link>
+                  <Link to={`/admin/posts/edit/${data.id}`}>{data.title}</Link>
                   <p>
                     <span>
                       <Link to={`/admin/posts/edit/${data.id}`}>編集する</Link>
