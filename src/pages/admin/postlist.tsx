@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DefaultLayout from "../../componets/layout/defaultlayout";
@@ -15,7 +14,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { mutate } from "swr";
+import { Button } from "@mui/material";
+import useSWR, { useSWRConfig } from "swr";
 const PostList = () => {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
@@ -24,17 +24,16 @@ const PostList = () => {
       }
     | undefined
   >();
+
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
-    axios.get("http://localhost:3000/posts").then((response) => {
-      setPost(response.data);
-    });
+    axios
+      .get("http://localhost:3000/posts?&perPage=10&category=")
+      .then((response) => {
+        setPost(response.data);
+      });
   }, []);
-  React.useEffect(() => {
-    axios.delete("http://localhost:3000/posts").then((response) => {
-      setPost(response.data);
-    });
-  }, []);
+
   const [value, setValue] = React.useState(0);
 
   return (
@@ -44,8 +43,13 @@ const PostList = () => {
       {/* 日付検索プルダウン */}
 
       {/* 検索機能 */}
-
-      <TableContainer component={Paper}>
+      <Typography>ブログ投稿一覧</Typography>
+      <Link to={`posts/add/`}>
+        <Button variant="contained" sx={{ my: 4 }}>
+          新規追加
+        </Button>
+      </Link>
+      <TableContainer component={Paper} sx={{ marginBottom: 12 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -68,11 +72,27 @@ const PostList = () => {
                     <span>
                       <Link to={`/admin/posts/edit/${data.id}`}>編集する</Link>
                     </span>
-                    <span>削除する</span>
+                    <Button
+                      onClick={() => {
+                        axios
+                          .delete(`http://localhost:3000/posts/${data.id}`)
+                          .then((response) => {
+                            axios
+                              .get(
+                                "http://localhost:3000/posts?&perPage=10&category="
+                              )
+                              .then((response) => {
+                                setPost(response.data);
+                              });
+                          });
+                      }}
+                    >
+                      削除する
+                    </Button>
                   </p>
                 </TableCell>
                 <TableCell align="right"> {data.author}</TableCell>
-                <TableCell align="right"> {data.categoryId}</TableCell>
+                <TableCell align="right"> {data.category.name}</TableCell>
                 <TableCell align="right"> {data.categoryId}</TableCell>
                 <TableCell align="right">
                   {moment(data.createdAt).format("YYYY年MM月DD日")}
