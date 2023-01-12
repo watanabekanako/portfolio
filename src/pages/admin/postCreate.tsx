@@ -15,7 +15,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import App from "../../componets/catchImg";
+import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 function PostCreate() {
   // idの取得
@@ -28,6 +28,7 @@ function PostCreate() {
         content?: string;
         createdAt?: number;
         categoryId?: number;
+        thumbnailUrl?: string;
       }
     | undefined
   >();
@@ -65,6 +66,7 @@ function PostCreate() {
     if (!post.title) {
     }
   };
+  console.log("ぽすと", post);
   // 登録するボタン
   const handleSubmit = () => {
     const errors = validate(post);
@@ -81,6 +83,7 @@ function PostCreate() {
         });
     }
   };
+
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -104,7 +107,7 @@ function PostCreate() {
             <Typography>タイトル</Typography>
             <TextField
               // エラーメッセージ
-              helperText={errors.title}
+              // helperText={errors.title}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
@@ -169,7 +172,12 @@ function PostCreate() {
                 name="radio-buttons-group"
               ></RadioGroup>
             </FormControl>
-            <App />
+            <CatchImg
+              value={post?.thumbnailUrl}
+              onChange={(e: any) => {
+                setPost({ ...post, thumbnailUrl: e.target.value });
+              }}
+            />
             {/* カテゴリグループ */}
           </Grid>
         </Grid>
