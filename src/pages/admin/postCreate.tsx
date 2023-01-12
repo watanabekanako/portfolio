@@ -31,7 +31,8 @@ function PostCreate() {
       }
     | undefined
   >();
-  // const [title, setTitle] = React.useState();
+  const [formErrors, setFormErrors] = useState({});
+
   React.useEffect(() => {
     if (id) {
       axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
@@ -59,14 +60,27 @@ function PostCreate() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
+  const validate = (post: any) => {
+    const errors = {};
+    if (!post.title) {
+    }
+  };
   // 登録するボタン
   const handleSubmit = () => {
-    axios.post(`http://localhost:3000/posts/`, { ...post }).then((response) => {
-      // 更新後の処理
-      alert("更新完了しました");
-    });
+    const errors = validate(post);
+    if (!post?.title) {
+      alert("タイトルを入力してください");
+    } else if (!post?.content) {
+      alert("ブログの内容を入力してください");
+    } else {
+      axios
+        .post(`http://localhost:3000/posts/`, { ...post })
+        .then((response) => {
+          // 更新後の処理
+          alert("更新完了しました");
+        });
+    }
   };
-  console.log(post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -89,11 +103,14 @@ function PostCreate() {
             </Box>
             <Typography>タイトル</Typography>
             <TextField
+              // エラーメッセージ
+              helperText={errors.title}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
               value={post?.title}
+              name="title"
               onChange={(e: any) => {
                 setPost({ ...post, title: e.target.value });
               }}
