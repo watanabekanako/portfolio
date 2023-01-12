@@ -174,8 +174,11 @@ function PostCreate() {
             </FormControl>
             <CatchImg
               value={post?.thumbnailUrl}
-              onChange={(e: any) => {
-                setPost({ ...post, thumbnailUrl: e.target.value });
+              onChange={(files: any) => {
+                setPost({
+                  ...post,
+                  thumbnailUrl: files.map((file: any) => file.path),
+                });
               }}
             />
             {/* カテゴリグループ */}
