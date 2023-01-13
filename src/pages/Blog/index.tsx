@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { WifiPassword } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 // interface TabPanelProps {
 //   children?: React.ReactNode;
 //   index: number;
@@ -37,9 +38,9 @@ export default function BlogList() {
   // http://localhost:3001/blog?page=1 これでページング１ページめの取得
   // http://localhost:3001/blog?page=2 これでページングの2ページ目の取得
   // カテゴリのときはpage=1をはずす
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page");
-  console.log("ページング", page);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const page = searchParams.get("page");
+  // console.log("ページング", page);
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -52,39 +53,38 @@ export default function BlogList() {
   // post?.post?.lengthで記事の数を出力
   console.log("post.pages", post?.pages);
 
-  const [value, setValue] = React.useState("");
-
-  const [paginate, setPaginate] = React.useState(1);
+  const [category, setCategory] = React.useState("");
+  const navigate = useNavigate();
+  const [paginate, setPaginate] = React.useState();
   const pageChange = (event: any, value: any) => {
-    setPaginate(value);
+    navigate(`/blog?page=${value}`);
   };
-  // React.useEffect(() => {
-  //   axios
-  //     // 下記URLのvalueにカテゴリidが入る
-  //     .get(
-  //       `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
-  //     )
-  //     .then((response) => {
-  //       setPost(response.data);
-  //     });
-  // }, [value, paginate]);
+  console.log("test");
   React.useEffect(() => {
     axios
-      // 下記URLのvalueにカテゴリidが入る
-      .get(`http://localhost:3000/posts?page=1&perPage=10`)
+      // 下記URLのcategoryにカテゴリidが入る
+      .get(`http://localhost:3000/posts?page=1&perPage=10&category=${category}`)
       .then((response) => {
         setPost(response.data);
       });
-  }, [page]);
-  console.log("value", value);
+  }, [category]);
+  // React.useEffect(() => {
+  //   axios
+  //     // 下記URLのvalueにカテゴリidが入る
+  //     .get(`http://localhost:3000/posts?page=1&perPage=10`)
+  //     .then((response) => {
+  //       setPost(response.data);
+  //     });
+  // }, []);
+
   // idの取得
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    setCategory(newValue);
   };
   // tabにて選択したカテゴリ名取れている
-  console.log("カテゴリの値", value);
+  console.log("カテゴリの値", category);
 
   return (
     <DefaultLayout>
@@ -98,7 +98,7 @@ export default function BlogList() {
           }}
         >
           <Tabs
-            value={value}
+            value={category}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -192,10 +192,6 @@ export default function BlogList() {
                   </CardContent>
                 </Card>
               </Link>
-              <div>
-                <Link to={`/blog?page=${page}`}>ページング1</Link>
-                <Link to="/blog?page=2">ページン2</Link>
-              </div>
             </Grid>
           );
         })}
