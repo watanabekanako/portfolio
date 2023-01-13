@@ -13,11 +13,12 @@ import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
 import TagList from "../../componets/tagList";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { WifiPassword } from "@mui/icons-material";
 // interface TabPanelProps {
 //   children?: React.ReactNode;
 //   index: number;
@@ -33,6 +34,12 @@ function a11yProps(index: number) {
   };
 }
 export default function BlogList() {
+  // http://localhost:3001/blog?page=1 これでページング１ページめの取得
+  // http://localhost:3001/blog?page=2 これでページングの2ページ目の取得
+  // カテゴリのときはpage=1をはずす
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page");
+  console.log("ページング", page);
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -51,16 +58,24 @@ export default function BlogList() {
   const pageChange = (event: any, value: any) => {
     setPaginate(value);
   };
+  // React.useEffect(() => {
+  //   axios
+  //     // 下記URLのvalueにカテゴリidが入る
+  //     .get(
+  //       `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
+  //     )
+  //     .then((response) => {
+  //       setPost(response.data);
+  //     });
+  // }, [value, paginate]);
   React.useEffect(() => {
     axios
       // 下記URLのvalueにカテゴリidが入る
-      .get(
-        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
-      )
+      .get(`http://localhost:3000/posts?page=1&perPage=10`)
       .then((response) => {
         setPost(response.data);
       });
-  }, [value, paginate]);
+  }, [page]);
   console.log("value", value);
   // idの取得
   const { id } = useParams();
@@ -177,6 +192,10 @@ export default function BlogList() {
                   </CardContent>
                 </Card>
               </Link>
+              <div>
+                <Link to={`/blog?page=${page}`}>ページング1</Link>
+                <Link to="/blog?page=2">ページン2</Link>
+              </div>
             </Grid>
           );
         })}
