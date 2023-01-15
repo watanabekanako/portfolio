@@ -20,6 +20,12 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
+import {WithContext as ReactTags} from "react-tag-input";
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
 
 type PostInput = {
   title?: string;
@@ -27,6 +33,10 @@ type PostInput = {
   content?: string;
   createdAt?: number;
   categoryId?: number;
+  tags?: {
+    id?: number;
+    name: string;
+  }[];
   thumbnailUrl?: string;
 };
 // keyof: オブジェクトのキーの配列
@@ -65,10 +75,20 @@ function PostCreate() {
       }
     | undefined
   >();
+
+  const tagURL = "http://localhost:3000/posts/tags";
+  const [tags, setTags] = React.useState<
+      | { id: number; name: string }[]
+      | undefined
+      >();
+
   React.useEffect(() => {
     axios.get(categoryURL).then((response) => {
       setCategory(response.data);
     });
+    axios.get(tagURL).then((response) => {
+      setTags(response.data.tags);
+    })
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
@@ -208,6 +228,32 @@ function PostCreate() {
                   {formErrors.categoryId}
                 </FormHelperText>
               </FormControl>
+              <Typography>タグ</Typography>
+              <ReactTags
+                  tags={post?.tags?.map((tag) => ({
+                    id: String(tag.id),
+                    text: tag.name,
+                  }))}
+                  suggestions={tags?.map((tag) => ({
+                    id: String(tag.id),
+                    text: tag.name,
+                  }))}
+                  delimiters={[KeyCodes.comma, KeyCodes.enter]}
+                  handleDelete={() => {
+
+                  }}
+                  handleAddition={() => {
+
+                  }}
+                  handleDrag={() => {
+
+                  }}
+                  handleTagClick={() => {
+
+                  }}
+                  inputFieldPosition="bottom"
+                  autocomplete
+              />
               <CatchImg
                   value={post?.thumbnailUrl}
                   onChange={(files: any) => {
