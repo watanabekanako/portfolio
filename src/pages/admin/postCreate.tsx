@@ -6,10 +6,7 @@ import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import CategoryList from "../../componets/categoryList";
 import TextField from "@mui/material/TextField";
-import { PostAddOutlined } from "@mui/icons-material";
-import TagList from "../../componets/tagList";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -86,24 +83,9 @@ function PostCreate() {
 
   return (
     <DefaultLayout>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, mt:2  }}>
         <Grid container spacing={2}>
           <Grid item xs={9}>
-            <Typography
-              component="span"
-              sx={{
-                marginTop: 10,
-                padding: "6px",
-                backgroundColor: "#fedcac",
-                display: "inline-block",
-                borderRadius: "14px",
-              }}
-            >
-              カテゴリ
-            </Typography>
-            <Box textAlign="right">
-              {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
-            </Box>
             <Typography>タイトル</Typography>
             <TextField
               // エラーメッセージ
@@ -120,6 +102,10 @@ function PostCreate() {
             />
             <Typography>内容</Typography>
             <TextField
+              // 複数行入力できるように
+              multiline
+              rows={10}
+              maxRows={10}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
@@ -129,64 +115,77 @@ function PostCreate() {
                 setPost({ ...post, content: e.target.value });
               }}
             />
-            <Box textAlign="center">
+            <Box
+                textAlign="center"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mt: 2,
+                  mb: 2,
+                  gap: 2
+                }}
+            >
               <Link to={`/admin`}>
                 <Button
-                  sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
+                  sx={{ backgroundColor: "#fedcac" }}
                   variant="contained"
                 >
                   一覧へ戻る
                 </Button>
               </Link>
+              <Button
+                  onClick={handleSubmit}
+                  variant={"contained"}
+              >更新する</Button>
             </Box>
           </Grid>
-          <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
-          <Grid item xs={2} sx={{ marginTop: 10 }}>
-            <FormLabel id="demo-radio-buttons-group-label">カテゴリ</FormLabel>
-            <FormControl>
-              {category?.categories.map((data) => {
-                return (
-                  <>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="female"
-                      name="radio-buttons-group"
-                      value={post?.categoryId}
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel
-                        value={data.id}
-                        label={data.name}
-                        control={
-                          <Radio checked={data.id === post?.categoryId} />
-                        }
-                      />
-                    </RadioGroup>
-                  </>
-                );
-              })}
+          <Grid item xs={3} sx={{ marginTop: 4 }}>
+            <Paper sx={{p:2}}>
+              <FormLabel id="demo-radio-buttons-group-label">カテゴリ</FormLabel>
+              <FormControl>
+                {category?.categories.map((data) => {
+                  return (
+                      <>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="female"
+                            name="radio-buttons-group"
+                            value={post?.categoryId}
+                            onChange={handleChange}
+                        >
+                          <FormControlLabel
+                              value={data.id}
+                              label={data.name}
+                              control={
+                                <Radio checked={data.id === post?.categoryId} />
+                              }
+                          />
+                        </RadioGroup>
+                      </>
+                  );
+                })}
 
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              ></RadioGroup>
-            </FormControl>
-            <CatchImg
-              value={post?.thumbnailUrl}
-              onChange={(files: any) => {
-                setPost({
-                  ...post,
-                  thumbnailUrl: files.map((file: any) =>
-                    file.map((v: any) => v.path)
-                  ),
-                });
-              }}
-            />
-            {/* カテゴリグループ */}
+                <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group"
+                ></RadioGroup>
+              </FormControl>
+              <CatchImg
+                  value={post?.thumbnailUrl}
+                  onChange={(files: any) => {
+                    setPost({
+                      ...post,
+                      thumbnailUrl: files.map((file: any) =>
+                          file.map((v: any) => v.path)
+                      ),
+                    });
+                  }}
+              />
+            </Paper>
           </Grid>
         </Grid>
-        <Button onClick={handleSubmit}>更新する</Button>
       </Box>
     </DefaultLayout>
   );
