@@ -15,31 +15,32 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import App from "../../componets/catchImg";
-
+import CatchImg from "../../componets/catchImg";
+import { Link } from "react-router-dom";
 function PostCreate() {
-  // やりたいこと
-  // post にセットされているのは、既存のデータ。
-  // これを編集
+  // idの取得
+  const { id } = useParams();
+
   const [post, setPost] = React.useState<
     | {
-        post: {
-          id: number;
-          title: string;
-          description: string;
-          content: string;
-          createdAt: number;
-        };
+        title?: string;
+        description?: string;
+        content?: string;
+        createdAt?: number;
+        categoryId?: number;
+        thumbnailUrl?: string;
       }
     | undefined
   >();
-  console.log("ポスト", post);
-  // 登録するボタン
-  const handleSubmit = () => {
-    axios.post(`http://localhost:3000/posts`).then((response) => {
-      setPost(response.data);
-    });
-  };
+  const [formErrors, setFormErrors] = useState({});
+
+  React.useEffect(() => {
+    if (id) {
+      axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
+        setPost(response.data?.post);
+      });
+    }
+  }, []);
 
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   const categoryURL = "http://localhost:3000/posts/categories";
@@ -56,9 +57,33 @@ function PostCreate() {
     });
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    alert("チェック状態が変更されました");
+    if (event.target.value) {
+      setPost({ ...post, categoryId: Number(event.target.value) });
+    }
   };
-  console.log("post", post);
+  const validate = (post: any) => {
+    const errors = {};
+    if (!post.title) {
+    }
+  };
+  console.log("ぽすと", post);
+  // 登録するボタン
+  const handleSubmit = () => {
+    const errors = validate(post);
+    if (!post?.title) {
+      alert("タイトルを入力してください");
+    } else if (!post?.content) {
+      alert("ブログの内容を入力してください");
+    } else {
+      axios
+        .post(`http://localhost:3000/posts/`, { ...post })
+        .then((response) => {
+          // 更新後の処理
+          alert("更新完了しました");
+        });
+    }
+  };
+
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1 }}>
@@ -79,37 +104,40 @@ function PostCreate() {
             <Box textAlign="right">
               {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
             </Box>
+            <Typography>タイトル</Typography>
             <TextField
+              // エラーメッセージ
+              // helperText={errors.title}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
-              // valueで現在の値を取得
-              value={post}
+              value={post?.title}
+              name="title"
               onChange={(e: any) => {
-                setPost(e.target.value);
+                setPost({ ...post, title: e.target.value });
               }}
             />
-            {/* 
+            <Typography>内容</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 600 }}
-              // valueで現在の値を取得
-              value={title}
+              value={post?.content}
               onChange={(e: any) => {
-                setTitle(e.target.value);
+                setPost({ ...post, content: e.target.value });
               }}
-            /> */}
-
+            />
             <Box textAlign="center">
-              {/* <Button
-                sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
-                variant="contained"
-              >
-                一覧へ戻る
-              </Button> */}
+              <Link to={`/admin`}>
+                <Button
+                  sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
+                  variant="contained"
+                >
+                  一覧へ戻る
+                </Button>
+              </Link>
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
@@ -123,11 +151,15 @@ function PostCreate() {
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue="female"
                       name="radio-buttons-group"
+                      value={post?.categoryId}
+                      onChange={handleChange}
                     >
                       <FormControlLabel
-                        value={data.name}
+                        value={data.id}
                         label={data.name}
-                        control={<Radio onChange={handleChange} />}
+                        control={
+                          <Radio checked={data.id === post?.categoryId} />
+                        }
                       />
                     </RadioGroup>
                   </>
@@ -138,37 +170,26 @@ function PostCreate() {
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="female"
                 name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
+              ></RadioGroup>
             </FormControl>
-            <App />
+            <CatchImg
+              value={post?.thumbnailUrl}
+              onChange={(files: any) => {
+                setPost({
+                  ...post,
+                  thumbnailUrl: files.map((file: any) =>
+                    file.map((v: any) => v.path)
+                  ),
+                });
+              }}
+            />
             {/* カテゴリグループ */}
-            <CategoryList />
-            {/* タググループ */}
-
-            <TagList />
           </Grid>
         </Grid>
-        <Button onClick={handleSubmit}>登録する</Button>
+        <Button onClick={handleSubmit}>更新する</Button>
       </Box>
     </DefaultLayout>
   );
 }
 
 export default PostCreate;
-// http://localhost:3000/posts

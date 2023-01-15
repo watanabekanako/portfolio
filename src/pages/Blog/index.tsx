@@ -13,16 +13,13 @@ import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
 import TagList from "../../componets/tagList";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-// interface TabPanelProps {
-//   children?: React.ReactNode;
-//   index: number;
-//   value: number;
-// }
+import { WifiPassword } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 // ブログ一覧ページ
 // カテゴリタブ
@@ -33,6 +30,9 @@ function a11yProps(index: number) {
   };
 }
 export default function BlogList() {
+  // http://localhost:3001/blog?page=1 これでページング１ページ目の取得
+  // http://localhost:3001/blog?page=2 これでページングの2ページ目の取得
+
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -44,32 +44,41 @@ export default function BlogList() {
   >();
   // post?.post?.lengthで記事の数を出力
   console.log("post.pages", post?.pages);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page");
+  console.log("page", page);
 
-  const [value, setValue] = React.useState("");
+  const navigate = useNavigate();
+  const [paginate, setPaginate] = React.useState(page);
+  const [category, setCategory] = React.useState("");
 
-  const [paginate, setPaginate] = React.useState(1);
   const pageChange = (event: any, value: any) => {
+    navigate(`/blog?page=${value}&category=${category}`);
+    setCategory(category);
     setPaginate(value);
   };
+
+  console.log("category", category);
   React.useEffect(() => {
     axios
-      // 下記URLのvalueにカテゴリidが入る
+      // 下記URLのcategoryにカテゴリidが入る
       .get(
-        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${value}`
+        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${category}`
       )
       .then((response) => {
         setPost(response.data);
       });
-  }, [value, paginate]);
-  console.log("value", value);
+  }, [category, paginate]);
+
   // idの取得
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    navigate(`/blog?page=1&category=${category}`);
+    setCategory(newValue);
   };
   // tabにて選択したカテゴリ名取れている
-  console.log("カテゴリの値", value);
+  console.log("カテゴリの値", category);
 
   return (
     <DefaultLayout>
@@ -83,7 +92,7 @@ export default function BlogList() {
           }}
         >
           <Tabs
-            value={value}
+            value={category}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
