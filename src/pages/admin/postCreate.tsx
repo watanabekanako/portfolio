@@ -44,6 +44,10 @@ type PostInput = {
 // Partial: オブジェクトを全てoptionalにする
 type PostErrors = Partial<Record<keyof PostInput, string>>;
 
+function isNumber(value: any): boolean {
+  return !Number.isNaN(parseInt(value));
+}
+
 function PostCreate() {
   // idの取得
   const { id } = useParams();
@@ -130,6 +134,7 @@ function PostCreate() {
           })
     }
   };
+  console.log(post)
 
   return (
     <DefaultLayout>
@@ -239,17 +244,35 @@ function PostCreate() {
                     text: tag.name,
                   }))}
                   delimiters={[KeyCodes.comma, KeyCodes.enter]}
-                  handleDelete={() => {
-
+                  handleDelete={(index) => {
+                    setPost({
+                      ...post,
+                      tags: post?.tags?.filter((tag, i) => i !== index),
+                    });
                   }}
-                  handleAddition={() => {
-
+                  handleAddition={(value) => {
+                    setPost({
+                      ...post,
+                      tags: [
+                        ...post?.tags ?? [],
+                        {
+                          id: isNumber(value.id) ? Number(value.id) : undefined,
+                          name: value.text,
+                        }
+                      ]
+                    });
                   }}
-                  handleDrag={() => {
-
-                  }}
-                  handleTagClick={() => {
-
+                  handleDrag={(tag, currPos, newPos) => {
+                    const tags = [...(post?.tags ?? [])];
+                    tags.splice(currPos, 1);
+                    tags.splice(newPos, 0, {
+                      id: Number(tag.id),
+                      name: tag.text,
+                    });
+                    setPost({
+                      ...post,
+                      tags,
+                    });
                   }}
                   inputFieldPosition="bottom"
                   autocomplete
