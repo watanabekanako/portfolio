@@ -3,7 +3,13 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DefaultLayout from "../../componets/layout/defaultlayout";
-import {Button, FormHelperText, Typography} from "@mui/material";
+import {
+  Alert,
+  Button,
+  FormHelperText,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
@@ -37,6 +43,10 @@ function PostCreate() {
     | undefined
   >();
   const [formErrors, setFormErrors] = useState<PostErrors>({});
+
+  const [snackMessage, setSnackMessage] = useState<string | undefined>();
+  const [snackSeverity, setSnackSeverity] = useState<"success" | "error" | undefined>("success");
+
 
   React.useEffect(() => {
     if (id) {
@@ -87,12 +97,17 @@ function PostCreate() {
     setFormErrors(errors);
     // errorsの中に何もエラーが設定されていなければリクエスト
     if (Object.keys(errors).length === 0) {
-      axios
+        axios
           .post(`http://localhost:3000/posts/`, { ...post })
           .then((response) => {
-            // 更新後の処理
-            alert("更新完了しました");
-          });
+            // 成功時の処理
+            setSnackSeverity("success");
+            setSnackMessage("投稿が完了しました。");
+          })
+          .catch((e) => {
+            setSnackSeverity("error");
+            setSnackMessage("投稿が失敗しました。");
+          })
     }
   };
 
@@ -208,6 +223,21 @@ function PostCreate() {
           </Grid>
         </Grid>
       </Box>
+      <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          open={Boolean(snackMessage)}
+          autoHideDuration={5000}
+          onClose={() => {
+            setSnackMessage(undefined);
+          }}
+      >
+        <Alert severity={snackSeverity}>
+          {snackMessage}
+        </Alert>
+      </Snackbar>
     </DefaultLayout>
   );
 }
