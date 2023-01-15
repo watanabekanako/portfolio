@@ -16,6 +16,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path={`/`} element={<Top />} />
+        {/* ブログ一覧ページ */}
         <Route path={`/blog`} element={<BlogList />} />
         <Route path={`/blog/blog`} element={<Blog />} />
         <Route path={`/admin/`} element={<PostList />} />

@@ -49,7 +49,7 @@ function CatchImg(props: any) {
   });
   useEffect(() => {
     if (props.onChange) {
-      props.onChange(files.map((file: any) => file));
+      props.onChange(files);
     }
   }, [files]);
   const thumbs = files.map((file: any) => (
