@@ -74,8 +74,11 @@ export default function BlogList() {
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    // urlのセット
     navigate(`/blog?page=1&category=${category}`);
+    // データ取得のセット
     setCategory(newValue);
+    setPaginate(String(1));
   };
   // tabにて選択したカテゴリ名取れている
   console.log("カテゴリの値", category);
@@ -197,6 +200,7 @@ export default function BlogList() {
           count={post?.pages}
           // page={post?.totalCount}
           onChange={pageChange}
+          page={Number(paginate)}
         />
       </Stack>
       <Grid container spacing={2}>
