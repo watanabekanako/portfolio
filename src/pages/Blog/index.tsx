@@ -74,6 +74,7 @@ export default function BlogList() {
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    navigate(`/blog?page=1&category=${category}`);
     setCategory(newValue);
   };
   // tabにて選択したカテゴリ名取れている

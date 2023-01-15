@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import useSWR, { useSWRConfig } from "swr";
+
 const PostList = () => {
   const style = {
     position: "absolute" as "absolute",
@@ -103,40 +103,42 @@ const PostList = () => {
                       削除する
                     </Button>
                   </p>
-                  <Button onClick={handleOpen}>削除する２</Button>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={style}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                      >
-                        削除しますか？
-                      </Typography>
-                      <Button
-                        onClick={() => {
-                          axios
-                            .delete(`http://localhost:3000/posts/${data.id}`)
-                            .then((response) => {
-                              axios
-                                .get(
-                                  "http://localhost:3000/posts?&perPage=10&category="
-                                )
-                                .then((response) => {
-                                  setPost(response.data);
-                                });
-                            });
-                        }}
-                      >
-                        削除する
-                      </Button>
-                    </Box>
-                  </Modal>
+                  <div>
+                    <Button onClick={handleOpen}>削除する２</Button>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Typography
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
+                        >
+                          削除しますか？
+                        </Typography>
+                        <Button
+                          onClick={() => {
+                            axios
+                              .delete(`http://localhost:3000/posts/${data.id}`)
+                              .then((response) => {
+                                axios
+                                  .get(
+                                    "http://localhost:3000/posts?&perPage=10&category="
+                                  )
+                                  .then((response) => {
+                                    setPost(response.data);
+                                  });
+                              });
+                          }}
+                        >
+                          削除する
+                        </Button>
+                      </Box>
+                    </Modal>
+                  </div>
                 </TableCell>
                 <TableCell align="right"> {data.author}</TableCell>
                 <TableCell align="right"> {data.category.name}</TableCell>

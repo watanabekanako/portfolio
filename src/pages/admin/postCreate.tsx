@@ -177,7 +177,9 @@ function PostCreate() {
               onChange={(files: any) => {
                 setPost({
                   ...post,
-                  thumbnailUrl: files.map((file: any) => file.path),
+                  thumbnailUrl: files.map((file: any) =>
+                    file.map((v: any) => v.path)
+                  ),
                 });
               }}
             />

@@ -16,13 +16,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
-
+import { Link } from "react-router-dom";
 function Post() {
   // idの取得
   const { id } = useParams();
-  // やりたいこと
-  // post にセットされているのは、既存のデータ。
-  // これを編集
 
   const [post, setPost] = React.useState<
     | {
@@ -68,7 +65,8 @@ function Post() {
     axios
       .put(`http://localhost:3000/posts/${id}`, { ...post })
       .then((response) => {
-        alert("更新しました");
+        // 更新後の処理
+        alert("更新完了しました");
       });
   };
   console.log(post);
@@ -104,6 +102,7 @@ function Post() {
                 setPost({ ...post, title: e.target.value });
               }}
             />
+            <Typography>内容</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
@@ -115,14 +114,15 @@ function Post() {
                 setPost({ ...post, content: e.target.value });
               }}
             />
-
             <Box textAlign="center">
-              <Button
-                sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
-                variant="contained"
-              >
-                一覧へ戻る
-              </Button>
+              <Link to={`/admin`}>
+                <Button
+                  sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
+                  variant="contained"
+                >
+                  一覧へ戻る
+                </Button>
+              </Link>
             </Box>
           </Grid>
           <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
