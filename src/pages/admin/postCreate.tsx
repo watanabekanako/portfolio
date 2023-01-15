@@ -10,7 +10,7 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -51,6 +51,7 @@ function isNumber(value: any): boolean {
 function PostCreate() {
   // idの取得
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [post, setPost] = React.useState<
     | PostInput
@@ -124,9 +125,11 @@ function PostCreate() {
         axios
           .post(`http://localhost:3000/posts/`, { ...post })
           .then((response) => {
+            const {post} = response.data;
             // 成功時の処理
             setSnackSeverity("success");
             setSnackMessage("投稿が完了しました。");
+            navigate(`/blog/${post.id}`);
           })
           .catch((e) => {
             setSnackSeverity("error");
@@ -134,7 +137,6 @@ function PostCreate() {
           })
     }
   };
-  console.log(post)
 
   return (
     <DefaultLayout>
