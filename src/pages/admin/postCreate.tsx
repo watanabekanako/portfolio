@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DefaultLayout from "../../componets/layout/defaultlayout";
-import { Button, Typography } from "@mui/material";
+import {Button, FormHelperText, Typography} from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
@@ -14,22 +14,29 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
+
+type PostInput = {
+  title?: string;
+  description?: string;
+  content?: string;
+  createdAt?: number;
+  categoryId?: number;
+  thumbnailUrl?: string;
+};
+// keyof: オブジェクトのキーの配列
+// Record: <配列のキーの型, valueの型>
+// Partial: オブジェクトを全てoptionalにする
+type PostErrors = Partial<Record<keyof PostInput, string>>;
+
 function PostCreate() {
   // idの取得
   const { id } = useParams();
 
   const [post, setPost] = React.useState<
-    | {
-        title?: string;
-        description?: string;
-        content?: string;
-        createdAt?: number;
-        categoryId?: number;
-        thumbnailUrl?: string;
-      }
+    | PostInput
     | undefined
   >();
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState<PostErrors>({});
 
   React.useEffect(() => {
     if (id) {
@@ -58,26 +65,34 @@ function PostCreate() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
+
+  // 全項目のエラーを確認してエラーオブジェクトを返す関数
   const validate = (post: any) => {
-    const errors = {};
+    const errors: PostErrors = {};
     if (!post.title) {
+      errors.title = "タイトルを入力してください。";
     }
+    if (!post.content) {
+      errors.content = "内容を入力してください。";
+    }
+    if (!post.categoryId) {
+      errors.categoryId = "カテゴリを選択してください。";
+    }
+    return errors;
   };
   console.log("ぽすと", post);
   // 登録するボタン
   const handleSubmit = () => {
     const errors = validate(post);
-    if (!post?.title) {
-      alert("タイトルを入力してください");
-    } else if (!post?.content) {
-      alert("ブログの内容を入力してください");
-    } else {
+    setFormErrors(errors);
+    // errorsの中に何もエラーが設定されていなければリクエスト
+    if (Object.keys(errors).length === 0) {
       axios
-        .post(`http://localhost:3000/posts/`, { ...post })
-        .then((response) => {
-          // 更新後の処理
-          alert("更新完了しました");
-        });
+          .post(`http://localhost:3000/posts/`, { ...post })
+          .then((response) => {
+            // 更新後の処理
+            alert("更新完了しました");
+          });
     }
   };
 
@@ -99,6 +114,8 @@ function PostCreate() {
               onChange={(e: any) => {
                 setPost({ ...post, title: e.target.value });
               }}
+              error={Boolean(formErrors.title)}
+              helperText={formErrors.title}
             />
             <Typography>内容</Typography>
             <TextField
@@ -114,6 +131,8 @@ function PostCreate() {
               onChange={(e: any) => {
                 setPost({ ...post, content: e.target.value });
               }}
+              error={Boolean(formErrors.content)}
+              helperText={formErrors.content}
             />
             <Box
                 textAlign="center"
@@ -170,12 +189,9 @@ function PostCreate() {
                       </>
                   );
                 })}
-
-                <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                ></RadioGroup>
+                <FormHelperText error={Boolean(formErrors.categoryId)}>
+                  {formErrors.categoryId}
+                </FormHelperText>
               </FormControl>
               <CatchImg
                   value={post?.thumbnailUrl}
