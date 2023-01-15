@@ -142,7 +142,12 @@ function PostCreate() {
           </Grid>
           <Grid item xs={3} sx={{ marginTop: 4 }}>
             <Paper sx={{p:2}}>
-              <FormLabel id="demo-radio-buttons-group-label">カテゴリ</FormLabel>
+              <FormLabel
+                  id="demo-radio-buttons-group-label"
+                  sx={{display: "block"}}
+              >
+                カテゴリ
+              </FormLabel>
               <FormControl>
                 {category?.categories.map((data) => {
                   return (
