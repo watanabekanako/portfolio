@@ -72,21 +72,9 @@ function Post() {
   console.log(post);
   return (
     <DefaultLayout>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, mt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={9}>
-            <Typography
-              component="span"
-              sx={{
-                marginTop: 10,
-                padding: "6px",
-                backgroundColor: "#fedcac",
-                display: "inline-block",
-                borderRadius: "14px",
-              }}
-            >
-              カテゴリ
-            </Typography>
             <Box textAlign="right">
               {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
             </Box>
@@ -102,8 +90,24 @@ function Post() {
                 setPost({ ...post, title: e.target.value });
               }}
             />
+            <Typography>description</Typography>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              margin="dense"
+              sx={{ width: 600 }}
+              // valueで現在の値を取得
+              value={post?.description}
+              onChange={(e: any) => {
+                setPost({ ...post, description: e.target.value });
+              }}
+            />
             <Typography>内容</Typography>
             <TextField
+              // 複数行入力できるように
+              multiline
+              rows={10}
+              maxRows={10}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
@@ -114,54 +118,69 @@ function Post() {
                 setPost({ ...post, content: e.target.value });
               }}
             />
-            <Box textAlign="center">
+            <Box
+              textAlign="center"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 2,
+                mb: 2,
+                gap: 2,
+              }}
+            >
               <Link to={`/admin`}>
-                <Button
-                  sx={{ marginTop: 6, backgroundColor: "#fedcac" }}
-                  variant="contained"
-                >
+                <Button sx={{ backgroundColor: "#fedcac" }} variant="contained">
                   一覧へ戻る
                 </Button>
               </Link>
+              <Button onClick={handleSubmit} variant={"contained"}>
+                更新する
+              </Button>
             </Box>
           </Grid>
-          <Grid item xs={1} sx={{ marginTop: 10 }}></Grid>
-          <Grid item xs={2} sx={{ marginTop: 10 }}>
-            <FormLabel id="demo-radio-buttons-group-label">カテゴリ</FormLabel>
-            <FormControl>
-              {category?.categories.map((data) => {
-                return (
-                  <>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="female"
-                      name="radio-buttons-group"
-                      value={post?.categoryId}
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel
-                        value={data.id}
-                        label={data.name}
-                        control={
-                          <Radio checked={data.id === post?.categoryId} />
-                        }
-                      />
-                    </RadioGroup>
-                  </>
-                );
-              })}
+          <Grid item xs={3} sx={{ marginTop: 4 }}>
+            <Paper sx={{ p: 2 }}>
+              <FormLabel
+                id="demo-radio-buttons-group-label"
+                sx={{ display: "block" }}
+              >
+                カテゴリ
+              </FormLabel>
+              <FormControl>
+                {category?.categories.map((data) => {
+                  return (
+                    <>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        value={post?.categoryId}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          value={data.id}
+                          label={data.name}
+                          control={
+                            <Radio checked={data.id === post?.categoryId} />
+                          }
+                        />
+                      </RadioGroup>
+                    </>
+                  );
+                })}
 
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              ></RadioGroup>
-            </FormControl>
-            <App />
-            {/* カテゴリグループ */}
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                ></RadioGroup>
+              </FormControl>
+              <App />
+              {/* カテゴリグループ */}
+            </Paper>
           </Grid>
         </Grid>
-        <Button onClick={handleSubmit}>更新する</Button>
       </Box>
     </DefaultLayout>
   );
