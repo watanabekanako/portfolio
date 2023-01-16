@@ -320,7 +320,7 @@ function Top() {
         })} */}
       </Container>
       <Box textAlign="center">
-        <Link to={`/blog`}>
+        <Link to={`/blog?page=1&category=1`}>
           <Button
             sx={{ margin: 6, backgroundColor: "#53a4d6" }}
             variant="contained"
