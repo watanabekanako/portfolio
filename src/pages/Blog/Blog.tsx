@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
+
 function Blog() {
   const [post, setPost] = React.useState<
     | {
@@ -47,7 +48,7 @@ function Blog() {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
-  }, []);
+  }, [post]);
   console.log("ぽすと", post?.post);
   // React.useEffect(() => {
   //   axios
@@ -120,7 +121,7 @@ function Blog() {
             <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.post.title}</Paper>
 
             <Paper sx={{ marginTop: 6, padding: 2 }}>
-              <div>ユーザーID： {id}です </div>
+              {/* <div>ユーザーID： {id}です </div> */}
               {post?.post.content}
             </Paper>
             <Box textAlign="center">

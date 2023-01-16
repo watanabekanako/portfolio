@@ -125,10 +125,10 @@ function PostCreate() {
     }
     return errors;
   };
-  console.log("ぽすと", post);
   // 登録するボタン
   const handleSubmit = () => {
     const errors = validate(post);
+    console.log("error", errors);
     setFormErrors(errors);
     // errorsの中に何もエラーが設定されていなければリクエスト
     if (Object.keys(errors).length === 0) {
