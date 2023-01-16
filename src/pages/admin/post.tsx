@@ -18,6 +18,19 @@ import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 function Post() {
+  type PostInput = {
+    title?: string;
+    description?: string;
+    content?: string;
+    createdAt?: number;
+    categoryId?: number;
+    tags?: {
+      id?: number;
+      name: string;
+    }[];
+    thumbnailUrl?: string;
+  };
+  type PostErrors = Partial<Record<keyof PostInput, string>>;
   // idの取得
   const { id } = useParams();
 
@@ -32,7 +45,9 @@ function Post() {
       }
     | undefined
   >();
-  // const [title, setTitle] = React.useState();
+
+  // エラーがはいってくる場所
+  const [formErrors, setFormErrors] = React.useState<PostErrors>({});
   React.useEffect(() => {
     if (id) {
       axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
@@ -60,13 +75,29 @@ function Post() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
+
+  const validate = (post: any) => {
+    const errors: PostErrors = {};
+    if (!post.title) {
+      errors.title = "タイトルを入力してください";
+    }
+    if (!post.description) {
+      errors.description = "descriptionを入力してください";
+    }
+    if (!post.content) {
+      errors.content = "contentを入力してください";
+    }
+    return errors;
+  };
   // 登録するボタン
   const handleSubmit = () => {
+    const errors = validate(post);
     axios
       .put(`http://localhost:3000/posts/${id}`, { ...post })
       .then((response) => {
         // 更新後の処理
-        alert("更新完了しました");
+        setFormErrors(errors);
+        // alert("更新完了しました");
       });
   };
   console.log(post);
@@ -89,6 +120,8 @@ function Post() {
               onChange={(e: any) => {
                 setPost({ ...post, title: e.target.value });
               }}
+              helperText={formErrors.title}
+              error={Boolean(formErrors.title)}
             />
             <Typography>description</Typography>
             <TextField
@@ -101,6 +134,8 @@ function Post() {
               onChange={(e: any) => {
                 setPost({ ...post, description: e.target.value });
               }}
+              helperText={formErrors.description}
+              error={Boolean(formErrors.description)}
             />
             <Typography>内容</Typography>
             <TextField
@@ -117,6 +152,8 @@ function Post() {
               onChange={(e: any) => {
                 setPost({ ...post, content: e.target.value });
               }}
+              helperText={formErrors.content}
+              error={Boolean(formErrors.content)}
             />
             <Box
               textAlign="center"
@@ -169,7 +206,6 @@ function Post() {
                     </>
                   );
                 })}
-
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="female"
