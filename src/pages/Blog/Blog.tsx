@@ -124,7 +124,7 @@ function Blog() {
               {post?.post.content}
             </Paper>
             <Box textAlign="center">
-              <Link to={`/blog`}>
+              <Link to={`/blog?page=1&category=1`}>
                 <Button
                   sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
                   variant="contained"
@@ -132,7 +132,6 @@ function Blog() {
                   一覧へ戻る
                 </Button>
               </Link>
-              {/* /* <ButtonOrange /> */}
             </Box>
             <Typography>おすすめの記事</Typography>
             <Grid container spacing={2} sx={{ my: 8 }}>
