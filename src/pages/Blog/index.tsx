@@ -171,13 +171,24 @@ export default function BlogList() {
                     >
                       {data?.category?.name}
                     </Typography>
-
-                    <Typography component="span">
-                      {data.tags.map((tag: any, index: any) => {
-                        return tag.name;
-                      })}
-                    </Typography>
-
+                    {/* タグがない場合は非表示にする制御 */}
+                    {data.tags.length ? (
+                      <Typography
+                        component="p"
+                        sx={{
+                          padding: "6px",
+                          backgroundColor: "#f2809e",
+                          display: "inline-block",
+                          borderRadius: "16px",
+                          color: "#fff",
+                          marginRight: 2,
+                        }}
+                      >
+                        {data.tags.map((tag: any, index: any) => {
+                          return tag.name;
+                        })}
+                      </Typography>
+                    ) : null}
                     <Typography component="div">
                       <Typography
                         variant="h6"
