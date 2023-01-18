@@ -17,6 +17,16 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
 import { Link } from "react-router-dom";
+import { WithContext as ReactTags } from "react-tag-input";
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
+function isNumber(value: any): boolean {
+  return !Number.isNaN(parseInt(value));
+}
 function Post() {
   type PostInput = {
     title?: string;
@@ -34,16 +44,10 @@ function Post() {
   // idの取得
   const { id } = useParams();
 
-  const [post, setPost] = React.useState<
-    | {
-        id?: number;
-        title?: string;
-        description?: string;
-        content?: string;
-        createdAt?: number;
-        categoryId?: number;
-      }
-    | undefined
+  const [post, setPost] = React.useState<PostInput | undefined | undefined>();
+
+  const [tags, setTags] = React.useState<
+    { id: number; name: string }[] | undefined
   >();
 
   // エラーがはいってくる場所
@@ -58,6 +62,7 @@ function Post() {
 
   //   その取得したIDをURLのに入れる→投稿データ取得できる
   const categoryURL = "http://localhost:3000/posts/categories";
+  const tagURL = "http://localhost:3000/posts/tags";
   // カテゴリをエンドポイントからaxiosにて取得
   const [category, setCategory] = React.useState<
     | {
@@ -68,6 +73,9 @@ function Post() {
   React.useEffect(() => {
     axios.get(categoryURL).then((response) => {
       setCategory(response.data);
+    });
+    axios.get(tagURL).then((response) => {
+      setTags(response.data.tags);
     });
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,15 +100,20 @@ function Post() {
   // 登録するボタン
   const handleSubmit = () => {
     const errors = validate(post);
-    axios
-      .put(`http://localhost:3000/posts/${id}`, { ...post })
-      .then((response) => {
-        // 更新後の処理
-        setFormErrors(errors);
-        // alert("更新完了しました");
-      });
+    setFormErrors(errors);
+    if (Object.keys(errors)) {
+      axios
+        .put(`http://localhost:3000/posts/${id}`, { ...post })
+        .then((response) => {
+          // 更新後の処理
+          const { post } = response.data;
+          alert("更新完了");
+        })
+        .catch((e) => {});
+    }
   };
-  console.log(post);
+
+  console.log("post", post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1, mt: 2 }}>
@@ -212,6 +225,49 @@ function Post() {
                   name="radio-buttons-group"
                 ></RadioGroup>
               </FormControl>
+              <ReactTags
+                tags={post?.tags?.map((tag) => ({
+                  id: String(tag.id),
+                  text: tag.name,
+                }))}
+                suggestions={tags?.map((tag) => ({
+                  id: String(tag.id),
+                  text: tag.name,
+                }))}
+                delimiters={[KeyCodes.comma, KeyCodes.enter]}
+                handleDelete={(index) => {
+                  setPost({
+                    ...post,
+                    tags: post?.tags?.filter((tag, i) => i !== index),
+                  });
+                }}
+                handleAddition={(value) => {
+                  setPost({
+                    ...post,
+                    tags: [
+                      ...(post?.tags ?? []),
+                      {
+                        id: isNumber(value.id) ? Number(value.id) : undefined,
+                        name: value.text,
+                      },
+                    ],
+                  });
+                }}
+                handleDrag={(tag, currPos, newPos) => {
+                  const tags = [...(post?.tags ?? [])];
+                  tags.splice(currPos, 1);
+                  tags.splice(newPos, 0, {
+                    id: Number(tag.id),
+                    name: tag.text,
+                  });
+                  setPost({
+                    ...post,
+                    tags,
+                  });
+                }}
+                inputFieldPosition="bottom"
+                autocomplete
+              />
               <App />
               {/* カテゴリグループ */}
             </Paper>
