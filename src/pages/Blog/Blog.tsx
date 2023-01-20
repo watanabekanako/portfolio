@@ -103,10 +103,13 @@ function Blog() {
                 component="span"
                 sx={{
                   marginTop: 10,
-                  padding: "6px",
-                  backgroundColor: "#f2809e",
+                  backgroundColor: "#53a4d6 ",
+                  color: "#fff",
                   display: "inline-block",
                   borderRadius: "14px",
+                  mr: 2,
+                  px: "10px",
+                  py: "4px",
                 }}
               >
                 {data.name}
@@ -167,7 +170,10 @@ function Blog() {
                           {data?.category?.name}
                         </Typography>
 
-                        <Typography component="span">
+                        <Typography
+                          component="span"
+                          sx={{ backgroundColor: "#53a4d6" }}
+                        >
                           {data.tags.map((tag: any, index: any) => {
                             return tag.name;
                           })}

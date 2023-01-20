@@ -9,6 +9,7 @@ import Post from "./pages/admin/post";
 import Category from "./pages/category";
 import Tag from "./pages/tag";
 import PostCreate from "./pages/admin/postCreate";
+import theme from "./theme";
 // 動的ルーティング
 
 const App = () => {

@@ -150,7 +150,7 @@ function PostCreate() {
 
   return (
     <DefaultLayout>
-      <Box sx={{ flexGrow: 1, mt: 2 }}>
+      <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
         <Grid container spacing={2}>
           <Grid item xs={9}>
             <Typography>タイトル</Typography>
@@ -160,7 +160,7 @@ function PostCreate() {
               id="outlined-basic"
               variant="outlined"
               margin="dense"
-              sx={{ width: 600 }}
+              sx={{ width: 1 }}
               value={post?.title}
               name="title"
               onChange={(e: any) => {
@@ -174,7 +174,7 @@ function PostCreate() {
               id="outlined-basic"
               variant="outlined"
               margin="dense"
-              sx={{ width: 600 }}
+              sx={{ width: 1 }}
               value={post?.description}
               onChange={(e: any) => {
                 setPost({ ...post, description: e.target.value });
@@ -191,7 +191,7 @@ function PostCreate() {
               id="outlined-basic"
               variant="outlined"
               margin="dense"
-              sx={{ width: 600 }}
+              sx={{ width: 1 }}
               value={post?.content}
               onChange={(e: any) => {
                 setPost({ ...post, content: e.target.value });
@@ -215,7 +215,11 @@ function PostCreate() {
                   一覧へ戻る
                 </Button>
               </Link>
-              <Button onClick={handleSubmit} variant={"contained"}>
+              <Button
+                onClick={handleSubmit}
+                variant={"contained"}
+                sx={{ backgroundColor: "#53a4d6 " }}
+              >
                 更新する
               </Button>
             </Box>
