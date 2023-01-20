@@ -49,7 +49,7 @@ function DefaultLayout({ children }: { children: any }) {
       <AppBar position="static" sx={{ backgroundColor: "#c6dee8" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="a"
@@ -64,8 +64,8 @@ function DefaultLayout({ children }: { children: any }) {
                 textDecoration: "none",
               }}
             >
-              kanako
-            </Typography>
+              portfolio
+            </Typography> */}
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton

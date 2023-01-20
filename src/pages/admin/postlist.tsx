@@ -77,77 +77,91 @@ const PostList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {post?.post?.map((data: any, index: any) => (
-              <TableRow>
-                <TableCell align="left">
-                  <Link to={`/admin/posts/edit/${data.id}`}>{data.title}</Link>
-                  <p>
-                    <span>
-                      <Link to={`/admin/posts/edit/${data.id}`}>編集する</Link>
-                    </span>
-                    <Button
-                      onClick={() => {
-                        axios
-                          .delete(`http://localhost:3000/posts/${data.id}`)
-                          .then((response) => {
-                            axios
-                              .get(
-                                "http://localhost:3000/posts?&perPage=10&category="
-                              )
-                              .then((response) => {
-                                setPost(response.data);
-                              });
-                          });
-                      }}
-                    >
-                      削除する
-                    </Button>
-                  </p>
-                  <div>
-                    <Button onClick={handleOpen}>削除する２</Button>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
-                        >
-                          削除しますか？
-                        </Typography>
-                        <Button
-                          onClick={() => {
-                            axios
-                              .delete(`http://localhost:3000/posts/${data.id}`)
-                              .then((response) => {
-                                axios
-                                  .get(
-                                    "http://localhost:3000/posts?&perPage=10&category="
-                                  )
-                                  .then((response) => {
-                                    setPost(response.data);
-                                  });
-                              });
-                          }}
-                        >
-                          削除する
-                        </Button>
-                      </Box>
-                    </Modal>
-                  </div>
-                </TableCell>
-                <TableCell align="right"> {data.author}</TableCell>
-                <TableCell align="right"> {data.category.name}</TableCell>
-                <TableCell align="right"> {data.categoryId}</TableCell>
-                <TableCell align="right">
-                  {moment(data.createdAt).format("YYYY年MM月DD日")}
-                </TableCell>
-              </TableRow>
-            ))}
+            {post?.post?.map((data: any, index: any) => {
+              console.log("data", data);
+              return (
+                <TableRow>
+                  <TableCell align="left">
+                    <Link to={`/admin/posts/edit/${data.id}`}>
+                      {data.title}
+                    </Link>
+                    <p>
+                      <span>
+                        <Link to={`/admin/posts/edit/${data.id}`}>
+                          編集する
+                        </Link>
+                      </span>
+                      <Button
+                        onClick={() => {
+                          axios
+                            .delete(`http://localhost:3000/posts/${data.id}`)
+                            .then((response) => {
+                              axios
+                                .get(
+                                  "http://localhost:3000/posts?&perPage=10&category="
+                                )
+                                .then((response) => {
+                                  setPost(response.data);
+                                });
+                            });
+                        }}
+                      >
+                        削除する
+                      </Button>
+                    </p>
+                    <div>
+                      <Button onClick={handleOpen}>削除する２</Button>
+                      <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                        <Box sx={style}>
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                          >
+                            削除しますか？
+                          </Typography>
+                          <Button
+                            onClick={() => {
+                              axios
+                                .delete(
+                                  `http://localhost:3000/posts/${data.id}`
+                                )
+                                .then((response) => {
+                                  axios
+                                    .get(
+                                      "http://localhost:3000/posts?&perPage=10&category="
+                                    )
+                                    .then((response) => {
+                                      setPost(response.data);
+                                    });
+                                });
+                            }}
+                          >
+                            削除する
+                          </Button>
+                        </Box>
+                      </Modal>
+                    </div>
+                  </TableCell>
+                  <TableCell align="right"> {data.author}</TableCell>
+                  <TableCell align="right"> {data.category.name}</TableCell>
+                  <TableCell align="right">
+                    {/* ここでtagをmapで取り出して取得 */}
+                    {data.tags.map((tag: any) => {
+                      return tag.name;
+                    })}
+                  </TableCell>
+                  <TableCell align="right">
+                    {moment(data.createdAt).format("YYYY年MM月DD日")}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -109,16 +109,16 @@ export default function BlogList() {
               }}
             />
             <Tab
-              label="カテゴリ1"
+              label="food"
               {...a11yProps(1)}
-              value={"1"}
+              value={"3"}
               sx={{
                 backgroundColor: "rgba(189, 189, 189, 0.17)",
                 marginRight: 2,
               }}
             />
             <Tab
-              label="カテゴリ2"
+              label="travel"
               {...a11yProps(2)}
               value={"2"}
               sx={{
@@ -127,9 +127,9 @@ export default function BlogList() {
               }}
             />
             <Tab
-              label="カテゴリ3"
+              label="hobby"
               {...a11yProps(3)}
-              value={"3"}
+              value={"1"}
               sx={{
                 backgroundColor: "rgba(189, 189, 189, 0.17)",
                 marginRight: 2,
@@ -171,13 +171,39 @@ export default function BlogList() {
                     >
                       {data?.category?.name}
                     </Typography>
-
-                    <Typography component="span">
-                      {data.tags.map((tag: any, index: any) => {
-                        return tag.name;
-                      })}
-                    </Typography>
-
+                    {/* タグがない場合は非表示にする制御 */}
+                    {data.tags.length ? (
+                      <Typography
+                        component="p"
+                        sx={{
+                          padding: "6px",
+                          backgroundColor: "yellows",
+                          display: "inline-block",
+                          borderRadius: "16px",
+                          color: "#fff",
+                          marginRight: 2,
+                        }}
+                      >
+                        {data.tags.map((tag: any, index: any) => {
+                          return (
+                            <Typography
+                              component="span"
+                              sx={{
+                                backgroundColor: "#53a4d6 ",
+                                color: "#fff",
+                                display: "inline-block",
+                                borderRadius: "14px",
+                                mr: 1,
+                                px: "10px",
+                                py: "4px",
+                              }}
+                            >
+                              {tag.name}
+                            </Typography>
+                          );
+                        })}
+                      </Typography>
+                    ) : null}
                     <Typography component="div">
                       <Typography
                         variant="h6"
@@ -201,6 +227,7 @@ export default function BlogList() {
           // page={post?.totalCount}
           onChange={pageChange}
           page={Number(paginate)}
+          sx={{ m: "auto" }}
         />
       </Stack>
       <Grid container spacing={2}>

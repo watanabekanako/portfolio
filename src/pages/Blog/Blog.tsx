@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
+
 function Blog() {
   const [post, setPost] = React.useState<
     | {
@@ -47,7 +48,7 @@ function Blog() {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
-  }, []);
+  }, [post]);
   console.log("ぽすと", post?.post);
   // React.useEffect(() => {
   //   axios
@@ -102,10 +103,13 @@ function Blog() {
                 component="span"
                 sx={{
                   marginTop: 10,
-                  padding: "6px",
-                  backgroundColor: "#f2809e",
+                  backgroundColor: "#53a4d6 ",
+                  color: "#fff",
                   display: "inline-block",
                   borderRadius: "14px",
+                  mr: 2,
+                  px: "10px",
+                  py: "4px",
                 }}
               >
                 {data.name}
@@ -120,11 +124,11 @@ function Blog() {
             <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.post.title}</Paper>
 
             <Paper sx={{ marginTop: 6, padding: 2 }}>
-              <div>ユーザーID： {id}です </div>
+              {/* <div>ユーザーID： {id}です </div> */}
               {post?.post.content}
             </Paper>
             <Box textAlign="center">
-              <Link to={`/blog`}>
+              <Link to={`/blog?page=1&category=1`}>
                 <Button
                   sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
                   variant="contained"
@@ -132,7 +136,6 @@ function Blog() {
                   一覧へ戻る
                 </Button>
               </Link>
-              {/* /* <ButtonOrange /> */}
             </Box>
             <Typography>おすすめの記事</Typography>
             <Grid container spacing={2} sx={{ my: 8 }}>
@@ -167,7 +170,10 @@ function Blog() {
                           {data?.category?.name}
                         </Typography>
 
-                        <Typography component="span">
+                        <Typography
+                          component="span"
+                          sx={{ backgroundColor: "#53a4d6" }}
+                        >
                           {data.tags.map((tag: any, index: any) => {
                             return tag.name;
                           })}
