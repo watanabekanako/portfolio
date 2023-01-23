@@ -257,9 +257,24 @@ function Top() {
                       >
                         {data?.category?.name}
                       </Typography>
-                      {data?.tags?.map((tag: any, index: any) => {
-                        return tag.name;
-                      })}
+                      {data?.tags.length ? (
+                        <Typography
+                          component="span"
+                          sx={{
+                            backgroundColor: "#53a4d6 ",
+                            color: "#fff",
+                            display: "inline-block",
+                            borderRadius: "14px",
+                            mr: 1,
+                            px: "10px",
+                            py: "4px",
+                          }}
+                        >
+                          {data?.tags?.map((tag: any, index: any) => {
+                            return tag.name;
+                          })}
+                        </Typography>
+                      ) : null}
                     </CardContent>
                   </Card>
                 </Link>
