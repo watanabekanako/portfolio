@@ -164,20 +164,31 @@ function Blog() {
                             borderRadius: "16px",
                             color: "#fff",
                             marginRight: 2,
+                            mb: 1,
                           }}
                           component="span"
                         >
                           {data?.category?.name}
                         </Typography>
-
-                        <Typography
-                          component="span"
-                          sx={{ backgroundColor: "#53a4d6" }}
-                        >
-                          {data.tags.map((tag: any, index: any) => {
-                            return tag.name;
-                          })}
-                        </Typography>
+                        {data.tags.map((tag: any, index: any) => {
+                          return (
+                            <Typography
+                              component="span"
+                              sx={{
+                                backgroundColor: "#53a4d6 ",
+                                color: "#fff",
+                                display: "inline-block",
+                                borderRadius: "14px",
+                                mr: 1,
+                                mb: 1,
+                                px: "10px",
+                                py: "4px",
+                              }}
+                            >
+                              {tag.name}
+                            </Typography>
+                          );
+                        })}
 
                         <Typography component="div">
                           <Typography
