@@ -45,12 +45,13 @@ const CategoryCreate = () => {
   }, []);
 
   const handleSubmit = () => {
-    axios.post(`http://localhost:3000/posts/categories/`).then((response) => {
-      setCategory(response.data);
-      alert("追加");
-    });
+    axios
+      .post(`http://localhost:3000/posts/categories/`, { ...newCategory })
+      .then((response) => {
+        alert("更新しあｍしあた");
+      });
   };
-
+  console.log("newCategory", newCategory);
   return (
     <DefaultLayout>
       <Grid container spacing={2} sx={{ my: 10 }}>
@@ -63,7 +64,7 @@ const CategoryCreate = () => {
               variant="outlined"
               margin="dense"
               sx={{ width: 1 }}
-              value={}
+              value={newCategory?.name}
               name="title"
               onChange={(e: any) => {
                 setNewCategory({ ...newCategory, name: e.target.value });
