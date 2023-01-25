@@ -18,7 +18,6 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { WifiPassword } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 // ブログ一覧ページ
@@ -45,6 +44,7 @@ export default function BlogList() {
   // post?.post?.lengthで記事の数を出力
   console.log("post.pages", post?.pages);
   const [searchParams, setSearchParams] = useSearchParams();
+  // 初期値
   const page = searchParams.get("page");
   console.log("page", page);
 
@@ -63,7 +63,9 @@ export default function BlogList() {
     axios
       // 下記URLのcategoryにカテゴリidが入る
       .get(
-        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${category}`
+        `http://localhost:3000/posts?page=${
+          paginate ?? "1"
+        }&perPage=10&category=${category}`
       )
       .then((response) => {
         setPost(response.data);

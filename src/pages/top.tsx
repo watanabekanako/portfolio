@@ -5,11 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
 import axios from "axios";
 import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
@@ -218,7 +213,7 @@ function Top() {
         {/* ブログの取り出し */}
         <Grid container spacing={2}>
           {count?.post?.map((data: any, index: any) => {
-            // console.log(data.id);
+               // console.log(data.id);
 
             return (
               <Grid item xs={4} key={data.id}>

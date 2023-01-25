@@ -16,7 +16,8 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
-
+import Pagination from "@mui/material/Pagination";
+import { Stack } from "@mui/system";
 const PostList = () => {
   const style = {
     position: "absolute" as "absolute",
@@ -34,6 +35,7 @@ const PostList = () => {
   const [post, setPost] = React.useState<
     | {
         post: { id: number; name: string }[];
+        pages: number;
       }
     | undefined
   >();
@@ -48,6 +50,7 @@ const PostList = () => {
   }, []);
 
   const [value, setValue] = React.useState(0);
+  const paginate = () => {};
   // モーダル
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -165,6 +168,13 @@ const PostList = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack>
+        <Pagination
+          count={post?.pages}
+          onChange={paginate}
+          sx={{ m: "auto", mb: 2 }}
+        />
+      </Stack>
     </DefaultLayout>
   );
 };

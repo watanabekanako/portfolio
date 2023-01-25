@@ -83,7 +83,7 @@ function Post() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
-
+  console.log("post", post);
   const validate = (post: any) => {
     const errors: PostErrors = {};
     if (!post.title) {
@@ -219,6 +219,14 @@ function Post() {
                     </>
                   );
                 })}
+                <TextField></TextField>
+                <Button
+                  onClick={handleSubmit}
+                  variant={"contained"}
+                  sx={{ my: 2 }}
+                >
+                  新しいカテゴリを追加する
+                </Button>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="female"

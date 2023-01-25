@@ -147,7 +147,7 @@ function PostCreate() {
         });
     }
   };
-
+  console.log(post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
