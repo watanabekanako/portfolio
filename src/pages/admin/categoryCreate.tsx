@@ -16,7 +16,7 @@ import axios from "axios";
 const CategoryCreate = () => {
   const [category, setCategory] = React.useState<
     | {
-        categories: { id: number; name: string }[];
+        categories: { name: string }[];
       }
     | undefined
   >();
@@ -40,13 +40,32 @@ const CategoryCreate = () => {
     });
   }, []);
 
+  const handleSubmit = () => {
+    axios.post(`http://localhost:3000/categories/`).then((response) => {
+     setCategory(response.data)
+      alert("追加");
+    });
+  };
+
   return (
     <DefaultLayout>
       <Grid container spacing={2} sx={{ my: 10 }}>
         <Grid item xs={3}>
           <Paper sx={{ py: 10, textAlign: "center" }}>
-            <TextField>ssssss</TextField>
-            <Button variant={"contained"} sx={{ my: 4 }}>
+            <TextField
+              // エラーメッセージ
+              // helperText={errors.title}
+              id="outlined-basic"
+              variant="outlined"
+              margin="dense"
+              sx={{ width: 1 }}
+              value={category?.categories}
+              name="title"
+              onChange={(e: any) => {
+                setCategory({name:e.target.value)};
+              }}
+            />
+            <Button onClick={handleSubmit} variant={"contained"} sx={{ my: 4 }}>
               新規カテゴリーを追加する
             </Button>
           </Paper>
