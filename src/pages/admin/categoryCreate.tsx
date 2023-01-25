@@ -16,7 +16,7 @@ import axios from "axios";
 const CategoryCreate = () => {
   const [category, setCategory] = React.useState<
     | {
-        category: { id: number; name: string }[];
+        categories: { id: number; name: string }[];
       }
     | undefined
   >();
@@ -61,7 +61,7 @@ const CategoryCreate = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {category?.category?.map((data: any, index: any) => {
+                {category?.categories?.map((data: any, index: any) => {
                   return (
                     <TableRow>
                       <TableCell component="th">{data.name}</TableCell>
