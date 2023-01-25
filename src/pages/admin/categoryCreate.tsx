@@ -22,6 +22,10 @@ const CategoryCreate = () => {
   >();
 
   console.log("category", category);
+
+  const [newCategory, setNewCategory] = React.useState<{
+    name: string;
+  }>();
   //   React.useEffect(() => {
   //     axios({
   //       method: "get",
@@ -41,8 +45,8 @@ const CategoryCreate = () => {
   }, []);
 
   const handleSubmit = () => {
-    axios.post(`http://localhost:3000/categories/`).then((response) => {
-     setCategory(response.data)
+    axios.post(`http://localhost:3000/posts/categories/`).then((response) => {
+      setCategory(response.data);
       alert("追加");
     });
   };
@@ -59,10 +63,10 @@ const CategoryCreate = () => {
               variant="outlined"
               margin="dense"
               sx={{ width: 1 }}
-              value={category?.categories}
+              value={}
               name="title"
               onChange={(e: any) => {
-                setCategory({name:e.target.value)};
+                setNewCategory({ ...newCategory, name: e.target.value });
               }}
             />
             <Button onClick={handleSubmit} variant={"contained"} sx={{ my: 4 }}>
