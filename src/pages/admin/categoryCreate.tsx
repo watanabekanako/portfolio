@@ -96,7 +96,7 @@ const CategoryCreate = () => {
                       <p>
                         <span>
                           {data.id}
-                          <Button onClick={() => handleEdit(data)}>
+                          <Button onClick={() => handleEdit(data.id)}>
                             編集する
                           </Button>
                         </span>
