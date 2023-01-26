@@ -118,7 +118,7 @@ const CategoryCreate = () => {
                           <Button>キャンセル</Button>
                         </span>
                       </p>
-                      {editing ? (
+                      {selectedCategory?.category.id === data.id ? (
                         <TextField
                           id="outlined-basic"
                           variant="outlined"
@@ -141,6 +141,26 @@ const CategoryCreate = () => {
                     </TableRow>
                   );
                 })}
+                {editing ? (
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    margin="dense"
+                    sx={{ width: 1 }}
+                    name="category"
+                    // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
+                    value={selectedCategory?.category?.name}
+                    onChange={(e: any) => {
+                      setEditCategory({
+                        category: {
+                          name: e.target.value,
+                        },
+                      });
+                    }}
+                  ></TextField>
+                ) : (
+                  <p>非表示の場合</p>
+                )}
                 <TableCell align="left">
                   <Button variant={"contained"}> 新規カテゴリを更新</Button>
                   <Button variant={"contained"}> キャンセル</Button>
