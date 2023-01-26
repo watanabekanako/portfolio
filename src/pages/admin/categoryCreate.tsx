@@ -26,14 +26,15 @@ const CategoryCreate = () => {
     name: string;
   }>();
 
-  const [editCategory, setEditCategory] = React.useState<{
-    category: {
-      name: string;
-      id?: number;
-    };
-  }>();
+  const [editCategory, setEditCategory] = React.useState<
+    | {
+        name: string;
+        id?: number;
+      }
+    | undefined
+  >();
 
-  console.log("editCaytegory", editCategory);
+  console.log("editCategory", editCategory);
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
       setAllCategory(response.data);
@@ -55,21 +56,19 @@ const CategoryCreate = () => {
   console.log("newCategory", newCategory);
   const [selectedCategory, setSelectedCategory] = React.useState<
     | {
-        category: { name: string; id: number };
+        category: { name?: string; id?: number };
       }
     | undefined
   >();
   console.log("selectedCategory", selectedCategory?.category?.id);
-  const [editing, setEditing] = React.useState(false);
+
   // selectedCategory?.category?.idにて選択したcategoryのidがとれる
   // 既存のカテゴリ編集ボタンのイベント
   const handleEdit = (id: any) => {
-    alert("編集する");
     axios
       .get(`http://localhost:3000/posts/categories/${id}`)
       .then((response) => {
         setSelectedCategory(response.data);
-        setEditing(true);
       });
   };
   return (
@@ -78,7 +77,6 @@ const CategoryCreate = () => {
         <Grid item xs={3}>
           <Paper sx={{ py: 10, textAlign: "center" }}>
             <TextField
-              // エラーメッセージ
               id="outlined-basic"
               variant="outlined"
               margin="dense"
@@ -114,57 +112,41 @@ const CategoryCreate = () => {
                             編集する
                           </Button>
                         </span>
-                        <span>
-                          <Button>キャンセル</Button>
-                        </span>
                       </p>
                       {selectedCategory?.category.id === data.id ? (
-                        <TextField
-                          id="outlined-basic"
-                          variant="outlined"
-                          margin="dense"
-                          sx={{ width: 1 }}
-                          name="category"
-                          // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
-                          value={selectedCategory?.category?.name}
-                          onChange={(e: any) => {
-                            setEditCategory({
-                              category: {
+                        <>
+                          <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            margin="dense"
+                            sx={{ width: 1 }}
+                            name="category"
+                            // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
+                            value={selectedCategory?.category?.name}
+                            onChange={(e: any) => {
+                              setEditCategory({
                                 name: e.target.value,
-                              },
-                            });
-                          }}
-                        ></TextField>
-                      ) : (
-                        <p>非表示の場合</p>
-                      )}
+                              });
+                            }}
+                          ></TextField>
+                          <Button variant={"contained"}>
+                            カテゴリを更新する
+                          </Button>
+                          <Button
+                            variant={"contained"}
+                            onClick={() =>
+                              selectedCategory({
+                                category: { id: 0, name: "" },
+                              })
+                            }
+                          >
+                            キャンセル
+                          </Button>
+                        </>
+                      ) : null}
                     </TableRow>
                   );
                 })}
-                {editing ? (
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    margin="dense"
-                    sx={{ width: 1 }}
-                    name="category"
-                    // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
-                    value={selectedCategory?.category?.name}
-                    onChange={(e: any) => {
-                      setEditCategory({
-                        category: {
-                          name: e.target.value,
-                        },
-                      });
-                    }}
-                  ></TextField>
-                ) : (
-                  <p>非表示の場合</p>
-                )}
-                <TableCell align="left">
-                  <Button variant={"contained"}> 新規カテゴリを更新</Button>
-                  <Button variant={"contained"}> キャンセル</Button>
-                </TableCell>
               </TableBody>
             </Table>
           </TableContainer>
