@@ -14,14 +14,14 @@ import Box from "@mui/material";
 import axios from "axios";
 
 const CategoryCreate = () => {
-  const [category, setCategory] = React.useState<
+  const [allcategory, setAllCategory] = React.useState<
     | {
         categories: { name: string; id: number }[];
       }
     | undefined
   >();
 
-  console.log("category", category);
+  console.log("category", allcategory);
 
   const [newCategory, setNewCategory] = React.useState<{
     name: string;
@@ -29,7 +29,7 @@ const CategoryCreate = () => {
 
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
-      setCategory(response.data);
+      setAllCategory(response.data);
     });
   }, []);
 
@@ -41,7 +41,7 @@ const CategoryCreate = () => {
         // console.log(response.data);
         //localhost:3000/posts/categoriesにて再取得したい
         axios.get("http://localhost:3000/posts/categories").then((response) => {
-          setCategory(response.data);
+          setAllCategory(response.data);
         });
       });
   };
@@ -87,7 +87,7 @@ const CategoryCreate = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {category?.categories?.map((data: any, index: any) => {
+                {allcategory?.categories?.map((data: any, index: any) => {
                   return (
                     <TableRow>
                       <TableCell component="th">{data.name}</TableCell>
