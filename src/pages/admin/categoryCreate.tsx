@@ -20,7 +20,6 @@ const CategoryCreate = () => {
       }
     | undefined
   >();
-
   console.log("category", allCategory);
 
   const [newCategory, setNewCategory] = React.useState<{
