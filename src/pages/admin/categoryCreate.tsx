@@ -16,7 +16,7 @@ import axios from "axios";
 const CategoryCreate = () => {
   const [category, setCategory] = React.useState<
     | {
-        categories: { name: string }[];
+        categories: { name: string; id: number }[];
       }
     | undefined
   >();
@@ -26,18 +26,7 @@ const CategoryCreate = () => {
   const [newCategory, setNewCategory] = React.useState<{
     name: string;
   }>();
-  //   React.useEffect(() => {
-  //     axios({
-  //       method: "get",
-  //       url: "http://localhost:3000/posts/categories",
-  //     })
-  //       .then((response) => {
-  //         setCategory(response.data);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   }, []);
+
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
       setCategory(response.data);
@@ -48,7 +37,12 @@ const CategoryCreate = () => {
     axios
       .post(`http://localhost:3000/posts/categories/`, { ...newCategory })
       .then((response) => {
-        alert("更新しあｍしあた");
+        alert("更新しました");
+        // console.log(response.data);
+        //localhost:3000/posts/categoriesにて再取得したい
+        axios.get("http://localhost:3000/posts/categories").then((response) => {
+          setCategory(response.data);
+        });
       });
   };
   console.log("newCategory", newCategory);
@@ -59,13 +53,12 @@ const CategoryCreate = () => {
           <Paper sx={{ py: 10, textAlign: "center" }}>
             <TextField
               // エラーメッセージ
-              // helperText={errors.title}
               id="outlined-basic"
               variant="outlined"
               margin="dense"
               sx={{ width: 1 }}
               value={newCategory?.name}
-              name="title"
+              name="category"
               onChange={(e: any) => {
                 setNewCategory({ ...newCategory, name: e.target.value });
               }}
