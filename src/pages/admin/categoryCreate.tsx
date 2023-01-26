@@ -46,6 +46,15 @@ const CategoryCreate = () => {
       });
   };
   console.log("newCategory", newCategory);
+  const [selectedCategory, setSelectedCategory] = React.useState();
+  console.log(selectedCategory);
+  // 既存のカテゴリ編集ボタンのイベント
+  const handleEdit = () => {
+    alert("編集する");
+    axios.get(`http://localhost:3000/posts/category/1`).then((response) => {
+      setSelectedCategory(response.data);
+    });
+  };
   return (
     <DefaultLayout>
       <Grid container spacing={2} sx={{ my: 10 }}>
@@ -84,10 +93,10 @@ const CategoryCreate = () => {
                       <TableCell component="th">{data.name}</TableCell>
                       <p>
                         <span>
-                          <Button>編集する</Button>
+                          <Button onClick={handleEdit}>編集する</Button>
                         </span>
                         <span>
-                          <Button>編集する</Button>
+                          <Button>キャンセル</Button>
                         </span>
                       </p>
                     </TableRow>
