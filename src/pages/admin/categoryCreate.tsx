@@ -27,6 +27,14 @@ const CategoryCreate = () => {
     name: string;
   }>();
 
+  const [editCategory, setEditCategory] = React.useState<{
+    category: {
+      name: string;
+      id?: number;
+    };
+  }>();
+
+  console.log("editCaytegory", editCategory);
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
       setAllCategory(response.data);
@@ -46,15 +54,23 @@ const CategoryCreate = () => {
       });
   };
   console.log("newCategory", newCategory);
-  const [selectedCategory, setSelectedCategory] = React.useState();
-  console.log("selectedCategory", selectedCategory);
+  const [selectedCategory, setSelectedCategory] = React.useState<
+    | {
+        category: { name: string; id: number };
+      }
+    | undefined
+  >();
+  console.log("selectedCategory", selectedCategory?.category?.id);
+  const [editing, setEditing] = React.useState(false);
+  // selectedCategory?.category?.idにて選択したcategoryのidがとれる
   // 既存のカテゴリ編集ボタンのイベント
-  const handleEdit = (data: any) => {
+  const handleEdit = (id: any) => {
     alert("編集する");
     axios
-      .get(`http://localhost:3000/posts/categories/${data.id}`)
+      .get(`http://localhost:3000/posts/categories/${id}`)
       .then((response) => {
         setSelectedCategory(response.data);
+        setEditing(true);
       });
   };
   return (
@@ -95,7 +111,6 @@ const CategoryCreate = () => {
                       <TableCell component="th">{data.name}</TableCell>
                       <p>
                         <span>
-                          {data.id}
                           <Button onClick={() => handleEdit(data.id)}>
                             編集する
                           </Button>
@@ -104,12 +119,30 @@ const CategoryCreate = () => {
                           <Button>キャンセル</Button>
                         </span>
                       </p>
+                      {editing ? (
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          margin="dense"
+                          sx={{ width: 1 }}
+                          name="category"
+                          // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
+                          value={selectedCategory?.category?.name}
+                          onChange={(e: any) => {
+                            setEditCategory({
+                              category: {
+                                name: e.target.value,
+                              },
+                            });
+                          }}
+                        ></TextField>
+                      ) : (
+                        <p>非表示の場合</p>
+                      )}
                     </TableRow>
                   );
                 })}
                 <TableCell align="left">
-                  <TextField></TextField>
-
                   <Button variant={"contained"}> 新規カテゴリを更新</Button>
                   <Button variant={"contained"}> キャンセル</Button>
                 </TableCell>
