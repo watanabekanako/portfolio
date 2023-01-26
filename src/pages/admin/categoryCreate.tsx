@@ -14,14 +14,14 @@ import Box from "@mui/material";
 import axios from "axios";
 
 const CategoryCreate = () => {
-  const [allcategory, setAllCategory] = React.useState<
+  const [allCategory, setAllCategory] = React.useState<
     | {
         categories: { name: string; id: number }[];
       }
     | undefined
   >();
 
-  console.log("category", allcategory);
+  console.log("category", allCategory);
 
   const [newCategory, setNewCategory] = React.useState<{
     name: string;
@@ -47,13 +47,15 @@ const CategoryCreate = () => {
   };
   console.log("newCategory", newCategory);
   const [selectedCategory, setSelectedCategory] = React.useState();
-  console.log(selectedCategory);
+  console.log("selectedCategory", selectedCategory);
   // 既存のカテゴリ編集ボタンのイベント
-  const handleEdit = () => {
+  const handleEdit = (data: any) => {
     alert("編集する");
-    axios.get(`http://localhost:3000/posts/category/1`).then((response) => {
-      setSelectedCategory(response.data);
-    });
+    axios
+      .get(`http://localhost:3000/posts/categories/${data.id}`)
+      .then((response) => {
+        setSelectedCategory(response.data);
+      });
   };
   return (
     <DefaultLayout>
@@ -87,13 +89,16 @@ const CategoryCreate = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allcategory?.categories?.map((data: any, index: any) => {
+                {allCategory?.categories?.map((data: any, index: any) => {
                   return (
                     <TableRow>
                       <TableCell component="th">{data.name}</TableCell>
                       <p>
                         <span>
-                          <Button onClick={handleEdit}>編集する</Button>
+                          {data.id}
+                          <Button onClick={() => handleEdit(data)}>
+                            編集する
+                          </Button>
                         </span>
                         <span>
                           <Button>キャンセル</Button>
