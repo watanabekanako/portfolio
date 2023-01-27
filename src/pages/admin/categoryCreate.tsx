@@ -26,15 +26,20 @@ const CategoryCreate = () => {
     name: string;
   }>();
 
-  const [editCategory, setEditCategory] = React.useState<
+  // const [editCategory, setEditCategory] = React.useState<
+  //   | {
+  //       name: string;
+  //       id?: number;
+  //     }
+  //   | undefined
+  // >();
+  const [selectedCategory, setSelectedCategory] = React.useState<
     | {
-        name: string;
-        id?: number;
+        category: { name?: string; id?: number };
       }
     | undefined
   >();
-
-  console.log("editCategory", editCategory);
+  // console.log("editCategory", editCategory);
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
       setAllCategory(response.data);
@@ -54,12 +59,7 @@ const CategoryCreate = () => {
       });
   };
   console.log("newCategory", newCategory);
-  const [selectedCategory, setSelectedCategory] = React.useState<
-    | {
-        category: { name?: string; id?: number };
-      }
-    | undefined
-  >();
+
   console.log("selectedCategory", selectedCategory?.category?.name);
 
   // selectedCategory?.category?.idにて選択したcategoryのidがとれる
@@ -104,6 +104,7 @@ const CategoryCreate = () => {
               </TableHead>
               <TableBody>
                 {allCategory?.categories?.map((data: any, index: any) => {
+                  console.log("data.id", selectedCategory?.category.id);
                   return (
                     <TableRow>
                       <TableCell component="th">{data.name}</TableCell>
@@ -128,6 +129,7 @@ const CategoryCreate = () => {
                               setSelectedCategory({
                                 category: {
                                   name: e.target.value,
+                                  id: selectedCategory?.category?.id,
                                 },
                               });
                             }}
