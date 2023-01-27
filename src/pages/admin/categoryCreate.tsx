@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import DefaultLayout from "../../componets/layout/defaultlayout";
-import { Paper, TextField } from "@mui/material";
+import { Paper, Stack, TextField } from "@mui/material";
 import { Button, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -26,13 +26,6 @@ const CategoryCreate = () => {
     name: string;
   }>();
 
-  // const [editCategory, setEditCategory] = React.useState<
-  //   | {
-  //       name: string;
-  //       id?: number;
-  //     }
-  //   | undefined
-  // >();
   const [selectedCategory, setSelectedCategory] = React.useState<
     | {
         category: { name?: string; id?: number };
@@ -46,21 +39,25 @@ const CategoryCreate = () => {
     });
   }, []);
 
+  // 新規カテゴリの追加
   const handleSubmit = () => {
-    axios
-      .post(`http://localhost:3000/posts/categories/`, { ...newCategory })
-      .then((response) => {
-        alert("更新しました");
-        // console.log(response.data);
-        //localhost:3000/posts/categoriesにて再取得したい
-        axios.get("http://localhost:3000/posts/categories").then((response) => {
-          setAllCategory(response.data);
+    if (Number(newCategory?.name.length) > 0) {
+      axios
+        .post(`http://localhost:3000/posts/categories/`, { ...newCategory })
+        .then((response) => {
+          //localhost:3000/posts/categoriesにて再取得したい
+          axios
+            .get("http://localhost:3000/posts/categories")
+            .then((response) => {
+              setAllCategory(response.data);
+              setNewCategory({ name: "" });
+            });
         });
-      });
+    } else {
+      // エラーを表示
+      alert("title");
+    }
   };
-  console.log("newCategory", newCategory);
-
-  console.log("selectedCategory", selectedCategory?.category?.name);
 
   // selectedCategory?.category?.idにて選択したcategoryのidがとれる
   // 既存のカテゴリ編集ボタンのイベント
@@ -71,22 +68,46 @@ const CategoryCreate = () => {
         setSelectedCategory(response.data);
       });
   };
+  // カテゴリを更新するボタン
+  const handleUpdate = (id: number) => {
+    axios
+      .put(
+        `http://localhost:3000/posts/categories/${id}`,
+        selectedCategory?.category
+      )
+      .then((response) => {
+        axios.get("http://localhost:3000/posts/categories").then((response) => {
+          setAllCategory(response.data);
+          setSelectedCategory(undefined);
+        });
+      });
+  };
 
+  // カテゴリを削除するボタン
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`http://localhost:3000/posts/categories/${id}`)
+      .then((response) => {
+        axios.get("http://localhost:3000/posts/categories").then((response) => {
+          setAllCategory(response.data);
+        });
+      });
+  };
   return (
     <DefaultLayout>
       <Grid container spacing={2} sx={{ my: 10 }}>
         <Grid item xs={3}>
-          <Paper sx={{ py: 10, textAlign: "center" }}>
+          <Paper sx={{ py: 4, px: 2, textAlign: "center" }}>
             <TextField
               id="outlined-basic"
               variant="outlined"
-              margin="dense"
               sx={{ width: 1 }}
               value={newCategory?.name}
               name="category"
               onChange={(e: any) => {
                 setNewCategory({ ...newCategory, name: e.target.value });
               }}
+              helperText="Incorrect entry."
             />
             <Button onClick={handleSubmit} variant={"contained"} sx={{ my: 4 }}>
               新規カテゴリーを追加する
@@ -107,42 +128,53 @@ const CategoryCreate = () => {
                   console.log("data.id", selectedCategory?.category.id);
                   return (
                     <TableRow>
-                      <TableCell component="th">{data.name}</TableCell>
-                      <p>
+                      <TableCell component="th">
+                        <p>{data.name}</p>
                         <span>
                           <Button onClick={() => handleEdit(data.id)}>
                             編集する
                           </Button>
                         </span>
-                      </p>
+                        <span>
+                          <Button onClick={() => handleDelete(data.id)}>
+                            削除する
+                          </Button>
+                        </span>
+                      </TableCell>
+
                       {selectedCategory?.category.id === data.id ? (
                         <>
-                          <TextField
-                            id="outlined-basic"
-                            variant="outlined"
-                            margin="dense"
-                            sx={{ width: 1 }}
-                            name="category"
-                            // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
-                            value={selectedCategory?.category?.name}
-                            onChange={(e: any) => {
-                              setSelectedCategory({
-                                category: {
-                                  name: e.target.value,
-                                  id: selectedCategory?.category?.id,
-                                },
-                              });
-                            }}
-                          ></TextField>
-                          <Button variant={"contained"}>
-                            カテゴリを更新する
-                          </Button>
-                          <Button
-                            variant={"contained"}
-                            onClick={() => setSelectedCategory(undefined)}
-                          >
-                            キャンセル
-                          </Button>
+                          <Stack>
+                            <TextField
+                              id="outlined-basic"
+                              variant="outlined"
+                              margin="dense"
+                              sx={{ width: 1 }}
+                              name="category"
+                              // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
+                              value={selectedCategory?.category?.name}
+                              onChange={(e: any) => {
+                                setSelectedCategory({
+                                  category: {
+                                    name: e.target.value,
+                                    id: selectedCategory?.category?.id,
+                                  },
+                                });
+                              }}
+                            ></TextField>
+                            <Button
+                              variant={"contained"}
+                              onClick={() => handleUpdate(data.id)}
+                            >
+                              カテゴリを更新する
+                            </Button>
+                            <Button
+                              variant={"contained"}
+                              onClick={() => setSelectedCategory(undefined)}
+                            >
+                              キャンセル
+                            </Button>
+                          </Stack>
                         </>
                       ) : null}
                     </TableRow>
