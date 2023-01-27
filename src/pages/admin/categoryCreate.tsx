@@ -60,7 +60,7 @@ const CategoryCreate = () => {
       }
     | undefined
   >();
-  console.log("selectedCategory", selectedCategory?.category?.id);
+  console.log("selectedCategory", selectedCategory?.category?.name);
 
   // selectedCategory?.category?.idにて選択したcategoryのidがとれる
   // 既存のカテゴリ編集ボタンのイベント
@@ -71,6 +71,7 @@ const CategoryCreate = () => {
         setSelectedCategory(response.data);
       });
   };
+
   return (
     <DefaultLayout>
       <Grid container spacing={2} sx={{ my: 10 }}>
@@ -124,8 +125,10 @@ const CategoryCreate = () => {
                             // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
                             value={selectedCategory?.category?.name}
                             onChange={(e: any) => {
-                              setEditCategory({
-                                name: e.target.value,
+                              setSelectedCategory({
+                                category: {
+                                  name: e.target.value,
+                                },
                               });
                             }}
                           ></TextField>
@@ -134,11 +137,7 @@ const CategoryCreate = () => {
                           </Button>
                           <Button
                             variant={"contained"}
-                            onClick={() =>
-                              selectedCategory({
-                                category: { id: 0, name: "" },
-                              })
-                            }
+                            onClick={() => setSelectedCategory(undefined)}
                           >
                             キャンセル
                           </Button>
