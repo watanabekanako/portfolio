@@ -50,40 +50,54 @@ export default function BlogList() {
 
   const navigate = useNavigate();
   const [paginate, setPaginate] = React.useState(page);
-  const [category, setCategory] = React.useState("");
-
+  const [categoryId, setCategoryId] = React.useState("");
+  const [categoryName, setCategoryName] = React.useState<{
+    categories:
+      | {
+          id: number;
+          name: string;
+        }[]
+      | undefined;
+  }>();
+  console.log("categoryName", categoryName);
   const pageChange = (event: any, value: any) => {
-    navigate(`/blog?page=${value}&category=${category}`);
-    setCategory(category);
+    navigate(`/blog?page=${value}&category=${categoryId}`);
+    setCategoryId(categoryId);
     setPaginate(value);
   };
 
-  console.log("category", category);
   React.useEffect(() => {
     axios
       // 下記URLのcategoryにカテゴリidが入る
       .get(
         `http://localhost:3000/posts?page=${
           paginate ?? "1"
-        }&perPage=10&category=${category}`
+        }&perPage=10&category=${categoryId}`
       )
       .then((response) => {
         setPost(response.data);
       });
-  }, [category, paginate]);
+  }, [categoryId, paginate]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:3000/posts/categories`).then((response) => {
+      setCategoryName(response.data);
+      console.log("response", response.data);
+    });
+  }, []);
 
   // idの取得
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     // urlのセット
-    navigate(`/blog?page=1&category=${category}`);
+    navigate(`/blog?page=1&category=${categoryId}`);
     // データ取得のセット
-    setCategory(newValue);
+    setCategoryId(newValue);
     setPaginate(String(1));
   };
   // tabにて選択したカテゴリ名取れている
-  console.log("カテゴリの値", category);
+  console.log("カテゴリのID", categoryId);
 
   return (
     <DefaultLayout>
@@ -97,7 +111,7 @@ export default function BlogList() {
           }}
         >
           <Tabs
-            value={category}
+            value={categoryId}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -110,16 +124,23 @@ export default function BlogList() {
                 marginRight: 2,
               }}
             />
-            <Tab
-              label="food"
-              {...a11yProps(1)}
-              value={"3"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
-            <Tab
+            {categoryName?.categories?.map((data: any) => {
+              return (
+                <>
+                  <Tab
+                    label={data.name}
+                    {...a11yProps(1)}
+                    value={data?.id}
+                    sx={{
+                      backgroundColor: "rgba(189, 189, 189, 0.17)",
+                      marginRight: 2,
+                    }}
+                  />
+                </>
+              );
+            })}
+
+            {/* <Tab
               label="travel"
               {...a11yProps(2)}
               value={"2"}
@@ -136,7 +157,7 @@ export default function BlogList() {
                 backgroundColor: "rgba(189, 189, 189, 0.17)",
                 marginRight: 2,
               }}
-            />
+            /> */}
           </Tabs>
         </Box>
       </Box>

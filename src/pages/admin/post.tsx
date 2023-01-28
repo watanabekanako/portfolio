@@ -106,7 +106,7 @@ function Post() {
         .put(`http://localhost:3000/posts/${id}`, { ...post })
         .then((response) => {
           // 更新後の処理
-          const { post } = response.data;
+
           alert("更新完了");
         })
         .catch((e) => {});
