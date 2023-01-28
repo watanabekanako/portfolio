@@ -23,7 +23,7 @@ const CategoryCreate = () => {
   console.log("category", allCategory);
 
   const [newCategory, setNewCategory] = React.useState<{
-    name: string;
+    name?: string;
   }>();
 
   const [selectedCategory, setSelectedCategory] = React.useState<
@@ -46,7 +46,7 @@ const CategoryCreate = () => {
   }, []);
 
   // 引数のcategoryはnewCategory
-  const validateNewCategory = (category: { name: string } | undefined) => {
+  const validateNewCategory = (category: typeof newCategory) => {
     const errors:
       | {
           name?: string;

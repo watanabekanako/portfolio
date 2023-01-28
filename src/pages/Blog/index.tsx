@@ -22,10 +22,10 @@ import { useNavigate } from "react-router-dom";
 
 // ブログ一覧ページ
 // カテゴリタブ
-function a11yProps(index: number) {
+function a11yProps(id: number) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `simple-tab-${id}`,
+    "aria-controls": `simple-tabpanel-${id}`,
   };
 }
 export default function BlogList() {
@@ -51,14 +51,13 @@ export default function BlogList() {
   const navigate = useNavigate();
   const [paginate, setPaginate] = React.useState(page);
   const [categoryId, setCategoryId] = React.useState("");
-  const [categoryName, setCategoryName] = React.useState<{
-    categories:
-      | {
-          id: number;
-          name: string;
-        }[]
-      | undefined;
-  }>();
+  const [categoryName, setCategoryName] = React.useState<
+    | {
+        id: number;
+        name: string;
+      }[]
+    | undefined
+  >();
   console.log("categoryName", categoryName);
   const pageChange = (event: any, value: any) => {
     navigate(`/blog?page=${value}&category=${categoryId}`);
@@ -81,7 +80,7 @@ export default function BlogList() {
 
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/categories`).then((response) => {
-      setCategoryName(response.data);
+      setCategoryName(response.data.categories);
       console.log("response", response.data);
     });
   }, []);
@@ -90,6 +89,7 @@ export default function BlogList() {
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    console.log("newValue", newValue);
     // urlのセット
     navigate(`/blog?page=1&category=${categoryId}`);
     // データ取得のセット
@@ -124,25 +124,26 @@ export default function BlogList() {
                 marginRight: 2,
               }}
             />
-            {categoryName?.categories?.map((data: any) => {
+            {categoryName?.map((data: any) => {
+              console.log("data.id", data.id);
               return (
-                <>
-                  <Tab
-                    label={data.name}
-                    {...a11yProps(1)}
-                    value={data?.id}
-                    sx={{
-                      backgroundColor: "rgba(189, 189, 189, 0.17)",
-                      marginRight: 2,
-                    }}
-                  />
-                </>
+                // フラグメントの削除にてタブの挙動正常化
+                // 下記コンポーネントは直下に置かないと動かない
+                <Tab
+                  label={data.name}
+                  {...a11yProps(data.id)}
+                  value={String(data.id)}
+                  sx={{
+                    backgroundColor: "rgba(189, 189, 189, 0.17)",
+                    marginRight: 2,
+                  }}
+                />
               );
             })}
 
-            {/* <Tab
+            <Tab
               label="travel"
-              {...a11yProps(2)}
+              // {...a11yProps(2)}
               value={"2"}
               sx={{
                 backgroundColor: "rgba(189, 189, 189, 0.17)",
@@ -151,13 +152,13 @@ export default function BlogList() {
             />
             <Tab
               label="hobby"
-              {...a11yProps(3)}
+              // {...a11yProps(3)}
               value={"1"}
               sx={{
                 backgroundColor: "rgba(189, 189, 189, 0.17)",
                 marginRight: 2,
               }}
-            /> */}
+            />
           </Tabs>
         </Box>
       </Box>
