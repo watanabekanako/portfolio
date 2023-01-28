@@ -32,11 +32,10 @@ const CategoryCreate = () => {
       }
     | undefined
   >();
-
-  const [formErrors, serFormErrors] = React.useState<
+  // エラーメッセージの管理
+  const [formErrors, setFormErrors] = React.useState<
     | {
-        name: string;
-        id: string;
+        name?: string;
       }
     | undefined
   >();
@@ -46,16 +45,28 @@ const CategoryCreate = () => {
     });
   }, []);
 
-  const validate = (category: any) => {
-    const errors = {};
-    if (!category) {
+  // 引数のcategoryはnewCategory
+  const validateNewCategory = (category: { name: string } | undefined) => {
+    const errors:
+      | {
+          name?: string;
+        }
+      | undefined = {};
+    if (!category?.name) {
       errors.name = "新規カテゴリを入力してください";
     }
+    return errors;
   };
 
   // 新規カテゴリの追加
+  // この中でバリデーションチェック
   const handleSubmit = () => {
-    if (Number(newCategory?.name.length) > 0) {
+    //入力値を確認してerrorsに入れる
+    const errors = validateNewCategory(newCategory);
+    //TextFieldにエラーメッセージを表示させるために、stateに登録
+    setFormErrors(errors);
+    // 上で定義したerrorsのkeyがあるかどうかで、エラーの有無の判定
+    if (Object.keys(errors).length === 0) {
       axios
         .post(`http://localhost:3000/posts/categories/`, { ...newCategory })
         .then((response) => {
@@ -67,9 +78,6 @@ const CategoryCreate = () => {
               setNewCategory({ name: "" });
             });
         });
-    } else {
-      // エラーを表示
-      alert("title");
     }
   };
 
@@ -121,9 +129,8 @@ const CategoryCreate = () => {
               onChange={(e: any) => {
                 setNewCategory({ ...newCategory, name: e.target.value });
               }}
-              helperText="Incorrect entry."
-              error={Boolean(formErrors.newCategory)}
-              helperText={formErrors.newCategory}
+              error={Boolean(formErrors?.name)}
+              helperText={formErrors?.name}
             />
             <Button onClick={handleSubmit} variant={"contained"} sx={{ my: 4 }}>
               新規カテゴリーを追加する
