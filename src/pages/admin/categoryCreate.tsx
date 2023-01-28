@@ -32,12 +32,26 @@ const CategoryCreate = () => {
       }
     | undefined
   >();
-  // console.log("editCategory", editCategory);
+
+  const [formErrors, serFormErrors] = React.useState<
+    | {
+        name: string;
+        id: string;
+      }
+    | undefined
+  >();
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories").then((response) => {
       setAllCategory(response.data);
     });
   }, []);
+
+  const validate = (category: any) => {
+    const errors = {};
+    if (!category) {
+      errors.name = "新規カテゴリを入力してください";
+    }
+  };
 
   // 新規カテゴリの追加
   const handleSubmit = () => {
@@ -108,6 +122,8 @@ const CategoryCreate = () => {
                 setNewCategory({ ...newCategory, name: e.target.value });
               }}
               helperText="Incorrect entry."
+              error={Boolean(formErrors.newCategory)}
+              helperText={formErrors.newCategory}
             />
             <Button onClick={handleSubmit} variant={"contained"} sx={{ my: 4 }}>
               新規カテゴリーを追加する
