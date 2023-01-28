@@ -48,7 +48,9 @@ function Blog() {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
-  }, [post]);
+    // 依存配列にpost入れていると無限ループ
+  }, []);
+
   console.log("ぽすと", post?.post);
   // React.useEffect(() => {
   //   axios
