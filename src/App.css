@@ -1,9 +1,7 @@
 body {
   background-color: #fffbef;
 }
-a:hover {
-  background-color: gold !important;
-}
+
 .App {
   text-align: center;
 }
