@@ -63,13 +63,18 @@ const PostList = () => {
 
   const [age, setAge] = React.useState("");
   const [category, setCategory] = React.useState<{
-    categories: { name: string }[];
+    categories: { name: string; id: number }[];
   }>();
   console.log("category", category);
   const handleChange = (event: SelectChangeEvent) => {
-    setCategory(categories: { name: event.target.value });
-    // setCategory(categories:{ name: event.target.value });
-    console.log("選択したカテゴリ", event?.target.value);
+    // setCategory({ name: event.target.value });
+    setCategory({
+      categories: {
+        name: "yyyyy",
+        id: String(event.target.value),
+      },
+    });
+    console.log("選択したカテゴリID", event?.target.value);
   };
 
   React.useEffect(() => {
@@ -112,9 +117,11 @@ const PostList = () => {
             <em>None</em>
           </MenuItem>
           {/* valueで表示される値を設定 */}
-          {category?.categories?.map((data: { name: string }, index: any) => {
-            return <MenuItem value={data.name}>{data.name}</MenuItem>;
-          })}
+          {category?.categories?.map(
+            (data: { name: string; id: number }, index: any) => {
+              return <MenuItem value={data.id}>{data.name}</MenuItem>;
+            }
+          )}
         </Select>
       </FormControl>
 
