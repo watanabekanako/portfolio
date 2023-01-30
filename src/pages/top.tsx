@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
-
+import Popover from "@mui/material/Popover";
 import moment from "moment";
 import Slider from "../componets/slider";
 const baseURL = "http://localhost:3000/test/";
@@ -79,8 +79,23 @@ function Top() {
       setCount(response.data);
     });
   }, []);
-  console.log("かうんと", post);
-  console.log("かうんと", count);
+
+  // ポップアップ
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   return (
     <DefaultLayout>
       <Slider />
@@ -170,10 +185,37 @@ function Top() {
                 <Typography gutterBottom variant="h5" component="div">
                   ポートフォリオ
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
+                <Button
+                  aria-describedby={id}
+                  variant="contained"
+                  onClick={handleClick}
+                >
+                  <Typography gutterBottom variant="h5" component="div">
+                    more
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                  ></Typography>
+                </Button>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  sx={{ width: "200 px" }}
+                >
+                  <Typography sx={{ p: 10, m: 10 }}>
+                    The content of the Popover.The content of the Popover.The
+                    content of the Popover.The content of the Popover.The
+                    content of the Popover.The content of the Popover.The
+                    content of the Popover.
+                  </Typography>
+                </Popover>
               </CardContent>
             </Card>
           </Grid>
@@ -213,7 +255,7 @@ function Top() {
         {/* ブログの取り出し */}
         <Grid container spacing={2}>
           {count?.post?.map((data: any, index: any) => {
-               // console.log(data.id);
+            // console.log(data.id);
 
             return (
               <Grid item xs={4} key={data.id}>

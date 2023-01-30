@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import DefaultLayout from "../../componets/layout/defaultlayout";
+import AdminLayout from "../../componets/layout/adminLayout";
 import { Paper, Stack, TextField } from "@mui/material";
 import { Button, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -116,7 +116,14 @@ const CategoryCreate = () => {
       });
   };
   return (
-    <DefaultLayout>
+    <AdminLayout>
+      <Typography
+        sx={{ textAlign: "center", my: 6 }}
+        component="h2"
+        variant="h4"
+      >
+        カテゴリ一覧
+      </Typography>
       <Grid container spacing={2} sx={{ my: 10 }}>
         <Grid item xs={3}>
           <Paper sx={{ py: 4, px: 2, textAlign: "center" }}>
@@ -167,37 +174,36 @@ const CategoryCreate = () => {
 
                       {selectedCategory?.category.id === data.id ? (
                         <>
-                          <Stack>
-                            <TextField
-                              id="outlined-basic"
-                              variant="outlined"
-                              margin="dense"
-                              sx={{ width: 1 }}
-                              name="category"
-                              // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
-                              value={selectedCategory?.category?.name}
-                              onChange={(e: any) => {
-                                setSelectedCategory({
-                                  category: {
-                                    name: e.target.value,
-                                    id: selectedCategory?.category?.id,
-                                  },
-                                });
-                              }}
-                            ></TextField>
-                            <Button
-                              variant={"contained"}
-                              onClick={() => handleUpdate(data.id)}
-                            >
-                              カテゴリを更新する
-                            </Button>
-                            <Button
-                              variant={"contained"}
-                              onClick={() => setSelectedCategory(undefined)}
-                            >
-                              キャンセル
-                            </Button>
-                          </Stack>
+                          <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            margin="dense"
+                            sx={{ width: 1 }}
+                            name="category"
+                            // selectedCategory?.category?.nameで選択した現在のカテゴリ名の表示
+                            value={selectedCategory?.category?.name}
+                            onChange={(e: any) => {
+                              setSelectedCategory({
+                                category: {
+                                  name: e.target.value,
+                                  id: selectedCategory?.category?.id,
+                                },
+                              });
+                            }}
+                          ></TextField>
+                          <Button
+                            variant={"contained"}
+                            onClick={() => handleUpdate(data.id)}
+                          >
+                            カテゴリを更新する
+                          </Button>
+                          <Button
+                            sx={{ mx: 2, backgroundColor: "pink" }}
+                            variant={"contained"}
+                            onClick={() => setSelectedCategory(undefined)}
+                          >
+                            キャンセル
+                          </Button>
                         </>
                       ) : null}
                     </TableRow>
@@ -208,7 +214,7 @@ const CategoryCreate = () => {
           </TableContainer>
         </Grid>
       </Grid>
-    </DefaultLayout>
+    </AdminLayout>
   );
 };
 

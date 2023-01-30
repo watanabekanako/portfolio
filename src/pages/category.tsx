@@ -47,14 +47,28 @@ const Category = () => {
         setPost(response.data);
       });
   }, [id]);
+
+  console.log("post");
+  const selectedCategoryName = post?.post[0];
+
   return (
     <DefaultLayout>
-      Category
-      {post?.post?.map((v: any, index: any) => {
-        <Grid item xs={4} key={v.id}>
-          <p>{v.title}</p>
-        </Grid>;
-      })}
+      <Typography
+        sx={{ textAlign: "center" }}
+        component="h2"
+        variant="h4"
+        color={"gray"}
+      >
+        CATEGORY
+      </Typography>
+      <Typography
+        sx={{ textAlign: "center", mb: 4 }}
+        component="h4"
+        variant="h4"
+        color={"gray"}
+      >
+        {selectedCategoryName?.category?.name}{" "}
+      </Typography>
       <Grid container spacing={2} sx={{ marginTop: 8, marginBottom: 4 }}>
         {post?.post?.map((data: any, index: any) => {
           return (

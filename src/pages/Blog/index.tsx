@@ -140,25 +140,6 @@ export default function BlogList() {
                 />
               );
             })}
-
-            <Tab
-              label="travel"
-              // {...a11yProps(2)}
-              value={"2"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
-            <Tab
-              label="hobby"
-              // {...a11yProps(3)}
-              value={"1"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
           </Tabs>
         </Box>
       </Box>

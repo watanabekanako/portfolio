@@ -129,7 +129,7 @@ function Blog() {
               {/* <div>ユーザーID： {id}です </div> */}
               {post?.post.content}
             </Paper>
-            <Box textAlign="center">
+            <Box textAlign="center" sx={{ mb: 8 }}>
               <Link to={`/blog?page=1&category=1`}>
                 <Button
                   sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
@@ -139,8 +139,8 @@ function Blog() {
                 </Button>
               </Link>
             </Box>
-            <Typography>おすすめの記事</Typography>
-            <Grid container spacing={2} sx={{ my: 8 }}>
+            <Typography sx={{ my: 3 }}>あわせて読みたい!</Typography>
+            <Grid container spacing={2} sx={{ mb: 8 }}>
               {category?.post?.map((data: any, index: any) => (
                 <Grid item xs={4} key={data.id}>
                   <Link to={`/blog/${data.id}`}>
