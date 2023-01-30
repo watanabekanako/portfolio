@@ -1,7 +1,7 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import DefaultLayout from "../../componets/layout/defaultlayout";
+import AdminLayout from "../../componets/layout/adminLayout";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
@@ -18,6 +18,11 @@ import { Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Pagination from "@mui/material/Pagination";
 import { Stack } from "@mui/system";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 const PostList = () => {
   const style = {
     position: "absolute" as "absolute",
@@ -55,19 +60,67 @@ const PostList = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  return (
-    <DefaultLayout>
-      {/* 記事の新規追加ボタン */}
-      {/* カテゴリ検索プルダウン */}
-      {/* 日付検索プルダウン */}
 
+  const [age, setAge] = React.useState("");
+  const [category, setCategory] = React.useState<{
+    categories: { name: string }[];
+  }>();
+  console.log("category", category);
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(categories: { name: event.target.value });
+    // setCategory(categories:{ name: event.target.value });
+    console.log("選択したカテゴリ", event?.target.value);
+  };
+
+  React.useEffect(() => {
+    axios.get("http://localhost:3000/posts/categories/").then((response) => {
+      setCategory(response.data);
+    });
+  }, []);
+  // 絞り込みボタン
+  const handleSearch = () => {};
+  return (
+    <AdminLayout>
       {/* 検索機能 */}
-      <Typography>ブログ投稿一覧</Typography>
+      <Typography
+        sx={{ textAlign: "center", my: 6 }}
+        component="h2"
+        variant="h4"
+      >
+        投稿一覧
+      </Typography>
       <Link to={`posts/add/`}>
         <Button variant="contained" sx={{ my: 4 }}>
           新規追加
         </Button>
       </Link>
+      <Link to={`category`}>
+        <Button variant="contained" sx={{ my: 4, mx: 2 }}>
+          新規カテゴリ追加
+        </Button>
+      </Link>
+      <FormControl sx={{ my: 4, minWidth: 120 }} size="small">
+        <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
+        <Select
+          labelId="demo-select-small"
+          id="demo-select-small"
+          // value={category}
+          label="カテゴリ名"
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {/* valueで表示される値を設定 */}
+          {category?.categories?.map((data: { name: string }, index: any) => {
+            return <MenuItem value={data.name}>{data.name}</MenuItem>;
+          })}
+        </Select>
+      </FormControl>
+
+      <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
+        絞り込み
+      </Button>
       <TableContainer component={Paper} sx={{ marginBottom: 12 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -94,62 +147,50 @@ const PostList = () => {
                           編集する
                         </Link>
                       </span>
-                      <Button
-                        onClick={() => {
-                          axios
-                            .delete(`http://localhost:3000/posts/${data.id}`)
-                            .then((response) => {
-                              axios
-                                .get(
-                                  "http://localhost:3000/posts?&perPage=10&category="
-                                )
-                                .then((response) => {
-                                  setPost(response.data);
-                                });
-                            });
-                        }}
-                      >
-                        削除する
-                      </Button>
-                    </p>
-                    <div>
-                      <Button onClick={handleOpen}>削除する２</Button>
-                      <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                      >
-                        <Box sx={style}>
-                          <Typography
-                            id="modal-modal-title"
-                            variant="h6"
-                            component="h2"
-                          >
-                            削除しますか？
-                          </Typography>
-                          <Button
-                            onClick={() => {
-                              axios
-                                .delete(
-                                  `http://localhost:3000/posts/${data.id}`
-                                )
-                                .then((response) => {
+                      <span>
+                        <Button onClick={handleOpen}>削除する</Button>
+                        <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <Typography
+                              textAlign={"center"}
+                              id="modal-modal-title"
+                              variant="h6"
+                              component="h2"
+                            >
+                              本当に削除しますか？
+                            </Typography>
+                            <Box textAlign="center">
+                              <Button
+                                sx={{ my: 2 }}
+                                variant="contained"
+                                onClick={() => {
                                   axios
-                                    .get(
-                                      "http://localhost:3000/posts?&perPage=10&category="
+                                    .delete(
+                                      `http://localhost:3000/posts/${data.id}`
                                     )
                                     .then((response) => {
-                                      setPost(response.data);
+                                      axios
+                                        .get(
+                                          "http://localhost:3000/posts?&perPage=10&category="
+                                        )
+                                        .then((response) => {
+                                          setPost(response.data);
+                                        });
                                     });
-                                });
-                            }}
-                          >
-                            削除する
-                          </Button>
-                        </Box>
-                      </Modal>
-                    </div>
+                                }}
+                              >
+                                削除する
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Modal>
+                      </span>
+                    </p>
                   </TableCell>
                   <TableCell align="right"> {data.author}</TableCell>
                   <TableCell align="right"> {data.category.name}</TableCell>
@@ -175,7 +216,7 @@ const PostList = () => {
           sx={{ m: "auto", mb: 2 }}
         />
       </Stack>
-    </DefaultLayout>
+    </AdminLayout>
   );
 };
 
