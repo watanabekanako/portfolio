@@ -65,11 +65,12 @@ const PostList = () => {
   const [category, setCategory] = React.useState<{
     categories: { name: string; id: number }[];
   }>();
-  console.log("category", category);
+
+  const [selectedCategory, setSelectedCategory] = React.useState();
+
   const handleChange = (event: SelectChangeEvent) => {
     // setCategory(String(event.target.value));
-
-    console.log("選択したカテゴリID", event?.target.value);
+    setSelectedCategory(event.target.value);
   };
 
   React.useEffect(() => {
