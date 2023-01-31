@@ -113,7 +113,7 @@ const PostList = () => {
           新規カテゴリ追加
         </Button>
       </Link>
-      <FormControl sx={{ my: 4, minWidth: 120 }} size="small">
+      <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
         <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
         <Select
           labelId="demo-select-small"
