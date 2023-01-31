@@ -66,21 +66,33 @@ const PostList = () => {
     categories: { name: string; id: number }[];
   }>();
 
-  const [selectedCategory, setSelectedCategory] = React.useState();
+  const [selectedCategory, setSelectedCategory] = React.useState<string>();
 
+  // 絞り込みボタン
+  const handleSearch = () => {
+    axios
+      .get(
+        `http://localhost:3000/posts?&perPage=10&category=${selectedCategory}`
+      )
+      .then((response) => {
+        // 指定したカテゴリのみをとりたいため、postにセットしている
+        setPost(response.data);
+      });
+  };
+
+  // ここで選択したカテゴリIDをselectedCategoryにセットしている
   const handleChange = (event: SelectChangeEvent) => {
-    // setCategory(String(event.target.value));
     setSelectedCategory(event.target.value);
   };
+  console.log("selected", selectedCategory);
 
   React.useEffect(() => {
     axios.get("http://localhost:3000/posts/categories/").then((response) => {
       setCategory(response.data);
     });
-  }, []);
-  // 絞り込みボタン
-  const handleSearch = () => {};
+  }, [selectedCategory]);
 
+  console.log("category", category);
   return (
     <AdminLayout>
       {/* 検索機能 */}
@@ -106,14 +118,15 @@ const PostList = () => {
         <Select
           labelId="demo-select-small"
           id="demo-select-small"
-          value={String(category)}
+          // valueでプルダウンを選択したときに表示される値を設定
+          value={String(category?.categories)}
           label="カテゴリ名"
           onChange={handleChange}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {/* valueで表示される値を設定 */}
+
           {category?.categories?.map(
             (data: { name: string; id: number }, index: any) => {
               return <MenuItem value={data.id}>{data.name}</MenuItem>;
