@@ -68,12 +68,12 @@ const PostList = () => {
   console.log("category", category);
   const handleChange = (event: SelectChangeEvent) => {
     // setCategory({ name: event.target.value });
-    setCategory({
-      categories: {
-        name: "yyyyy",
-        id: String(event.target.value),
-      },
-    });
+    // setCategory({
+    //   categories: {
+    //     name: "yyyyy",
+    //     id: String(event.target.value),
+    //   },
+    // });
     console.log("選択したカテゴリID", event?.target.value);
   };
 
@@ -104,26 +104,29 @@ const PostList = () => {
           新規カテゴリ追加
         </Button>
       </Link>
-      <FormControl sx={{ my: 4, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
-        <Select
-          labelId="demo-select-small"
-          id="demo-select-small"
-          // value={category}
-          label="カテゴリ名"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {/* valueで表示される値を設定 */}
-          {category?.categories?.map(
-            (data: { name: string; id: number }, index: any) => {
-              return <MenuItem value={data.id}>{data.name}</MenuItem>;
-            }
-          )}
-        </Select>
-      </FormControl>
+
+      {/* valueで表示される値を設定 */}
+      {category?.categories?.map(
+        (data: { name: string; id: number }, index: any) => {
+          return (
+            <FormControl sx={{ my: 4, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={data.id}
+                label="カテゴリ名"
+                onChange={handleChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={data.id}>{data.name}</MenuItem>
+              </Select>
+            </FormControl>
+          );
+        }
+      )}
 
       <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
         絞り込み
