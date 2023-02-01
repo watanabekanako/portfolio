@@ -232,7 +232,7 @@ export default function BlogList() {
           // page={post?.totalCount}
           onChange={pageChange}
           page={Number(paginate)}
-          sx={{ m: "auto" }}
+          sx={{ m: "auto", mt: 4 }}
         />
       </Stack>
       <Grid container spacing={2}>
