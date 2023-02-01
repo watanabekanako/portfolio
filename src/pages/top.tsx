@@ -96,6 +96,7 @@ function Top() {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   console.log("id", id);
+  console.log("anchorEl?.id", anchorEl?.id);
   return (
     <DefaultLayout>
       <Slider />
@@ -216,11 +217,6 @@ function Top() {
             >
               <Box sx={{ m: 8 }}>
                 <Typography>妊婦向けサイト</Typography>
-                <Typography>Next.js/Typescriptにて作成</Typography>
-                <Typography>・ECサイトの新規開発</Typography>
-                <Typography>
-                  ・提示された画面サンプルと機能一覧をもとに実装・テストまでの工程を担当
-                </Typography>
               </Box>
             </Popover>
             <Typography component="div">妊婦向けサイト</Typography>
