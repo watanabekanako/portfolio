@@ -11,11 +11,13 @@ import Tag from "./pages/tag";
 import PostCreate from "./pages/admin/postCreate";
 import theme from "./theme";
 import CategoryCreate from "./pages/admin/categoryCreate";
+import ScrollTop from "./componets/scrollTop";
 // 動的ルーティング
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollTop />
       <Routes>
         <Route path={`/`} element={<Top />} />
         {/* ブログ一覧ページ */}
