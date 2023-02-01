@@ -14,6 +14,7 @@ import { Box } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import moment from "moment";
 import Slider from "../componets/slider";
+import Paper from "@mui/material/Paper";
 const baseURL = "http://localhost:3000/test/";
 const postURL = "http://localhost:3000/posts/";
 function Top() {
@@ -80,7 +81,7 @@ function Top() {
     });
   }, []);
 
-  // ポップアップ
+  // workのポップアップ
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -88,170 +89,166 @@ function Top() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
+  console.log("id", id);
   return (
     <DefaultLayout>
       <Slider />
 
       <Container sx={{ marginTop: 2 }}>
         <Box className="red">
-          <Typography
-            component="h2"
-            variant="h4"
-            sx={{ textAlign: "center", my: 10 }}
-            id="about"
-          >
-            About
-          </Typography>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography
+              sx={{ my: 10, px: 2, display: "inline-block", letterSpacing: 4 }}
+              component="h2"
+              variant="h4"
+              className="ttlUnder"
+              id="about"
+            >
+              About
+            </Typography>
+          </Box>
           <Grid container spacing={10}>
-            <Grid item xs={6}>
+            <Grid item xs={6} sx={{ zIndex: 10 }}>
               <CardMedia
                 component="img"
                 image="/img1.jpg"
-                height="300"
+                height="400"
                 alt="green iguana"
               />
             </Grid>
-            <Grid item xs={6}>
-              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+            <Grid item xs={8} sx={{ mx: -20, mt: 16 }}>
+              <Paper
+                sx={{ p: 10, px: 18, backgroundColor: "#e3edee", zIndex: -1 }}
+              >
+                <Typography
+                  component="h4"
+                  variant="h4"
+                  sx={{ letterSpacing: 4 }}
+                >
+                  Watanabe
+                </Typography>
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+              </Paper>
             </Grid>
           </Grid>
         </Box>
-        <Typography
-          sx={{ textAlign: "center", my: 10 }}
-          component="h2"
-          variant="h4"
-          id="work"
-        >
-          WORKS
-        </Typography>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            sx={{ my: 10, px: 2, display: "inline-block", letterSpacing: 4 }}
+            component="h2"
+            variant="h4"
+            className="ttlUnder"
+            id="work"
+          >
+            WORK
+          </Typography>
+          <Typography component="div">
+            React/Next.jsの開発を中心に行っています。
+          </Typography>
+        </Box>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardMedia
-                component="img"
-                image="/logo192.png"
-                height="300"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  ECサイト
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardMedia
-                component="img"
-                image="/logo192.png"
-                height="300"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  妊婦向けサイト
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardMedia
-                component="img"
-                image="/logo192.png"
-                height="300"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  ポートフォリオ
-                </Typography>
-                <Button
-                  aria-describedby={id}
-                  variant="contained"
-                  onClick={handleClick}
-                >
-                  <Typography gutterBottom variant="h5" component="div">
-                    more
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                  ></Typography>
-                </Button>
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  sx={{ width: "200 px" }}
-                >
-                  <Typography sx={{ p: 10, m: 10 }}>
-                    The content of the Popover.The content of the Popover.The
-                    content of the Popover.The content of the Popover.The
-                    content of the Popover.The content of the Popover.The
-                    content of the Popover.
-                  </Typography>
-                </Popover>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-        <Typography
-          sx={{ textAlign: "center", my: 10 }}
-          component="h2"
-          variant="h4"
-        >
-          Blog
-        </Typography>
-        {/* <Grid container spacing={2}>
-          {[...Array(3)].map(() => (
-            <Grid item xs={4}>
-              <Card sx={{ maxWidth: 345 }}>
+            <Button aria-describedby={id} onClick={handleClick}>
+              <Paper elevation={3}>
                 <CardMedia
                   component="img"
-                  image="/logo192.png"
-                  height="300"
+                  image="/img1.jpg"
+                  height="400"
                   alt="green iguana"
                 />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    title
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid> */}
-
+              </Paper>
+            </Button>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ m: 8 }}>
+                <Typography>ECサイト</Typography>
+                <Typography>Next.js/Typescriptにて作成</Typography>
+                <Typography>・ECサイトの新規開発</Typography>
+                <Typography>
+                  ・提示された画面サンプルと機能一覧をもとに実装・テストまでの工程を担当
+                </Typography>
+              </Box>
+            </Popover>
+            <Typography component="div">ECサイト</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Button aria-describedby={id} onClick={handleClick}>
+              <Paper elevation={3}>
+                <CardMedia
+                  component="img"
+                  image="/img1.jpg"
+                  height="400"
+                  alt="green iguana"
+                />
+              </Paper>
+            </Button>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ m: 8 }}>
+                <Typography>妊婦向けサイト</Typography>
+                <Typography>Next.js/Typescriptにて作成</Typography>
+                <Typography>・ECサイトの新規開発</Typography>
+                <Typography>
+                  ・提示された画面サンプルと機能一覧をもとに実装・テストまでの工程を担当
+                </Typography>
+              </Box>
+            </Popover>
+            <Typography component="div">妊婦向けサイト</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Button aria-describedby={id} onClick={handleClick}>
+              <Paper elevation={3}>
+                <CardMedia
+                  component="img"
+                  image="/img1.jpg"
+                  height="400"
+                  alt="green iguana"
+                />
+              </Paper>
+            </Button>
+            <Typography component="div">ポートフォリオ</Typography>
+          </Grid>
+        </Grid>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            sx={{ my: 10, px: 2, display: "inline-block", letterSpacing: 4 }}
+            component="h2"
+            variant="h4"
+            className="ttlUnder"
+          >
+            Blog
+          </Typography>
+        </Box>
         {/* ブログの取り出し */}
         <Grid container spacing={2}>
           {count?.post?.map((data: any, index: any) => {
@@ -311,7 +308,7 @@ function Top() {
                             return tag.name;
                           })}
                         </Typography>
-                      ) : null}
+                      ) : undefined}
                     </CardContent>
                   </Card>
                 </Link>
@@ -319,57 +316,6 @@ function Top() {
             );
           })}
         </Grid>
-
-        {/* {Object.keys(post).map((data: any, index) => {
-          return (
-            <li key={index} value={data.id}>
-              {data.name}
-            </li>
-          );
-        })} */}
-        {/* {post?.test?.map((data: any, index: any) => {
-          return (
-            <li key={index} value={data.id}>
-              {data.id}
-              {data.name}
-              <input
-                type="text"
-                value={updateNameText}
-                onChange={onChangeNameText}
-              />
-
-              <button
-                onClick={() =>
-                  axios
-                    .delete(`http://localhost:3000/test/${data.id}`, {
-                      params: {
-                        id: data.id,
-                        name: data.body,
-                      },
-                    })
-                    .then(() => {
-                      console.log("削除ID", baseURL);
-                    })
-                    .catch((err) => {
-                      console.log("err,err");
-                    })
-                }
-              >
-                削除する
-              </button>
-              <button
-                onClick={() =>
-                  axios.put(`http://localhost:3000/test/${data.id}`, {
-                    id: data.id,
-                    name: updateNameText,
-                  })
-                }
-              >
-                更新する
-              </button>
-            </li>
-          );
-        })} */}
       </Container>
       <Box textAlign="center">
         <Link to={`/blog?page=1&category=1`}>

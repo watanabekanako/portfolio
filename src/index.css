@@ -5,7 +5,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
   color: #333;
-  font-family: "Pacifico", cursive;
+  font-family: Cabin;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
 }
 a {
   text-decoration: none;

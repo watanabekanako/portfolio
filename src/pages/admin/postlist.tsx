@@ -14,7 +14,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Pagination from "@mui/material/Pagination";
 import { Stack } from "@mui/system";
@@ -39,7 +39,7 @@ const PostList = () => {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; name: string }[];
+        post: { id: number; name: string; content?: string; title?: string }[];
         pages: number;
       }
     | undefined
@@ -67,7 +67,7 @@ const PostList = () => {
   }>();
 
   const [selectedCategory, setSelectedCategory] = React.useState<string>();
-
+  console.log("selecterCategory", selectedCategory);
   // 絞り込みボタン
   const handleSearch = () => {
     axios
@@ -92,10 +92,8 @@ const PostList = () => {
     });
   }, [selectedCategory]);
 
-  console.log("category", category);
   return (
     <AdminLayout>
-      {/* 検索機能 */}
       <Typography
         sx={{ textAlign: "center", my: 6 }}
         component="h2"
@@ -118,15 +116,14 @@ const PostList = () => {
         <Select
           labelId="demo-select-small"
           id="demo-select-small"
-          // valueでプルダウンを選択したときに表示される値を設定
-          value={String(category?.categories)}
+          value={selectedCategory}
           label="カテゴリ名"
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>全て</em>
           </MenuItem>
-
+          {/* valueで表示される値を設定 */}
           {category?.categories?.map(
             (data: { name: string; id: number }, index: any) => {
               return <MenuItem value={data.id}>{data.name}</MenuItem>;
@@ -136,7 +133,7 @@ const PostList = () => {
       </FormControl>
 
       <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
-        絞り込み
+        カテゴリ絞り込み
       </Button>
 
       <TableContainer component={Paper} sx={{ marginBottom: 12 }}>
