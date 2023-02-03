@@ -218,7 +218,7 @@ function PostCreate() {
               <Button onClick={handleSubmit} variant={"contained"}>
                 更新する
               </Button>
-              <MyButton text="追加する" />
+              <MyButton>追加する</MyButton>
             </Box>
           </Grid>
           <Grid item xs={3} sx={{ marginTop: 4 }}>
