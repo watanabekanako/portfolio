@@ -120,7 +120,7 @@ function Top() {
                 component="img"
                 image="/img1.jpg"
                 height="400"
-                alt="green iguana"
+                alt="about"
               />
             </Grid>
             <Grid item xs={8} sx={{ mx: -20, mt: 16 }}>
@@ -134,15 +134,14 @@ function Top() {
                 >
                   Watanabe
                 </Typography>
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                <Typography component="div" sx={{ letterSpacing: 4, mt: 2 }}>
+                  岐阜県出身
+                  <br />
+                  フロントエンドエンジニアを目指したきっかけ： <br />
+                  医療業界で働いていた経験があり、アナログな業界をITの力で、
+                  良くしたいと思ったことがきっかけ。
+                  <br />
+                </Typography>
               </Paper>
             </Grid>
           </Grid>
@@ -157,25 +156,29 @@ function Top() {
           >
             WORK
           </Typography>
-          <Typography component="div">
-            React/Next.jsの開発を中心に行っています。
-          </Typography>
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Button aria-describedby={id} onClick={handleClick}>
+            <Button
+              aria-describedby={id}
+              onClick={handleClick}
+              // 各々の記事にポップアップを装備するためにidの付与が必要
+              id={"work-1-btn"}
+            >
               <Paper elevation={3}>
                 <CardMedia
                   component="img"
                   image="/img1.jpg"
                   height="400"
-                  alt="green iguana"
+                  alt="ECサイト"
                 />
               </Paper>
             </Button>
             <Popover
-              id={id}
-              open={open}
+              id={"work-1-popup"}
+              // openにてポップアップの表示の制御
+              // anchorEl?.id にてボタンのidを取得できる
+              open={anchorEl?.id === "work-1-btn"}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
@@ -195,19 +198,23 @@ function Top() {
             <Typography component="div">ECサイト</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Button aria-describedby={id} onClick={handleClick}>
+            <Button
+              aria-describedby={id}
+              onClick={handleClick}
+              id={"work-2-btn"}
+            >
               <Paper elevation={3}>
                 <CardMedia
                   component="img"
                   image="/img1.jpg"
                   height="400"
-                  alt="green iguana"
+                  alt="妊婦向けサイト"
                 />
               </Paper>
             </Button>
             <Popover
-              id={id}
-              open={open}
+              id={"work-2-popup"}
+              open={anchorEl?.id === "work-2-btn"}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
@@ -222,16 +229,35 @@ function Top() {
             <Typography component="div">妊婦向けサイト</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Button aria-describedby={id} onClick={handleClick}>
+            <Button
+              aria-describedby={id}
+              onClick={handleClick}
+              id={"work-3-btn"}
+            >
               <Paper elevation={3}>
                 <CardMedia
                   component="img"
                   image="/img1.jpg"
                   height="400"
-                  alt="green iguana"
+                  alt="ポートフォリオ"
                 />
               </Paper>
             </Button>
+
+            <Popover
+              id={"work-3-popup"}
+              open={anchorEl?.id === "work-3-btn"}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ m: 8 }}>
+                <Typography>ポートフォリオ</Typography>
+              </Box>
+            </Popover>
             <Typography component="div">ポートフォリオ</Typography>
           </Grid>
         </Grid>
@@ -249,7 +275,6 @@ function Top() {
         <Grid container spacing={2}>
           {count?.post?.map((data: any, index: any) => {
             // console.log(data.id);
-
             return (
               <Grid item xs={4} key={data.id}>
                 <Link to={`/blog/${data.id}`}>
