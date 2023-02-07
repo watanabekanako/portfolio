@@ -21,7 +21,8 @@ import FormLabel from "@mui/material/FormLabel";
 import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 import { WithContext as ReactTags } from "react-tag-input";
-import MyButton from "../../componets/MyButton";
+import StyledButton from "../../componets/styledButton";
+
 const KeyCodes = {
   comma: 188,
   enter: 13,
@@ -215,11 +216,12 @@ function PostCreate() {
                   一覧へ戻る
                 </Button>
               </Link>
-              <Button onClick={handleSubmit} variant={"contained"}>
+              <StyledButton onClick={handleSubmit} variant={"contained"}>
                 更新する
-              </Button>
-              <MyButton>追加する</MyButton>
+              </StyledButton>
+      
             </Box>
+
           </Grid>
           <Grid item xs={3} sx={{ marginTop: 4 }}>
             <Paper sx={{ p: 2 }}>
