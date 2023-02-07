@@ -279,9 +279,10 @@ function Top() {
               <Grid item xs={4} key={data.id}>
                 <Link to={`/blog/${data.id}`}>
                   <Card sx={{ maxWidth: 345 }}>
+                    {/* キャッチアップ画像 */}
                     <CardMedia
                       component="img"
-                      image="/img1.jpg"
+                      image={data.thumbnailUrl}
                       height="300"
                       alt=""
                     />
@@ -295,7 +296,6 @@ function Top() {
                       <Typography gutterBottom variant="h5" component="div">
                         {data.title}
                       </Typography>
-                      <Typography>{data.thumbnailUrl} </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {data.description}
                       </Typography>
