@@ -5,31 +5,35 @@ import {ref,  uploadBytes,  getDownloadURL } from "firebase/storage"
 // import "../src/imgupload.css"
 import { getStorage } from "firebase/storage";
 import storage from "./firebase";
-const ImageUploader = () => {
-const [url,setUrl]=React.useState();
-console.log("setURL",url)
+const ImageUploader:React.FC<{
+  onUploadCompleted?:(url:string)=>void
+}>= ({onUploadCompleted}) => {
+// const [url,setUrl]=React.useState();
+
   const OnFileUploadFirebase =(e:any)=>{
     const file =e.target.files[0];
-    const storageRef=ref(storage,"/image/" + file.name);
+    const storageRef=ref(storage, file.name);
     
     uploadBytes(storageRef, file).then((snapshot:any) => {
       console.log('Uploaded a blob or file!');
     });
   
-    getDownloadURL(ref(storage,"/image/" + file.name))
+    getDownloadURL(ref(storage, file.name))
     .then((url:any)=>{
       // 下記でアップロードしてurlを取得できる
-      console.log("url",url)
-      setUrl(url)
+      // console.log("url",url)
+      // setUrl(url)
+      if(onUploadCompleted){
+        onUploadCompleted(url)
+
+      }
     })
   }
  
   return (
     <div className="outerBox">
-      <div className="title">
-        <h2>画像アップローダー</h2>
-        <p>JpegかPngの画像ファイル</p>
-      </div>
+    
+    {/* <div><img src={url} alt="" /></div> */}
       <div className="imageUplodeBox">
         <div className="imageLogoAndText">
           {/* <img src={ImageLogo} alt="imagelogo" /> */}

@@ -149,7 +149,7 @@ function PostCreate() {
         });
     }
   };
-  console.log(post);
+  console.log("url",post?.thumbnailUrl);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
@@ -302,18 +302,16 @@ function PostCreate() {
                 inputFieldPosition="bottom"
                 autocomplete
               />
-              <CatchImg
-                value={post?.thumbnailUrl}
-                onChange={(files: any) => {
-                  setPost({
-                    ...post,
-                    thumbnailUrl: files.map((file: any) =>
-                      file.map((v: any) => v.path)
-                    ),
-                  });
-                }}
-              />
-              <ImageUploader/>
+           
+              <ImageUploader onUploadCompleted={(url:any) => {
+                console.log(url);
+                 // urlをpostのthumbnailUrlにセットする
+                setPost({
+                  ...post,
+                  thumbnailUrl:url
+                })
+   
+  }}/>
             </Paper>
           </Grid>
         </Grid>
