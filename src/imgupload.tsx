@@ -19,7 +19,7 @@ const ImageUploader:React.FC<{
     });
   
     getDownloadURL(ref(storage, file.name))
-    .then((url:any)=>{
+    .then((url:string)=>{
       // 下記でアップロードしてurlを取得できる
       // console.log("url",url)
       // setUrl(url)

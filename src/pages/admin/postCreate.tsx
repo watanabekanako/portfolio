@@ -304,7 +304,7 @@ function PostCreate() {
               />
            
               <ImageUploader onUploadCompleted={(url:any) => {
-                console.log(url);
+           
                  // urlをpostのthumbnailUrlにセットする
                 setPost({
                   ...post,
