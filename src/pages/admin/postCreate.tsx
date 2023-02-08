@@ -22,6 +22,7 @@ import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 import { WithContext as ReactTags } from "react-tag-input";
 import StyledButton from "../../componets/styledButton";
+import ImageUploader from "../../imgupload";
 
 const KeyCodes = {
   comma: 188,
@@ -312,6 +313,7 @@ function PostCreate() {
                   });
                 }}
               />
+              <ImageUploader/>
             </Paper>
           </Grid>
         </Grid>
