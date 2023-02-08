@@ -1,11 +1,13 @@
 import { Button } from "@mui/material"
+import React from "react";
 // import ImageLogo from "./image.svg";
-// import "../../src/imageUpload.css"
-import storage from "./firebase";
 import {ref,  uploadBytes,  getDownloadURL } from "firebase/storage"
+// import "../src/imgupload.css"
 import { getStorage } from "firebase/storage";
+import storage from "./firebase";
 const ImageUploader = () => {
-  const storage = getStorage();
+const [url,setUrl]=React.useState();
+console.log("setURL",url)
   const OnFileUploadFirebase =(e:any)=>{
     const file =e.target.files[0];
     const storageRef=ref(storage,"/image/" + file.name);
@@ -18,13 +20,10 @@ const ImageUploader = () => {
     .then((url:any)=>{
       // 下記でアップロードしてurlを取得できる
       console.log("url",url)
+      setUrl(url)
     })
-    console.log("URL",getDownloadURL)
-
   }
  
-
-
   return (
     <div className="outerBox">
       <div className="title">
@@ -43,7 +42,7 @@ const ImageUploader = () => {
         ファイルを選択
         <input className="imageUploadInput" type="file"  onChange={OnFileUploadFirebase} />
       </Button>
-      <div id="myimg"></div>
+   
     </div>
   );
 };
