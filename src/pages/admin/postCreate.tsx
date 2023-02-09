@@ -21,6 +21,8 @@ import FormLabel from "@mui/material/FormLabel";
 import CatchImg from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 import { WithContext as ReactTags } from "react-tag-input";
+import StyledButton from "../../componets/styledButton";
+import ImageUploader from "../../componets/imgupload";
 
 const KeyCodes = {
   comma: 188,
@@ -147,7 +149,7 @@ function PostCreate() {
         });
     }
   };
-
+  console.log("url",post?.thumbnailUrl);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
@@ -215,14 +217,12 @@ function PostCreate() {
                   一覧へ戻る
                 </Button>
               </Link>
-              <Button
-                onClick={handleSubmit}
-                variant={"contained"}
-                sx={{ backgroundColor: "#53a4d6 " }}
-              >
+              <StyledButton onClick={handleSubmit} variant={"contained"}>
                 更新する
-              </Button>
+              </StyledButton>
+      
             </Box>
+
           </Grid>
           <Grid item xs={3} sx={{ marginTop: 4 }}>
             <Paper sx={{ p: 2 }}>
@@ -302,17 +302,15 @@ function PostCreate() {
                 inputFieldPosition="bottom"
                 autocomplete
               />
-              <CatchImg
-                value={post?.thumbnailUrl}
-                onChange={(files: any) => {
-                  setPost({
-                    ...post,
-                    thumbnailUrl: files.map((file: any) =>
-                      file.map((v: any) => v.path)
-                    ),
-                  });
-                }}
-              />
+           
+              <ImageUploader onUploadCompleted={(url:any) => {
+           
+                 // urlをpostのthumbnailUrlにセットする
+                setPost({
+                  ...post,
+                  thumbnailUrl:url
+                })  
+  }}/>
             </Paper>
           </Grid>
         </Grid>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import DefaultLayout from "../../componets/layout/defaultlayout";
+import AdminLayout from "../../componets/layout/adminLayout";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
@@ -14,8 +14,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
+import Pagination from "@mui/material/Pagination";
+import { Stack } from "@mui/system";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const PostList = () => {
   const style = {
@@ -33,7 +39,8 @@ const PostList = () => {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; name: string }[];
+        post: { id: number; name: string; content?: string; title?: string }[];
+        pages: number;
       }
     | undefined
   >();
@@ -48,23 +55,87 @@ const PostList = () => {
   }, []);
 
   const [value, setValue] = React.useState(0);
+  const paginate = () => {};
   // モーダル
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  return (
-    <DefaultLayout>
-      {/* 記事の新規追加ボタン */}
-      {/* カテゴリ検索プルダウン */}
-      {/* 日付検索プルダウン */}
 
-      {/* 検索機能 */}
-      <Typography>ブログ投稿一覧</Typography>
+  // const [age, setAge] = React.useState("");
+  const [category, setCategory] = React.useState<{
+    categories: { name: string; id: number }[];
+  }>();
+
+  const [selectedCategory, setSelectedCategory] = React.useState<string>();
+  console.log("selecterCategory", selectedCategory);
+  // 絞り込みボタン
+  const handleSearch = () => {
+    axios
+      .get(
+        `http://localhost:3000/posts?&perPage=10&category=${selectedCategory}`
+      )
+      .then((response) => {
+        // 指定したカテゴリのみをとりたいため、postにセットしている
+        setPost(response.data);
+      });
+  };
+
+  // ここで選択したカテゴリIDをselectedCategoryにセットしている
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedCategory(event.target.value);
+  };
+  console.log("selected", selectedCategory);
+
+  React.useEffect(() => {
+    axios.get("http://localhost:3000/posts/categories/").then((response) => {
+      setCategory(response.data);
+    });
+  }, [selectedCategory]);
+
+  return (
+    <AdminLayout>
+      <Typography
+        sx={{ textAlign: "center", my: 6 }}
+        component="h2"
+        variant="h4"
+      >
+        投稿一覧
+      </Typography>
       <Link to={`posts/add/`}>
         <Button variant="contained" sx={{ my: 4 }}>
           新規追加
         </Button>
       </Link>
+      <Link to={`category`}>
+        <Button variant="contained" sx={{ my: 4, mx: 2 }}>
+          新規カテゴリ追加
+        </Button>
+      </Link>
+      <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
+        <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
+        <Select
+          labelId="demo-select-small"
+          id="demo-select-small"
+          value={selectedCategory}
+          label="カテゴリ名"
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>全て</em>
+          </MenuItem>
+          {/* valueで表示される値を設定 */}
+          {category?.categories?.map(
+            (data: { name: string; id: number }, index: any) => {
+              return <MenuItem value={data.id}>{data.name}</MenuItem>;
+            }
+          )}
+        </Select>
+      </FormControl>
+
+      <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
+        カテゴリ絞り込み
+      </Button>
+
       <TableContainer component={Paper} sx={{ marginBottom: 12 }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -91,62 +162,50 @@ const PostList = () => {
                           編集する
                         </Link>
                       </span>
-                      <Button
-                        onClick={() => {
-                          axios
-                            .delete(`http://localhost:3000/posts/${data.id}`)
-                            .then((response) => {
-                              axios
-                                .get(
-                                  "http://localhost:3000/posts?&perPage=10&category="
-                                )
-                                .then((response) => {
-                                  setPost(response.data);
-                                });
-                            });
-                        }}
-                      >
-                        削除する
-                      </Button>
-                    </p>
-                    <div>
-                      <Button onClick={handleOpen}>削除する２</Button>
-                      <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                      >
-                        <Box sx={style}>
-                          <Typography
-                            id="modal-modal-title"
-                            variant="h6"
-                            component="h2"
-                          >
-                            削除しますか？
-                          </Typography>
-                          <Button
-                            onClick={() => {
-                              axios
-                                .delete(
-                                  `http://localhost:3000/posts/${data.id}`
-                                )
-                                .then((response) => {
+                      <span>
+                        <Button onClick={handleOpen}>削除する</Button>
+                        <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <Typography
+                              textAlign={"center"}
+                              id="modal-modal-title"
+                              variant="h6"
+                              component="h2"
+                            >
+                              本当に削除しますか？
+                            </Typography>
+                            <Box textAlign="center">
+                              <Button
+                                sx={{ my: 2 }}
+                                variant="contained"
+                                onClick={() => {
                                   axios
-                                    .get(
-                                      "http://localhost:3000/posts?&perPage=10&category="
+                                    .delete(
+                                      `http://localhost:3000/posts/${data.id}`
                                     )
                                     .then((response) => {
-                                      setPost(response.data);
+                                      axios
+                                        .get(
+                                          "http://localhost:3000/posts?&perPage=10&category="
+                                        )
+                                        .then((response) => {
+                                          setPost(response.data);
+                                        });
                                     });
-                                });
-                            }}
-                          >
-                            削除する
-                          </Button>
-                        </Box>
-                      </Modal>
-                    </div>
+                                }}
+                              >
+                                削除する
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Modal>
+                      </span>
+                    </p>
                   </TableCell>
                   <TableCell align="right"> {data.author}</TableCell>
                   <TableCell align="right"> {data.category.name}</TableCell>
@@ -165,7 +224,14 @@ const PostList = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+      <Stack>
+        <Pagination
+          count={post?.pages}
+          onChange={paginate}
+          sx={{ m: "auto", mb: 2 }}
+        />
+      </Stack>
+    </AdminLayout>
   );
 };
 

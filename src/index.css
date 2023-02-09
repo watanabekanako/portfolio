@@ -1,10 +1,13 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
   color: #333;
+  font-family: Cabin;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
 }
 a {
   text-decoration: none;
@@ -16,8 +19,4 @@ code {
 .css-1stm67b-MuiButtonBase-root-MuiTab-root.Mui-selected {
   color: #fff !important;
   background-color: #53a4d6 !important;
-}
-
-a:hover {
-  background-color: gold !important;
 }

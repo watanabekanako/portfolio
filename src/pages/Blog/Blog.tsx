@@ -48,7 +48,9 @@ function Blog() {
     axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
       setPost(response.data);
     });
-  }, [post]);
+    // 依存配列にpost入れていると無限ループ
+  }, []);
+
   console.log("ぽすと", post?.post);
   // React.useEffect(() => {
   //   axios
@@ -127,7 +129,7 @@ function Blog() {
               {/* <div>ユーザーID： {id}です </div> */}
               {post?.post.content}
             </Paper>
-            <Box textAlign="center">
+            <Box textAlign="center" sx={{ mb: 8 }}>
               <Link to={`/blog?page=1&category=1`}>
                 <Button
                   sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
@@ -137,15 +139,15 @@ function Blog() {
                 </Button>
               </Link>
             </Box>
-            <Typography>おすすめの記事</Typography>
-            <Grid container spacing={2} sx={{ my: 8 }}>
+            <Typography sx={{ my: 3 }}>あわせて読みたい!</Typography>
+            <Grid container spacing={2} sx={{ mb: 8 }}>
               {category?.post?.map((data: any, index: any) => (
                 <Grid item xs={4} key={data.id}>
                   <Link to={`/blog/${data.id}`}>
                     <Card sx={{ maxWidth: 345 }}>
                       <CardMedia
                         component="img"
-                        image="/img1.jpg"
+                        image={data.thumbnailUrl}
                         height="300"
                         alt="green iguana"
                       />
@@ -164,20 +166,31 @@ function Blog() {
                             borderRadius: "16px",
                             color: "#fff",
                             marginRight: 2,
+                            mb: 1,
                           }}
                           component="span"
                         >
                           {data?.category?.name}
                         </Typography>
-
-                        <Typography
-                          component="span"
-                          sx={{ backgroundColor: "#53a4d6" }}
-                        >
-                          {data.tags.map((tag: any, index: any) => {
-                            return tag.name;
-                          })}
-                        </Typography>
+                        {data.tags.map((tag: any, index: any) => {
+                          return (
+                            <Typography
+                              component="span"
+                              sx={{
+                                backgroundColor: "#53a4d6 ",
+                                color: "#fff",
+                                display: "inline-block",
+                                borderRadius: "14px",
+                                mr: 1,
+                                mb: 1,
+                                px: "10px",
+                                py: "4px",
+                              }}
+                            >
+                              {tag.name}
+                            </Typography>
+                          );
+                        })}
 
                         <Typography component="div">
                           <Typography

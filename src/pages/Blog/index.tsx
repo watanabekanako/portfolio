@@ -18,15 +18,14 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { WifiPassword } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 // ブログ一覧ページ
 // カテゴリタブ
-function a11yProps(index: number) {
+function a11yProps(id: number) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `simple-tab-${id}`,
+    "aria-controls": `simple-tabpanel-${id}`,
   };
 }
 export default function BlogList() {
@@ -45,43 +44,60 @@ export default function BlogList() {
   // post?.post?.lengthで記事の数を出力
   console.log("post.pages", post?.pages);
   const [searchParams, setSearchParams] = useSearchParams();
+  // 初期値
   const page = searchParams.get("page");
   console.log("page", page);
 
   const navigate = useNavigate();
   const [paginate, setPaginate] = React.useState(page);
-  const [category, setCategory] = React.useState("");
-
+  const [categoryId, setCategoryId] = React.useState("");
+  const [categoryName, setCategoryName] = React.useState<
+    | {
+        id: number;
+        name: string;
+      }[]
+    | undefined
+  >();
+  console.log("categoryName", categoryName);
   const pageChange = (event: any, value: any) => {
-    navigate(`/blog?page=${value}&category=${category}`);
-    setCategory(category);
+    navigate(`/blog?page=${value}&category=${categoryId}`);
+    setCategoryId(categoryId);
     setPaginate(value);
   };
 
-  console.log("category", category);
   React.useEffect(() => {
     axios
       // 下記URLのcategoryにカテゴリidが入る
       .get(
-        `http://localhost:3000/posts?page=${paginate}&perPage=10&category=${category}`
+        `http://localhost:3000/posts?page=${
+          paginate ?? "1"
+        }&perPage=10&category=${categoryId}`
       )
       .then((response) => {
         setPost(response.data);
       });
-  }, [category, paginate]);
+  }, [categoryId, paginate]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:3000/posts/categories`).then((response) => {
+      setCategoryName(response.data.categories);
+      console.log("response", response.data);
+    });
+  }, []);
 
   // idの取得
   const { id } = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    console.log("newValue", newValue);
     // urlのセット
-    navigate(`/blog?page=1&category=${category}`);
+    navigate(`/blog?page=1&category=${categoryId}`);
     // データ取得のセット
-    setCategory(newValue);
+    setCategoryId(newValue);
     setPaginate(String(1));
   };
   // tabにて選択したカテゴリ名取れている
-  console.log("カテゴリの値", category);
+  console.log("カテゴリのID", categoryId);
 
   return (
     <DefaultLayout>
@@ -95,7 +111,7 @@ export default function BlogList() {
           }}
         >
           <Tabs
-            value={category}
+            value={categoryId}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -108,33 +124,22 @@ export default function BlogList() {
                 marginRight: 2,
               }}
             />
-            <Tab
-              label="food"
-              {...a11yProps(1)}
-              value={"3"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
-            <Tab
-              label="travel"
-              {...a11yProps(2)}
-              value={"2"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
-            <Tab
-              label="hobby"
-              {...a11yProps(3)}
-              value={"1"}
-              sx={{
-                backgroundColor: "rgba(189, 189, 189, 0.17)",
-                marginRight: 2,
-              }}
-            />
+            {categoryName?.map((data: any) => {
+              console.log("data.id", data.id);
+              return (
+                // フラグメントの削除にてタブの挙動正常化
+                // 下記コンポーネントは直下に置かないと動かない
+                <Tab
+                  label={data.name}
+                  {...a11yProps(data.id)}
+                  value={String(data.id)}
+                  sx={{
+                    backgroundColor: "rgba(189, 189, 189, 0.17)",
+                    marginRight: 2,
+                  }}
+                />
+              );
+            })}
           </Tabs>
         </Box>
       </Box>
@@ -147,7 +152,7 @@ export default function BlogList() {
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
                     component="img"
-                    image="/img1.jpg"
+                    image={data.thumbnailUrl}
                     height="300"
                     alt="green iguana"
                   />
@@ -227,7 +232,7 @@ export default function BlogList() {
           // page={post?.totalCount}
           onChange={pageChange}
           page={Number(paginate)}
-          sx={{ m: "auto" }}
+          sx={{ m: "auto", mt: 4 }}
         />
       </Stack>
       <Grid container spacing={2}>

@@ -10,17 +10,21 @@ import Category from "./pages/category";
 import Tag from "./pages/tag";
 import PostCreate from "./pages/admin/postCreate";
 import theme from "./theme";
+import CategoryCreate from "./pages/admin/categoryCreate";
+import ScrollTop from "./componets/scrollTop";
 // 動的ルーティング
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollTop />
       <Routes>
         <Route path={`/`} element={<Top />} />
         {/* ブログ一覧ページ */}
         <Route path={`/blog`} element={<BlogList />} />
         <Route path={`/blog/blog`} element={<Blog />} />
         <Route path={`/admin/`} element={<PostList />} />
+        <Route path={`/admin/category`} element={<CategoryCreate />} />
         {/* ブログ閲覧の動的ルーティング */}
         <Route path="/blog/:id" element={<Blog />}></Route>
         {/* カテゴリリストから遷移するページ */}

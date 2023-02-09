@@ -1,9 +1,9 @@
 body {
   background-color: #fffbef;
+  font-family: Cabin;
+  line-height: 2;
 }
-a:hover {
-  background-color: gold !important;
-}
+
 .App {
   text-align: center;
 }
@@ -127,4 +127,13 @@ div.ReactTags__suggestions li mark {
 div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   background: #b7cfe0;
   cursor: pointer;
+}
+
+.ttlUnder {
+  padding: 0.5rem 0;
+  margin-bottom: 0.1rem;
+  border-bottom: 3px dotted #e94c83;
+  font-weight: bold;
+  font-size: 26px;
+  color: #e58e99;
 }
