@@ -152,7 +152,7 @@ export default function BlogList() {
                 <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
                     component="img"
-                    image="/img1.jpg"
+                    image={data.thumbnailUrl}
                     height="300"
                     alt="green iguana"
                   />

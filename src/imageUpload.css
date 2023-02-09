@@ -24,9 +24,8 @@
   
   .imageLogoAndText p {
     margin-bottom: 0px;
-  }
-  
-  .imageUploadInput {
+  } 
+.imageUploadInput {
     opacity: 0;
     position: absolute;
     top: 0;

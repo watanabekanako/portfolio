@@ -3,8 +3,8 @@ import React from "react";
 // import ImageLogo from "./image.svg";
 import {ref,  uploadBytes,  getDownloadURL } from "firebase/storage"
 // import "../src/imgupload.css"
-import { getStorage } from "firebase/storage";
-import storage from "./firebase";
+// import { getStorage } from "firebase/storage";
+import storage from "../firebase"
 const ImageUploader:React.FC<{
   onUploadCompleted?:(url:string)=>void
 }>= ({onUploadCompleted}) => {
