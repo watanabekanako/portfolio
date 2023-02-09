@@ -5,10 +5,14 @@ import {ref,  uploadBytes,  getDownloadURL } from "firebase/storage"
 // import "../src/imgupload.css"
 // import { getStorage } from "firebase/storage";
 import storage from "../firebase"
+
+// propsに関数をもったコンポーネント
 const ImageUploader:React.FC<{
   onUploadCompleted?:(url:string)=>void
 }>= ({onUploadCompleted}) => {
 // const [url,setUrl]=React.useState();
+console.log("onupload",onUploadCompleted)
+
 
   const OnFileUploadFirebase =(e:any)=>{
     const file =e.target.files[0];

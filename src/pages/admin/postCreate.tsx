@@ -309,8 +309,7 @@ function PostCreate() {
                 setPost({
                   ...post,
                   thumbnailUrl:url
-                })
-   
+                })  
   }}/>
             </Paper>
           </Grid>
