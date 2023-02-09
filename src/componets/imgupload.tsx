@@ -10,7 +10,7 @@ import storage from "../firebase"
 const ImageUploader:React.FC<{
   onUploadCompleted?:(url:string)=>void
 }>= ({onUploadCompleted}) => {
-// const [url,setUrl]=React.useState();
+const [url,setUrl]=React.useState<string>();
 console.log("onupload",onUploadCompleted)
 
 
@@ -25,10 +25,11 @@ console.log("onupload",onUploadCompleted)
     getDownloadURL(ref(storage, file.name))
     .then((url:string)=>{
       // 下記でアップロードしてurlを取得できる
-      // console.log("url",url)
-      // setUrl(url)
+      console.log("url",url)
+     
       if(onUploadCompleted){
         onUploadCompleted(url)
+        setUrl(url)
 
       }
     })
@@ -37,7 +38,7 @@ console.log("onupload",onUploadCompleted)
   return (
     <div className="outerBox">
     
-    {/* <div><img src={url} alt="" /></div> */}
+    <div><img src={url} alt="" /></div>
       <div className="imageUplodeBox">
         <div className="imageLogoAndText">
           {/* <img src={ImageLogo} alt="imagelogo" /> */}
