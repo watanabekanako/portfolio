@@ -21,7 +21,6 @@ console.log("onupload",onUploadCompleted)
     uploadBytes(storageRef, file).then((snapshot:any) => {
       console.log('Uploaded a blob or file!');
     });
-  
     getDownloadURL(ref(storage, file.name))
     .then((url:string)=>{
       // 下記でアップロードしてurlを取得できる
@@ -47,7 +46,7 @@ console.log("onupload",onUploadCompleted)
         <input className="imageUploadInput" multiple name="imageURL" type="file" accept =".png, .jpg ,.jpeg" onChange={OnFileUploadFirebase} />
       </div>
       <p>または</p>
-      <Button variant="contained">
+      <Button >
         ファイルを選択
         <input className="imageUploadInput" type="file"  onChange={OnFileUploadFirebase} />
       </Button>
