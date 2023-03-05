@@ -29,9 +29,6 @@ function a11yProps(id: number) {
   };
 }
 export default function BlogList() {
-  // http://localhost:3001/blog?page=1 これでページング１ページ目の取得
-  // http://localhost:3001/blog?page=2 これでページングの2ページ目の取得
-
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -41,16 +38,35 @@ export default function BlogList() {
       }
     | undefined
   >();
+  
   // post?.post?.lengthで記事の数を出力
   console.log("post.pages", post?.pages);
   const [searchParams, setSearchParams] = useSearchParams();
+
+
   // 初期値
   const page = searchParams.get("page");
   console.log("page", page);
 
+  React.useEffect(()=>{
+    axios
+    // 下記URLのcategoryにカテゴリidが入る
+    .get(
+      `http://localhost:3000/posts?page=${
+        searchParams.get("page") ?? "1"
+      }&perPage=10&category=${searchParams.get("category")}`
+    )
+    .then((response) => {
+      setPost(response.data);
+    });
+
+  },[searchParams.get("page"),searchParams.get("category")])
+  
+
+
   const navigate = useNavigate();
-  const [paginate, setPaginate] = React.useState(page);
-  const [categoryId, setCategoryId] = React.useState("");
+  // const [paginate, setPaginate] = React.useState(page);
+  // const [categoryId, setCategoryId] = React.useState("");
   const [categoryName, setCategoryName] = React.useState<
     | {
         id: number;
@@ -60,24 +76,10 @@ export default function BlogList() {
   >();
   console.log("categoryName", categoryName);
   const pageChange = (event: any, value: any) => {
-    navigate(`/blog?page=${value}&category=${categoryId}`);
-    setCategoryId(categoryId);
-    setPaginate(value);
+    navigate(`/blog?page=${value}&category=${searchParams.get("category")}`);
+    // setCategoryId(categoryId);
+    // setPaginate(value);
   };
-
-  React.useEffect(() => {
-    axios
-      // 下記URLのcategoryにカテゴリidが入る
-      .get(
-        `http://localhost:3000/posts?page=${
-          paginate ?? "1"
-        }&perPage=10&category=${categoryId}`
-      )
-      .then((response) => {
-        setPost(response.data);
-      });
-  }, [categoryId, paginate]);
-
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/categories`).then((response) => {
       setCategoryName(response.data.categories);
@@ -85,20 +87,12 @@ export default function BlogList() {
     });
   }, []);
 
-  // idの取得
-  const { id } = useParams();
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     console.log("newValue", newValue);
     // urlのセット
-    navigate(`/blog?page=1&category=${categoryId}`);
-    // データ取得のセット
-    setCategoryId(newValue);
-    setPaginate(String(1));
-  };
-  // tabにて選択したカテゴリ名取れている
-  console.log("カテゴリのID", categoryId);
+    navigate(`/blog?page=1&category=${newValue}`);
 
+  };
   return (
     <DefaultLayout>
       <Box sx={{ width: "100%" }}>
@@ -111,7 +105,7 @@ export default function BlogList() {
           }}
         >
           <Tabs
-            value={categoryId}
+            value={searchParams.get("category")}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -231,7 +225,7 @@ export default function BlogList() {
           count={post?.pages}
           // page={post?.totalCount}
           onChange={pageChange}
-          page={Number(paginate)}
+          page={Number(searchParams.get("page"))}
           sx={{ m: "auto", mt: 4 }}
         />
       </Stack>
