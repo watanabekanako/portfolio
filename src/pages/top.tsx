@@ -206,8 +206,8 @@ function Top() {
               <Paper elevation={3}>
                 <CardMedia
                   component="img"
-                  image="/img1.jpg"
-                  height="400"
+                  image="/work_1.jpg"
+                  height="250"
                   alt="妊婦向けサイト"
                 />
               </Paper>
@@ -224,9 +224,11 @@ function Top() {
             >
               <Box sx={{ m: 8 }}>
                 <Typography>妊婦向けサイト</Typography>
+                <Typography>Next.js/Firebase/MUIにて作成</Typography>
               </Box>
             </Popover>
             <Typography component="div">妊婦向けサイト</Typography>
+        
           </Grid>
           <Grid item xs={4}>
             <Button
@@ -351,5 +353,4 @@ function Top() {
     </DefaultLayout>
   );
 }
-
 export default Top;
