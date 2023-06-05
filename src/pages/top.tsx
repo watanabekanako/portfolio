@@ -15,21 +15,7 @@ import Popover from "@mui/material/Popover";
 import moment from "moment";
 import Slider from "../componets/slider";
 import Paper from "@mui/material/Paper";
-const baseURL = "http://localhost:3000/test/";
-const postURL = "http://localhost:3000/posts/";
 function Top() {
-  // const [post, setPost] = React.useState<
-  //   | {
-  //       test: { id: number; name: string }[];
-  //     }
-  //   | undefined
-  // >();
-  // React.useEffect(() => {
-  //   axios.get(baseURL).then((response) => {
-  //     setPost(response.data);
-  //   });
-  // }, []);
-
   const [post, setPost] = React.useState<
     | {
         post: { id: number; name: string; category: string; tags: string[] }[];
@@ -68,7 +54,6 @@ function Top() {
       });
   };
   console.log(updateNameText);
-  const postCount = 3;
   const [count, setCount] = React.useState<
     | {
         post: { id: number; name: string; category: string; tags: string[] }[];
@@ -228,7 +213,6 @@ function Top() {
               </Box>
             </Popover>
             <Typography component="div">妊婦向けサイト</Typography>
-        
           </Grid>
           <Grid item xs={4}>
             <Button
