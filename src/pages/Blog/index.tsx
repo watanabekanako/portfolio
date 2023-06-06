@@ -8,26 +8,24 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../componets/categoryList";
 import TagList from "../../componets/tagList";
 import { Link, useSearchParams } from "react-router-dom";
 import moment from "moment";
-import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 
 // ブログ一覧ページ
-// カテゴリタブ
 function a11yProps(id: number) {
   return {
     id: `simple-tab-${id}`,
     "aria-controls": `simple-tabpanel-${id}`,
   };
 }
+// カテゴリタブ
 export default function BlogList() {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
@@ -38,35 +36,27 @@ export default function BlogList() {
       }
     | undefined
   >();
-  
-  // post?.post?.lengthで記事の数を出力
-  console.log("post.pages", post?.pages);
-  const [searchParams, setSearchParams] = useSearchParams();
 
+  // post?.post?.lengthで記事の数を出力
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // 初期値
   const page = searchParams.get("page");
-  console.log("page", page);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     axios
-    // 下記URLのcategoryにカテゴリidが入る
-    .get(
-      `http://localhost:3000/posts?page=${
-        searchParams.get("page") ?? "1"
-      }&perPage=10&category=${searchParams.get("category")}`
-    )
-    .then((response) => {
-      setPost(response.data);
-    });
-
-  },[searchParams.get("page"),searchParams.get("category")])
-  
-
+      // 下記URLのcategoryにカテゴリidが入る
+      .get(
+        `http://localhost:3000/posts?page=${
+          searchParams.get("page") ?? "1"
+        }&perPage=10&category=${searchParams.get("category")}`
+      )
+      .then((response) => {
+        setPost(response.data);
+      });
+  }, [searchParams.get("page"), searchParams.get("category")]);
 
   const navigate = useNavigate();
-  // const [paginate, setPaginate] = React.useState(page);
-  // const [categoryId, setCategoryId] = React.useState("");
   const [categoryName, setCategoryName] = React.useState<
     | {
         id: number;
@@ -74,11 +64,8 @@ export default function BlogList() {
       }[]
     | undefined
   >();
-  console.log("categoryName", categoryName);
   const pageChange = (event: any, value: any) => {
     navigate(`/blog?page=${value}&category=${searchParams.get("category")}`);
-    // setCategoryId(categoryId);
-    // setPaginate(value);
   };
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts/categories`).then((response) => {
@@ -91,7 +78,6 @@ export default function BlogList() {
     console.log("newValue", newValue);
     // urlのセット
     navigate(`/blog?page=1&category=${newValue}`);
-
   };
   return (
     <DefaultLayout>

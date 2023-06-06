@@ -3,8 +3,6 @@ import { useDropzone } from "react-dropzone";
 
 const thumbsContainer = {
   display: "flex",
-  // flexDirection: "row",
-  // flexWrap: "wrap",
   marginTop: 16,
 };
 

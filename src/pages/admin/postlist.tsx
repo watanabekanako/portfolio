@@ -47,11 +47,9 @@ const PostList = () => {
 
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
-    axios
-      .get("http://localhost:3000/posts?&perPage=10&category=")
-      .then((response) => {
-        setPost(response.data);
-      });
+    axios.get("/posts?&perPage=10&category=").then((response) => {
+      setPost(response.data);
+    });
   }, []);
 
   const [value, setValue] = React.useState(0);
@@ -60,20 +58,15 @@ const PostList = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // const [age, setAge] = React.useState("");
   const [category, setCategory] = React.useState<{
     categories: { name: string; id: number }[];
   }>();
 
   const [selectedCategory, setSelectedCategory] = React.useState<string>();
-  console.log("selecterCategory", selectedCategory);
   // 絞り込みボタン
   const handleSearch = () => {
     axios
-      .get(
-        `http://localhost:3000/posts?&perPage=10&category=${selectedCategory}`
-      )
+      .get(`/posts?&perPage=10&category=${selectedCategory}`)
       .then((response) => {
         // 指定したカテゴリのみをとりたいため、postにセットしている
         setPost(response.data);
@@ -87,7 +80,7 @@ const PostList = () => {
   console.log("selected", selectedCategory);
 
   React.useEffect(() => {
-    axios.get("http://localhost:3000/posts/categories/").then((response) => {
+    axios.get("/posts/categories/").then((response) => {
       setCategory(response.data);
     });
   }, [selectedCategory]);
