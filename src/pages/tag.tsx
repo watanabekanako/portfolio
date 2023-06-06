@@ -37,7 +37,6 @@ const Tag = () => {
   //   post: { id: number; name: string; category: string; tags: string[] }[]
   // idの取得
   const { id } = useParams();
-  console.log(id);
 
   React.useEffect(() => {
     axios.get(`http://localhost:3000/posts?tags=${id}`).then((response) => {

@@ -1,26 +1,10 @@
 import React from "react";
-import axios from "axios";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import useGetCategory from "../hooks/useGetCategory";
 const CategoryList = () => {
-  const categoryURL = "http://localhost:3000/posts/categories";
-  // カテゴリをエンドポイントからaxiosにて取得
-  const [category, setCategory] = React.useState<
-    | {
-        categories: { id: number; name: string }[];
-      }
-    | undefined
-  >();
-  React.useEffect(() => {
-    axios.get(categoryURL).then((response) => {
-      setCategory(response.data);
-    });
-  }, []);
-
-  console.log(category);
-
-  // http://localhost:3001/blog/category/1 のようにidを動的にしてリンクさせる
+  const categories = useGetCategory();
   return (
     <>
       <Typography
@@ -28,7 +12,8 @@ const CategoryList = () => {
       >
         Category
       </Typography>
-      {category?.categories?.map((data: any, index: any) => {
+
+      {categories?.categories.map((data: any, index: number) => {
         return (
           <>
             <Grid item xs={4} key={data.id}>

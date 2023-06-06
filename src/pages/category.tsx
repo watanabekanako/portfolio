@@ -10,47 +10,36 @@ import CategoryList from "../componets/categoryList";
 import TagList from "../componets/tagList";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { CategoryName } from "../types/type";
 // URLは/blog/category/カテゴリID
 // そのカテゴリIDの記事を取得して表示させる
 // http://localhost:3000/posts?category=3 のようにカテゴリ別にバックエンドから取得可能
 
-const Category = () => {
+const CategoryPost = () => {
   type Tag = {
     id: number;
     name: string;
   };
-  type Category = {
-    id: number;
-    name: string;
-  };
+
   type Post = {
     id: number;
     title: string;
     description?: string;
     createdAt: number;
-    category: Category;
+    category: CategoryName;
 
     tags?: Tag[];
   };
 
   const [post, setPost] = React.useState<{ post: Post[] } | undefined>();
-  console.log(post?.post);
-  //   post: { id: number; name: string; category: string; tags: string[] }[]
   // idの取得
   const { id } = useParams();
-  console.log(id);
-
   React.useEffect(() => {
-    axios
-      .get(`http://localhost:3000/posts?&perPage=10&category=${id}`)
-      .then((response) => {
-        setPost(response.data);
-      });
+    axios.get(`/posts?&perPage=10&category=${id}`).then((response) => {
+      setPost(response.data);
+    });
   }, [id]);
-
-  console.log("post");
   const selectedCategoryName = post?.post[0];
-
   return (
     <DefaultLayout>
       <Typography
@@ -67,13 +56,12 @@ const Category = () => {
         variant="h4"
         color={"gray"}
       >
-        {selectedCategoryName?.category?.name}{" "}
+        {selectedCategoryName?.category.name}
       </Typography>
       <Grid container spacing={2} sx={{ marginTop: 8, marginBottom: 4 }}>
         {post?.post?.map((data: any, index: any) => {
           return (
             <>
-              {/* <Typography>{data?.category?.name}</Typography> */}
               <Grid item xs={4} key={data.id}>
                 <Link to={`/blog/${data.id}`}>
                   <Card sx={{ maxWidth: 345 }}>
@@ -129,8 +117,6 @@ const Category = () => {
       <Grid container spacing={2} sx={{ marginBottom: 8 }}>
         <Grid item xs={4} sx={{ marginTop: 10 }}>
           <CategoryList />
-
-          {/* タググループ */}
           <TagList />
         </Grid>
       </Grid>
@@ -138,4 +124,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default CategoryPost;

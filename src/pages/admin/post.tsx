@@ -6,10 +6,7 @@ import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import CategoryList from "../../componets/categoryList";
 import TextField from "@mui/material/TextField";
-import { PostAddOutlined } from "@mui/icons-material";
-import TagList from "../../componets/tagList";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -18,6 +15,8 @@ import FormLabel from "@mui/material/FormLabel";
 import App from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 import { WithContext as ReactTags } from "react-tag-input";
+import useGetCategory from "../../hooks/useGetCategory";
+import useGetAnPost from "../../hooks/useGetAnPost";
 const KeyCodes = {
   comma: 188,
   enter: 13,
@@ -43,7 +42,8 @@ function Post() {
   type PostErrors = Partial<Record<keyof PostInput, string>>;
   // idの取得
   const { id } = useParams();
-
+  const categories = useGetCategory();
+  console.log(categories, "uuuu");
   const [post, setPost] = React.useState<PostInput | undefined | undefined>();
 
   const [tags, setTags] = React.useState<
@@ -54,15 +54,15 @@ function Post() {
   const [formErrors, setFormErrors] = React.useState<PostErrors>({});
   React.useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:3000/posts/${id}`).then((response) => {
+      axios.get(`/posts/${id}`).then((response) => {
         setPost(response.data?.post);
       });
     }
   }, []);
-
+  const posts = useGetAnPost({ postId: Number(id) });
   //   その取得したIDをURLのに入れる→投稿データ取得できる
-  const categoryURL = "http://localhost:3000/posts/categories";
-  const tagURL = "http://localhost:3000/posts/tags";
+  const categoryURL = "/posts/categories";
+  const tagURL = "/posts/tags";
   // カテゴリをエンドポイントからaxiosにて取得
   const [category, setCategory] = React.useState<
     | {
@@ -83,7 +83,6 @@ function Post() {
       setPost({ ...post, categoryId: Number(event.target.value) });
     }
   };
-  console.log("post", post);
   const validate = (post: any) => {
     const errors: PostErrors = {};
     if (!post.title) {
@@ -103,25 +102,19 @@ function Post() {
     setFormErrors(errors);
     if (Object.keys(errors)) {
       axios
-        .put(`http://localhost:3000/posts/${id}`, { ...post })
+        .put(`/posts/${id}`, { ...post })
         .then((response) => {
           // 更新後の処理
-
-          alert("更新完了");
         })
         .catch((e) => {});
     }
   };
-
-  console.log("post", post);
   return (
     <DefaultLayout>
       <Box sx={{ flexGrow: 1, mt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={9}>
-            <Box textAlign="right">
-              {/* <Typography component="p">{post?.post.createdAt}</Typography> */}
-            </Box>
+            <Box textAlign="right"></Box>
             <Typography>タイトル</Typography>
             <TextField
               id="outlined-basic"
