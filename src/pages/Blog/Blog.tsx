@@ -13,11 +13,12 @@ import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
-import useGetAnPost from "../../hooks/useGetAnPost";
+import useGetPost from "../../hooks/useGetPost";
 
 function Blog() {
   const { id } = useParams();
-  const posts = useGetAnPost({ postId: Number(id) });
+  // const post = useGetPost({ postId: Number(id) });
+  const { post } = useGetPost({ postId: Number(id) });
   const [category, setCategory] = React.useState<
     | {
         post: {
@@ -34,10 +35,10 @@ function Blog() {
   >();
 
   React.useEffect(() => {
-    if (posts?.post?.category.id) {
+    if (post?.category.id) {
       axios
         .get(
-          `http://localhost:3000/posts?category=${posts?.post?.category?.id}&&perPage=3`
+          `http://localhost:3000/posts?category=${post?.category?.id}&&perPage=3`
         )
         .then((response) => {
           setCategory(response.data);
@@ -62,11 +63,11 @@ function Blog() {
               }}
             >
               {/* カテゴリの表示 */}
-              {posts?.post?.category?.name}
+              {post?.category?.name}
             </Typography>
 
             {/*タグの表示 */}
-            {posts?.post?.tags?.map((data: any) => (
+            {post?.tags?.map((data: any) => (
               <Typography
                 component="span"
                 sx={{
@@ -86,16 +87,12 @@ function Blog() {
 
             <Box textAlign="right">
               <Typography component="p">
-                {moment(posts?.post?.createdAt).format("YYYY年MM月DD日")}
+                {moment(post?.post?.createdAt).format("YYYY年MM月DD日")}
               </Typography>
             </Box>
-            <Paper sx={{ marginTop: 1, padding: 2 }}>
-              {posts?.post?.title}
-            </Paper>
+            <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.title}</Paper>
 
-            <Paper sx={{ marginTop: 6, padding: 2 }}>
-              {posts?.post?.content}
-            </Paper>
+            <Paper sx={{ marginTop: 6, padding: 2 }}>{post?.content}</Paper>
             <Box textAlign="center" sx={{ mb: 8 }}>
               <Link to={`/blog?page=1&category=1`}>
                 <Button
