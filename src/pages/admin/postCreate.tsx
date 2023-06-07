@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import DefaultLayout from "../../componets/layout/defaultlayout";
 import {
   Alert,
   Button,
@@ -125,7 +124,7 @@ const PostCreate = () => {
     });
   };
   return (
-    <DefaultLayout>
+    <>
       <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
         <Stack
           component="form"
@@ -315,7 +314,7 @@ const PostCreate = () => {
       >
         <Alert severity={snackSeverity}>{snackMessage}</Alert>
       </Snackbar>
-    </DefaultLayout>
+    </>
   );
 };
 

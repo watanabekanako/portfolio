@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import DefaultLayout from "../componets/layout/defaultlayout";
 import { Grid, Typography } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -41,7 +40,7 @@ const CategoryPost = () => {
   }, [id]);
   const selectedCategoryName = post?.post[0];
   return (
-    <DefaultLayout>
+    <>
       <Typography
         sx={{ textAlign: "center" }}
         component="h2"
@@ -120,7 +119,7 @@ const CategoryPost = () => {
           <TagList />
         </Grid>
       </Grid>
-    </DefaultLayout>
+    </>
   );
 };
 

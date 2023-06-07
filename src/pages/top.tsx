@@ -1,4 +1,3 @@
-import DefaultLayout from "../componets/layout/defaultlayout";
 import React from "react";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -80,10 +79,9 @@ function Top() {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  console.log("id", id);
   console.log("anchorEl?.id", anchorEl?.id);
   return (
-    <DefaultLayout>
+    <>
       <Slider />
 
       <Container sx={{ marginTop: 2 }}>
@@ -334,7 +332,7 @@ function Top() {
           </Button>
         </Link>
       </Box>
-    </DefaultLayout>
+    </>
   );
 }
 export default Top;

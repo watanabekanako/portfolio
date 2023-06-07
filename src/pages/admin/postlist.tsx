@@ -94,7 +94,7 @@ const PostList = () => {
       >
         投稿一覧
       </Typography>
-      <Link to={`posts/add/`}>
+      <Link to={`add/`}>
         <Button variant="contained" sx={{ my: 4 }}>
           新規追加
         </Button>
