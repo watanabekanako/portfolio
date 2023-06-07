@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import DefaultLayout from "../../componets/layout/defaultlayout";
 import {
   Alert,
   Button,
@@ -24,14 +23,15 @@ import { WithContext as ReactTags } from "react-tag-input";
 import StyledButton from "../../componets/styledButton";
 import ImageUploader from "../../componets/imgupload";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import useGetAnPost from "../../hooks/useGetAnPost";
+
 import useGetCategory from "../../hooks/useGetCategory";
+import NewCategory from "../../features/newCategory";
 type Inputs = {
   title?: string;
   description?: string;
   content?: string;
   createdAt?: number;
-  categoryId?: number;
+  // categoryId?: number;
   tags?: {
     id?: number;
     name: string;
@@ -97,7 +97,7 @@ const PostCreate = () => {
     }
   };
   // react-hook-form
-  const { control, handleSubmit } = useForm<Inputs>({
+  const { control, handleSubmit, reset } = useForm<Inputs>({
     defaultValues: { title: "", description: "", content: "" },
   });
   const validationRules = {
@@ -107,11 +107,11 @@ const PostCreate = () => {
     },
     description: {
       required: "descriptionを入力してください",
-      minLength: { value: 10, message: "10文字以上で入力してください" },
+      minLength: { value: 4, message: "10文字以上で入力してください" },
     },
     content: {
       required: "ブログの内容を入力してください",
-      minLength: { value: 10, message: "10文字以上で入力してください" },
+      minLength: { value: 4, message: "10文字以上で入力してください" },
     },
   };
 
@@ -120,10 +120,11 @@ const PostCreate = () => {
       setSnackSeverity("success");
       setSnackMessage("投稿が完了しました。");
       navigate(`/blog/`);
+      reset();
     });
   };
   return (
-    <DefaultLayout>
+    <>
       <Box sx={{ flexGrow: 1, mt: 10, mb: 30 }}>
         <Stack
           component="form"
@@ -144,17 +145,10 @@ const PostCreate = () => {
                   <TextField
                     // エラーメッセージ
                     {...field}
-                    id="outlined-basic"
-                    variant="outlined"
-                    margin="dense"
                     type="text"
-                    sx={{ width: 1 }}
                     error={fieldState.invalid}
                     helperText={fieldState.error?.message}
-                    value={post?.title}
-                    onChange={(e: any) => {
-                      setPost({ ...post, title: e.target.value });
-                    }}
+                    placeholder={"タイトルを入力してください"}
                   />
                 )}
               />
@@ -165,16 +159,11 @@ const PostCreate = () => {
                 rules={validationRules.description}
                 render={({ field, fieldState }) => (
                   <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    margin="dense"
-                    sx={{ width: 1 }}
-                    value={post?.description}
-                    onChange={(e: any) => {
-                      setPost({ ...post, description: e.target.value });
-                    }}
+                    {...field}
+                    type="text"
                     error={fieldState.invalid}
                     helperText={fieldState.error?.message}
+                    placeholder={"descriptionを入力してください"}
                   />
                 )}
               />
@@ -185,20 +174,15 @@ const PostCreate = () => {
                 rules={validationRules.content}
                 render={({ field, fieldState }) => (
                   <TextField
+                    {...field}
                     // 複数行入力できるように
                     multiline
                     rows={10}
                     maxRows={10}
-                    id="outlined-basic"
-                    variant="outlined"
-                    margin="dense"
-                    sx={{ width: 1 }}
-                    value={post?.content}
-                    onChange={(e: any) => {
-                      setPost({ ...post, content: e.target.value });
-                    }}
+                    type="text"
                     error={fieldState.invalid}
                     helperText={fieldState.error?.message}
+                    placeholder={"内容を入力してください"}
                   />
                 )}
               />
@@ -232,7 +216,7 @@ const PostCreate = () => {
                 >
                   カテゴリ
                 </FormLabel>
-                <FormControl>
+                {/* <FormControl>
                   {category?.categories.map((data: any) => {
                     return (
                       <>
@@ -257,9 +241,9 @@ const PostCreate = () => {
                   <FormHelperText error={Boolean(formErrors.categoryId)}>
                     {formErrors.categoryId}
                   </FormHelperText>
-                </FormControl>
+                </FormControl> */}
                 <Typography>タグ</Typography>
-                <ReactTags
+                {/* <ReactTags
                   tags={post?.tags?.map((tag) => ({
                     id: String(tag.id),
                     text: tag.name,
@@ -301,9 +285,9 @@ const PostCreate = () => {
                   }}
                   inputFieldPosition="bottom"
                   autocomplete
-                />
+                /> */}
 
-                <ImageUploader
+                {/* <ImageUploader
                   onUploadCompleted={(url: any) => {
                     // urlをpostのthumbnailUrlにセットする
                     setPost({
@@ -311,7 +295,7 @@ const PostCreate = () => {
                       thumbnailUrl: url,
                     });
                   }}
-                />
+                /> */}
               </Paper>
             </Grid>
           </Grid>
@@ -330,7 +314,7 @@ const PostCreate = () => {
       >
         <Alert severity={snackSeverity}>{snackMessage}</Alert>
       </Snackbar>
-    </DefaultLayout>
+    </>
   );
 };
 

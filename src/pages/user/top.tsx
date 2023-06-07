@@ -1,4 +1,3 @@
-import DefaultLayout from "../componets/layout/defaultlayout";
 import React from "react";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -13,7 +12,7 @@ import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import moment from "moment";
-import Slider from "../componets/slider";
+import Slider from "../../componets/slider";
 import Paper from "@mui/material/Paper";
 function Top() {
   const [post, setPost] = React.useState<
@@ -80,10 +79,9 @@ function Top() {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  console.log("id", id);
   console.log("anchorEl?.id", anchorEl?.id);
   return (
-    <DefaultLayout>
+    <>
       <Slider />
 
       <Container sx={{ marginTop: 2 }}>
@@ -334,7 +332,7 @@ function Top() {
           </Button>
         </Link>
       </Box>
-    </DefaultLayout>
+    </>
   );
 }
 export default Top;

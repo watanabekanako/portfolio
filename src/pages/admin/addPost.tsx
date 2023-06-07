@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Button, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -16,17 +15,17 @@ import App from "../../componets/catchImg";
 import { Link } from "react-router-dom";
 import { WithContext as ReactTags } from "react-tag-input";
 import useGetCategory from "../../hooks/useGetCategory";
-import useGetAnPost from "../../hooks/useGetAnPost";
+import useGetAnPost from "../../hooks/useGetPost";
+import NewCategory from "../../features/newCategory";
 const KeyCodes = {
   comma: 188,
   enter: 13,
 };
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 function isNumber(value: any): boolean {
   return !Number.isNaN(parseInt(value));
 }
-function Post() {
+const EditPost = () => {
   type PostInput = {
     title?: string;
     description?: string;
@@ -42,8 +41,8 @@ function Post() {
   type PostErrors = Partial<Record<keyof PostInput, string>>;
   // idの取得
   const { id } = useParams();
+  const navigate = useNavigate();
   const categories = useGetCategory();
-  console.log(categories, "uuuu");
   const [post, setPost] = React.useState<PostInput | undefined | undefined>();
 
   const [tags, setTags] = React.useState<
@@ -105,12 +104,13 @@ function Post() {
         .put(`/posts/${id}`, { ...post })
         .then((response) => {
           // 更新後の処理
+          navigate("/blog");
         })
         .catch((e) => {});
     }
   };
   return (
-    <DefaultLayout>
+    <>
       <Box sx={{ flexGrow: 1, mt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={9}>
@@ -193,7 +193,7 @@ function Post() {
               <FormControl>
                 {category?.categories.map((data) => {
                   return (
-                    <>
+                    <React.Fragment key={data.id}>
                       <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue="female"
@@ -209,17 +209,10 @@ function Post() {
                           }
                         />
                       </RadioGroup>
-                    </>
+                    </React.Fragment>
                   );
                 })}
-                <TextField></TextField>
-                <Button
-                  onClick={handleSubmit}
-                  variant={"contained"}
-                  sx={{ my: 2 }}
-                >
-                  新しいカテゴリを追加する
-                </Button>
+                <NewCategory />
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="female"
@@ -275,8 +268,8 @@ function Post() {
           </Grid>
         </Grid>
       </Box>
-    </DefaultLayout>
+    </>
   );
-}
+};
 
-export default Post;
+export default EditPost;

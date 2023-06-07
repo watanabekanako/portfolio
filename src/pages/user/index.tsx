@@ -3,8 +3,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import DefaultLayout from "../../componets/layout/defaultlayout";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -26,7 +24,7 @@ function a11yProps(id: number) {
   };
 }
 // カテゴリタブ
-export default function BlogList() {
+const BlogList = () => {
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -39,17 +37,17 @@ export default function BlogList() {
 
   // post?.post?.lengthで記事の数を出力
   const [searchParams, setSearchParams] = useSearchParams();
-
   // 初期値
   const page = searchParams.get("page");
 
   React.useEffect(() => {
     axios
       // 下記URLのcategoryにカテゴリidが入る
+      // null合体演算子での判定
       .get(
-        `http://localhost:3000/posts?page=${
-          searchParams.get("page") ?? "1"
-        }&perPage=10&category=${searchParams.get("category")}`
+        `/posts?page=${searchParams.get("page") ?? "1"}&perPage=10&category=${
+          searchParams.get("category") ?? ""
+        }`
       )
       .then((response) => {
         setPost(response.data);
@@ -64,23 +62,21 @@ export default function BlogList() {
       }[]
     | undefined
   >();
-  const pageChange = (event: any, value: any) => {
+  const pageChange = (event: any, value: number) => {
     navigate(`/blog?page=${value}&category=${searchParams.get("category")}`);
   };
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts/categories`).then((response) => {
+    axios.get(`/posts/categories`).then((response) => {
       setCategoryName(response.data.categories);
-      console.log("response", response.data);
     });
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    console.log("newValue", newValue);
     // urlのセット
     navigate(`/blog?page=1&category=${newValue}`);
   };
   return (
-    <DefaultLayout>
+    <>
       <Box sx={{ width: "100%" }}>
         <Box
           sx={{
@@ -90,11 +86,7 @@ export default function BlogList() {
             marginTop: 6,
           }}
         >
-          <Tabs
-            value={searchParams.get("category")}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
+          <Tabs value={searchParams.get("category")} onChange={handleChange}>
             <Tab
               label="All"
               {...a11yProps(0)}
@@ -223,6 +215,7 @@ export default function BlogList() {
           <TagList />
         </Grid>
       </Grid>
-    </DefaultLayout>
+    </>
   );
-}
+};
+export default BlogList;

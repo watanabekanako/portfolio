@@ -1,13 +1,13 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import DefaultLayout from "../componets/layout/defaultlayout";
+import DefaultLayout from "../../componets/layout/defaultlayout";
 import { Grid, Typography } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
-import CategoryList from "../componets/categoryList";
-import TagList from "../componets/tagList";
+import CategoryList from "../../componets/categoryList";
+import TagList from "../../componets/tagList";
 import { Link } from "react-router-dom";
 import moment from "moment";
 // URLは/blog/category/カテゴリID
@@ -39,7 +39,7 @@ const Tag = () => {
   const { id } = useParams();
 
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?tags=${id}`).then((response) => {
+    axios.get(`/posts?tags=${id}`).then((response) => {
       setPost(response.data);
     });
   }, []);
