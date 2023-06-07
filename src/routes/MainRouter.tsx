@@ -1,11 +1,11 @@
 import React from "react";
-import Blog from "../pages/Blog/Blog";
+import Blog from "../pages/user/Blog";
 import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "../componets/layout/defaultlayout";
-import Top from "../pages/top";
+import Top from "../pages/user/top";
 import PostList from "../pages/admin/postlist";
-import BlogList from "../pages/Blog";
-import CategoryPost from "../pages/category";
+import BlogList from "../pages/user";
+import CategoryPost from "../pages/user/category";
 import CategoryCreate from "../pages/admin/categoryCreate";
 import PostCreate from "../pages/admin/postCreate";
 import EditPost from "../pages/admin/addPost";

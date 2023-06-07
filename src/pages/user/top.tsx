@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import moment from "moment";
-import Slider from "../componets/slider";
+import Slider from "../../componets/slider";
 import Paper from "@mui/material/Paper";
 function Top() {
   const [post, setPost] = React.useState<
