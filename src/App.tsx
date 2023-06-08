@@ -1,13 +1,10 @@
 import "./App.css";
-import BlogList from "./pages/user/index";
-import Blog from "./pages/user/Blog";
 import Top from "./pages/user/top";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import PostList from "./pages/admin/postlist";
 import EditPost from "./pages/admin/addPost";
-import CategoryPost from "./pages/user/category";
-import Tag from "./pages/user/tag";
+import CategoryPost from "./pages/user/blog/category";
+import Tag from "./pages/user/blog/tag";
 import PostCreate from "./pages/admin/postCreate";
 import CategoryCreate from "./pages/admin/categoryCreate";
 import ScrollTop from "./componets/scrollTop";

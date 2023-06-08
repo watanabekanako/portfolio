@@ -28,12 +28,11 @@ const TagList = () => {
       >
         #Tag
       </Typography>
-      {tag?.tags?.map((data: any, index: any) => {
+      {tag?.tags?.map((data: any) => {
         return (
-          <>
+          <React.Fragment key={data.id}>
             <Link to={`/blog/tag/${data.id}`}>
               <Box
-                key={data.id}
                 sx={{
                   display: "inline-flex",
                   justifyContent: "center",
@@ -48,7 +47,7 @@ const TagList = () => {
                 <Typography>{data.name}</Typography>
               </Box>
             </Link>
-          </>
+          </React.Fragment>
         );
       })}
     </>

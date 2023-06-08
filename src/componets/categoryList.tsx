@@ -15,8 +15,8 @@ const CategoryList = () => {
 
       {categories?.categories.map((data: any, index: number) => {
         return (
-          <>
-            <Grid item xs={4} key={data.id}>
+          <React.Fragment key={data.id}>
+            <Grid item xs={4}>
               <Link to={`/blog/category/${data.id}`}>
                 <Typography sx={{ marginBottom: 2 }}>
                   {data.name}
@@ -37,7 +37,7 @@ const CategoryList = () => {
                 </Typography>
               </Link>
             </Grid>
-          </>
+          </React.Fragment>
         );
       })}
     </>
