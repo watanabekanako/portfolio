@@ -8,7 +8,7 @@ import axios from "axios";
 import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import moment from "moment";
@@ -16,6 +16,7 @@ import Slider from "../../componets/slider";
 import Paper from "@mui/material/Paper";
 import { Post } from "../../types/type";
 const Top = () => {
+  const navigate = useNavigate();
   const [post, setPost] = React.useState<{
     post: Post[];
   }>();
@@ -297,14 +298,13 @@ const Top = () => {
         </Grid>
       </Container>
       <Box textAlign="center">
-        <Link to={`/blog?page=1&category=1`}>
-          <Button
-            sx={{ margin: 6, backgroundColor: "#53a4d6" }}
-            variant="contained"
-          >
-            ブログ一覧はこちらから
-          </Button>
-        </Link>
+        <Button
+          sx={{ margin: 6, backgroundColor: "#53a4d6" }}
+          variant="contained"
+          onClick={() => navigate("/blog", { state: { id: 77777 } })}
+        >
+          ブログ一覧はこちらから
+        </Button>
       </Box>
     </>
   );

@@ -10,7 +10,7 @@ import Card from "@mui/material/Card";
 import axios from "axios";
 import CategoryList from "../../../componets/categoryList";
 import TagList from "../../../componets/tagList";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -25,6 +25,9 @@ function a11yProps(id: number) {
 }
 // カテゴリタブ
 const BlogList = () => {
+  const location = useLocation();
+  const { id } = location.state;
+  console.log(id, "uuuuuu");
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
