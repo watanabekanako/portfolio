@@ -109,7 +109,7 @@ const PostList = (props: Props) => {
       </Link>
       <CategoryPullDown
         selectedCategory={selectedCategory}
-        onChange={handleCategoryChange}
+        onChangeCategory={handleCategoryChange}
       />
       {/* 下記をCategoryPullDownコンポーネントとして切り出したためコメントアウト */}
       {/* <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
@@ -133,7 +133,7 @@ const PostList = (props: Props) => {
         </Select>
       </FormControl>  */}
 
-      <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
+      <Button variant="contained" sx={{ my: 4 }} onClick={() => handleSearch()}>
         カテゴリ絞り込み
       </Button>
 

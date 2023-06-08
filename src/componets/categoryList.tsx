@@ -15,29 +15,27 @@ const CategoryList = () => {
 
       {categories?.categories.map((data: any, index: number) => {
         return (
-          <React.Fragment key={data.id}>
-            <Grid item xs={4}>
-              <Link to={`/blog/category/${data.id}`}>
-                <Typography sx={{ marginBottom: 2 }}>
-                  {data.name}
-                  <Typography
-                    component="span"
-                    sx={{
-                      backgroundColor: "#fff",
-                      border: 1,
-                      padding: 1,
-                      color: "#888",
-                      margin: 2,
-                      borderColor: "#eee",
-                      borderRadius: 1,
-                    }}
-                  >
-                    {data._count.posts}
-                  </Typography>
+          <Grid item xs={4} key={data.id}>
+            <Link to={`/blog/category/${data.id}`}>
+              <Typography sx={{ marginBottom: 2 }}>
+                {data.name}
+                <Typography
+                  component="span"
+                  sx={{
+                    backgroundColor: "#fff",
+                    border: 1,
+                    padding: 1,
+                    color: "#888",
+                    margin: 2,
+                    borderColor: "#eee",
+                    borderRadius: 1,
+                  }}
+                >
+                  {data._count.posts}
                 </Typography>
-              </Link>
-            </Grid>
-          </React.Fragment>
+              </Typography>
+            </Link>
+          </Grid>
         );
       })}
     </>

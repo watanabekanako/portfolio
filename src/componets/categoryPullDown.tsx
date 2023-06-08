@@ -3,14 +3,20 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import useGetCategory from "../hooks/useGetCategory";
 // 管理画面カテゴリのプルダウン
-const CategoryPullDown = ({ selectedCategory, onChange }: any) => {
+
+type Props = {
+  selectedCategory: string;
+  onChangeCategory: (category: string) => void;
+};
+const CategoryPullDown = ({ selectedCategory, onChangeCategory }: Props) => {
   const { categories } = useGetCategory();
 
   const handleChange = (event: SelectChangeEvent) => {
     const category = event.target.value;
-    onChange(category); // 親コンポーネントに選択されたカテゴリを渡す
+    onChangeCategory(category); // 親コンポーネントに選択されたカテゴリを渡す
   };
-  console.log(selectedCategory, "select");
+  console.log(selectedCategory, "value");
+  console.log(handleChange, "handle");
   return (
     <>
       <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
