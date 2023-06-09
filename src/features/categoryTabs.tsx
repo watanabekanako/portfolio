@@ -1,12 +1,13 @@
 import { Tab, Tabs } from "@mui/material";
 import React from "react";
 type Props = {
-  categoryName: any;
-  searchParams: any;
-  handleChange: any;
+  categoryName?: { name: string; id: number }[];
+  searchParams: URLSearchParams;
+  // onChange: (event: React.SyntheticEvent, value: string) => void;
+  onChange: any;
 };
 
-const CategoryTabs = ({ categoryName, searchParams, onChange }: any) => {
+const CategoryTabs = ({ categoryName, searchParams, onChange }: Props) => {
   const a11yProps = (id: number) => {
     return {
       id: `simple-tab-${id}`,
