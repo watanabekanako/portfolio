@@ -1,16 +1,29 @@
-import { Button, ButtonProps } from "@mui/material";
-import { yellow } from "@mui/material/colors";
-import React from "react";
-
-
-const StyledButton: React.FC<ButtonProps> = (props) => {
-  console.log(props);
+import { Button, ButtonProps, SxProps } from "@mui/material";
+type Props = {
+  sx?: SxProps;
+  children: string;
+  event: () => void;
+};
+const StylePinkButton = ({ children, event, sx, ...props }: Props) => {
   return (
     <Button
+      variant={"contained"}
+      onClick={event}
       {...props}
-      sx={{  backgroundColor: "#fedcac", color: "#fff", ...props.sx }}
-    />
+      // disabled={true}
+      sx={{
+        background: "#e58e99",
+        fontWeight: "bold",
+        ":hover": {
+          background: "#e58e99",
+          opacity: 0.7,
+          cursor: "pointer",
+        },
+        ...sx,
+      }}
+    >
+      {children}
+    </Button>
   );
 };
-
-export default StyledButton;
+export default StylePinkButton;

@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import axios from "axios";
-import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import moment from "moment";
 import Slider from "../../componets/slider";
 import Paper from "@mui/material/Paper";
 import { Post } from "../../types/type";
+import StylePinkButton from "../../componets/styledButton";
 const Top = () => {
   const navigate = useNavigate();
   const [post, setPost] = React.useState<{
@@ -301,10 +301,13 @@ const Top = () => {
         <Button
           sx={{ margin: 6, backgroundColor: "#53a4d6" }}
           variant="contained"
-          onClick={() => navigate("/blog", { state: { id: 77777 } })}
+          onClick={() => navigate("/blog")}
         >
           ブログ一覧はこちらから
         </Button>
+        <StylePinkButton event={() => navigate("/blog")} sx={{ color: "pink" }}>
+          ブログ一覧はこちらから
+        </StylePinkButton>
       </Box>
     </>
   );
