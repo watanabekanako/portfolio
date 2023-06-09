@@ -16,6 +16,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import { Post, Tag } from "../../../types/type";
+import CategoryTabs from "../../../features/categoryTabs";
 // ブログ一覧ページ
 function a11yProps(id: number) {
   return {
@@ -25,9 +26,10 @@ function a11yProps(id: number) {
 }
 // カテゴリタブ
 const BlogList = () => {
-  const location = useLocation();
-  const { id } = location.state;
-  console.log(id, "uuuuuu");
+  // The above error occurred in the <BlogList> componentのエラーが下記を記述にて出現:
+  // const location = useLocation();
+  // const { id } = location.state;
+  // console.log(location, "location");
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
@@ -41,7 +43,7 @@ const BlogList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   // 初期値
   const page = searchParams.get("page");
-
+  console.log(searchParams.get("page"), "searchParams");
   React.useEffect(() => {
     axios
       // 下記URLのcategoryにカテゴリidが入る
@@ -73,8 +75,11 @@ const BlogList = () => {
     });
   }, []);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    // urlのセット
+  // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  //   // urlのセット
+  //   navigate(`/blog?page=1&category=${newValue}`);
+  // };
+  const handleChange = (newValue: string) => {
     navigate(`/blog?page=1&category=${newValue}`);
   };
   return (
@@ -88,7 +93,17 @@ const BlogList = () => {
             marginTop: 6,
           }}
         >
-          <Tabs value={searchParams.get("category")} onChange={handleChange}>
+          {/* MUI: The `value` provided to the Tabs component is invalid. */}
+          {/* None of the Tabs' children match with "null". */}
+          <CategoryTabs
+            categoryName={categoryName}
+            searchParams={searchParams}
+            onChange={handleChange}
+          />
+          {/* <Tabs
+            value={searchParams.get("category") || ""}
+            onChange={handleChange}
+          >
             <Tab
               label="All"
               {...a11yProps(0)}
@@ -114,7 +129,7 @@ const BlogList = () => {
                 />
               );
             })}
-          </Tabs>
+          </Tabs> */}
         </Box>
       </Box>
 
