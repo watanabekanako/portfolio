@@ -33,7 +33,6 @@ const Tag = () => {
   };
 
   const [post, setPost] = React.useState<{ post: Post[] } | undefined>();
-  console.log("post", post?.post);
   //   post: { id: number; name: string; category: string; tags: string[] }[]
   // idの取得
   const { id } = useParams();

@@ -14,7 +14,7 @@ import { Post } from "../../../types/type";
 // URLは/blog/category/カテゴリID
 // そのカテゴリIDの記事を取得して表示させる
 // http://localhost:3000/posts?category=3 のようにカテゴリ別にバックエンドから取得可能
-
+import _ from "lodash";
 const CategoryPost = () => {
   type Tag = {
     id: number;
@@ -33,6 +33,7 @@ const CategoryPost = () => {
 
   const [post, setPost] = React.useState<{ post: Post[] } | undefined>();
   // idの取得
+
   const { id } = useParams();
   React.useEffect(() => {
     axios.get(`/posts?&perPage=10&category=${id}`).then((response) => {
@@ -40,6 +41,8 @@ const CategoryPost = () => {
     });
   }, [id]);
   const selectedCategoryName = post?.post[0];
+  console.log(_.map(post?.post, "category.name"), "lodash");
+  // console.log(post, "post");
   return (
     <>
       <Typography
@@ -59,6 +62,8 @@ const CategoryPost = () => {
         {selectedCategoryName?.category.name}
       </Typography>
       <Grid container spacing={2} sx={{ marginTop: 8, marginBottom: 4 }}>
+        <p>{_.map(post?.post, "title")}</p>
+        <p>{_.map(post?.post, "category.name")}</p>
         {post?.post?.map((data: any, index: any) => {
           return (
             <>

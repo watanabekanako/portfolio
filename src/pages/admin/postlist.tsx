@@ -132,7 +132,8 @@ const PostList = (props: Props) => {
           )}
         </Select>
       </FormControl>  */}
-
+      {/* onClick={handleSearch() */}
+      {/* 上記だと画面が開かれた時点で発火してしまうため、✕ */}
       <Button variant="contained" sx={{ my: 4 }} onClick={() => handleSearch()}>
         カテゴリ絞り込み
       </Button>

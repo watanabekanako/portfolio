@@ -92,7 +92,7 @@ const Blog = () => {
           <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.title}</Paper>
           <Paper sx={{ marginTop: 6, padding: 2 }}>{post?.content}</Paper>
           <Box textAlign="center" sx={{ mb: 8 }}>
-            <Link to={`/blog?page=1&category=1`}>
+            <Link to={`/blog`}>
               <Button
                 sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
                 variant="contained"
