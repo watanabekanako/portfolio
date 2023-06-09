@@ -5,18 +5,17 @@ import Grid from "@mui/material/Grid";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import CategoryList from "../../componets/categoryList";
+import CategoryList from "../../../componets/categoryList";
 import moment from "moment";
-import TagList from "../../componets/tagList";
+import TagList from "../../../componets/tagList";
 import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
-import useGetPost from "../../hooks/useGetPost";
+import useGetPost from "../../../hooks/useGetPost";
 
 const Blog = () => {
   const { id } = useParams();
-  console.log(id, "params");
   // const post = useGetPost({ postId: Number(id) });
   // 下記にてカスタムフックを展開して取り出し
   const { post } = useGetPost({ postId: Number(id) });
@@ -91,10 +90,9 @@ const Blog = () => {
             </Typography>
           </Box>
           <Paper sx={{ marginTop: 1, padding: 2 }}>{post?.title}</Paper>
-
           <Paper sx={{ marginTop: 6, padding: 2 }}>{post?.content}</Paper>
           <Box textAlign="center" sx={{ mb: 8 }}>
-            <Link to={`/blog?page=1&category=1`}>
+            <Link to={`/blog`}>
               <Button
                 sx={{ marginTop: 6, backgroundColor: "#53a4d6" }}
                 variant="contained"

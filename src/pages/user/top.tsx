@@ -8,51 +8,26 @@ import axios from "axios";
 import { DataArray, PostAddOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import moment from "moment";
 import Slider from "../../componets/slider";
 import Paper from "@mui/material/Paper";
-function Top() {
-  const [post, setPost] = React.useState<
-    | {
-        post: { id: number; name: string; category: string; tags: string[] }[];
-      }
-    | undefined
-  >();
-  console.log(post?.post);
+import { Post } from "../../types/type";
+const Top = () => {
+  const navigate = useNavigate();
+  const [post, setPost] = React.useState<{
+    post: Post[];
+  }>();
 
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts`).then((response) => {
+    axios.get(`/posts`).then((response) => {
       setPost(response.data);
     });
   }, []);
-  console.log(post);
-  // console.log(post?.test[0].name);
-  const [nameText, setNameText] = React.useState<string | undefined>();
 
-  const [updateNameText, setUpdateNameText] = React.useState<
-    string | undefined
-  >(nameText);
-  // 更新するボタン
-  const onChangeNameText = (event: any) => {
-    setUpdateNameText(event.target.value);
-  };
-  console.log(nameText);
-  // 保存するボタン
-  const onClickCreate = () => {
-    axios
-      .post("http://localhost:3000/test/", { name: nameText })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  console.log(updateNameText);
   const [count, setCount] = React.useState<
     | {
         post: { id: number; name: string; category: string; tags: string[] }[];
@@ -60,7 +35,7 @@ function Top() {
     | undefined
   >();
   React.useEffect(() => {
-    axios.get(`http://localhost:3000/posts?perPage=3`).then((response) => {
+    axios.get(`/posts?perPage=3`).then((response) => {
       setCount(response.data);
     });
   }, []);
@@ -323,16 +298,15 @@ function Top() {
         </Grid>
       </Container>
       <Box textAlign="center">
-        <Link to={`/blog?page=1&category=1`}>
-          <Button
-            sx={{ margin: 6, backgroundColor: "#53a4d6" }}
-            variant="contained"
-          >
-            ブログ一覧はこちらから
-          </Button>
-        </Link>
+        <Button
+          sx={{ margin: 6, backgroundColor: "#53a4d6" }}
+          variant="contained"
+          onClick={() => navigate("/blog", { state: { id: 77777 } })}
+        >
+          ブログ一覧はこちらから
+        </Button>
       </Box>
     </>
   );
-}
+};
 export default Top;

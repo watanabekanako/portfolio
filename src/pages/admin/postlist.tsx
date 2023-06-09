@@ -22,8 +22,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import CategoryPullDown from "../../componets/categoryPullDown";
 
-const PostList = () => {
+type Props = {};
+
+const PostList = (props: Props) => {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -35,15 +38,11 @@ const PostList = () => {
     boxShadow: 24,
     p: 4,
   };
-
   // ブログ記事一覧をエンドポイントからaxiosにて取得
-  const [post, setPost] = React.useState<
-    | {
-        post: { id: number; name: string; content?: string; title?: string }[];
-        pages: number;
-      }
-    | undefined
-  >();
+  const [post, setPost] = React.useState<{
+    post: { id: number; name: string; content?: string; title?: string }[];
+    pages: number;
+  }>();
 
   // useEffectの第二引数が空のときは、画面表示した時の一度だけ処理を行う
   React.useEffect(() => {
@@ -51,8 +50,6 @@ const PostList = () => {
       setPost(response.data);
     });
   }, []);
-
-  const [value, setValue] = React.useState(0);
   const paginate = () => {};
   // モーダル
   const [open, setOpen] = React.useState(false);
@@ -62,7 +59,14 @@ const PostList = () => {
     categories: { name: string; id: number }[];
   }>();
 
-  const [selectedCategory, setSelectedCategory] = React.useState<string>();
+  // カテゴリプルダウン
+  const [selectedCategory, setSelectedCategory] = React.useState("");
+
+  // selectedCategoryの値を更新するための関数
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   // 絞り込みボタン
   const handleSearch = () => {
     axios
@@ -74,10 +78,9 @@ const PostList = () => {
   };
 
   // ここで選択したカテゴリIDをselectedCategoryにセットしている
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedCategory(event.target.value);
-  };
-  console.log("selected", selectedCategory);
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setSelectedCategory(event.target.value);
+  // };
 
   React.useEffect(() => {
     axios.get("/posts/categories/").then((response) => {
@@ -104,7 +107,12 @@ const PostList = () => {
           新規カテゴリ追加
         </Button>
       </Link>
-      <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
+      <CategoryPullDown
+        selectedCategory={selectedCategory}
+        onChangeCategory={handleCategoryChange}
+      />
+      {/* 下記をCategoryPullDownコンポーネントとして切り出したためコメントアウト */}
+      {/* <FormControl sx={{ my: 4, minWidth: 120, mx: 2 }} size="small">
         <InputLabel id="demo-select-small">カテゴリ名</InputLabel>
         <Select
           labelId="demo-select-small"
@@ -117,15 +125,16 @@ const PostList = () => {
             <em>全て</em>
           </MenuItem>
           {/* valueで表示される値を設定 */}
-          {category?.categories?.map(
+      {/* {category?.categories?.map(
             (data: { name: string; id: number }, index: any) => {
               return <MenuItem value={data.id}>{data.name}</MenuItem>;
             }
           )}
         </Select>
-      </FormControl>
-
-      <Button variant="contained" sx={{ my: 4 }} onClick={handleSearch}>
+      </FormControl>  */}
+      {/* onClick={handleSearch() */}
+      {/* 上記だと画面が開かれた時点で発火してしまうため、✕ */}
+      <Button variant="contained" sx={{ my: 4 }} onClick={() => handleSearch()}>
         カテゴリ絞り込み
       </Button>
 
@@ -142,7 +151,6 @@ const PostList = () => {
           </TableHead>
           <TableBody>
             {post?.post?.map((data: any, index: any) => {
-              console.log("data", data);
               return (
                 <TableRow>
                   <TableCell align="left">
@@ -178,14 +186,10 @@ const PostList = () => {
                                 variant="contained"
                                 onClick={() => {
                                   axios
-                                    .delete(
-                                      `http://localhost:3000/posts/${data.id}`
-                                    )
+                                    .delete(`/posts/${data.id}`)
                                     .then((response) => {
                                       axios
-                                        .get(
-                                          "http://localhost:3000/posts?&perPage=10&category="
-                                        )
+                                        .get("/posts?&perPage=10&category=")
                                         .then((response) => {
                                           setPost(response.data);
                                         });

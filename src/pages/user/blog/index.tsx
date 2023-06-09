@@ -8,14 +8,15 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
 import axios from "axios";
-import CategoryList from "../../componets/categoryList";
-import TagList from "../../componets/tagList";
-import { Link, useSearchParams } from "react-router-dom";
+import CategoryList from "../../../componets/categoryList";
+import TagList from "../../../componets/tagList";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
-
+import { Post, Tag } from "../../../types/type";
+import CategoryTabs from "../../../features/categoryTabs";
 // ブログ一覧ページ
 function a11yProps(id: number) {
   return {
@@ -25,21 +26,24 @@ function a11yProps(id: number) {
 }
 // カテゴリタブ
 const BlogList = () => {
+  // The above error occurred in the <BlogList> componentのエラーが下記を記述にて出現:
+  // const location = useLocation();
+  // const { id } = location.state;
+  // console.log(location, "location");
   // ブログ記事一覧をエンドポイントからaxiosにて取得
   const [post, setPost] = React.useState<
     | {
-        post: { id: number; name: string; category: string; tags: string[] }[];
+        post: Post[];
         totalCount: number;
         pages: number;
       }
     | undefined
   >();
-
   // post?.post?.lengthで記事の数を出力
   const [searchParams, setSearchParams] = useSearchParams();
   // 初期値
   const page = searchParams.get("page");
-
+  console.log(searchParams.get("page"), "searchParams");
   React.useEffect(() => {
     axios
       // 下記URLのcategoryにカテゴリidが入る
@@ -71,8 +75,11 @@ const BlogList = () => {
     });
   }, []);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    // urlのセット
+  // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  //   // urlのセット
+  //   navigate(`/blog?page=1&category=${newValue}`);
+  // };
+  const handleChange = (newValue: string) => {
     navigate(`/blog?page=1&category=${newValue}`);
   };
   return (
@@ -86,7 +93,17 @@ const BlogList = () => {
             marginTop: 6,
           }}
         >
-          <Tabs value={searchParams.get("category")} onChange={handleChange}>
+          {/* MUI: The `value` provided to the Tabs component is invalid. */}
+          {/* None of the Tabs' children match with "null". */}
+          <CategoryTabs
+            categoryName={categoryName}
+            searchParams={searchParams}
+            onChange={handleChange}
+          />
+          {/* <Tabs
+            value={searchParams.get("category") || ""}
+            onChange={handleChange}
+          >
             <Tab
               label="All"
               {...a11yProps(0)}
@@ -96,12 +113,12 @@ const BlogList = () => {
                 marginRight: 2,
               }}
             />
-            {categoryName?.map((data: any) => {
-              console.log("data.id", data.id);
+            {categoryName?.map((data: { name: string; id: number }) => {
               return (
                 // フラグメントの削除にてタブの挙動正常化
                 // 下記コンポーネントは直下に置かないと動かない
                 <Tab
+                  key={data.id}
                   label={data.name}
                   {...a11yProps(data.id)}
                   value={String(data.id)}
@@ -112,12 +129,12 @@ const BlogList = () => {
                 />
               );
             })}
-          </Tabs>
+          </Tabs> */}
         </Box>
       </Box>
 
       <Grid container spacing={2}>
-        {post?.post?.map((data: any, index: any) => {
+        {post?.post?.map((data: Post, index: any) => {
           return (
             <Grid item xs={4} key={data.id}>
               <Link to={`${data.id}`}>
@@ -149,7 +166,7 @@ const BlogList = () => {
                       {data?.category?.name}
                     </Typography>
                     {/* タグがない場合は非表示にする制御 */}
-                    {data.tags.length ? (
+                    {data.tags?.length ? (
                       <Typography
                         component="p"
                         sx={{
@@ -161,9 +178,10 @@ const BlogList = () => {
                           marginRight: 2,
                         }}
                       >
-                        {data.tags.map((tag: any, index: any) => {
+                        {data.tags.map((tag: Tag) => {
                           return (
                             <Typography
+                              key={data.id}
                               component="span"
                               sx={{
                                 backgroundColor: "#53a4d6 ",
